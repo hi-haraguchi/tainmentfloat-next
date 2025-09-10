@@ -5,10 +5,12 @@ import axios from '@/lib/axios'
 import LoginLinks from '@/app/LoginLinks'
 import { useAuth } from '@/hooks/auth'
 import Button from '@/components/Button'
+import Link from 'next/link'
+import TitleItem from '@/components/TitleItem'
 
 export default function HomeClient() {
     const [titles, setTitles] = useState([])
-    const { user, logout } = useAuth({ middleware: 'auth' })
+    const { user, logout } = useAuth({ middleware: 'guest' })
 
     useEffect(() => {
         if (user) {
@@ -48,17 +50,16 @@ export default function HomeClient() {
             {titles.length === 0 ? (
                 <p>まだ記録はありません。</p>
             ) : (
-                titles.map(title => (
-                    <div
-                        key={title.id}
-                        className="border p-4 rounded bg-white mb-4">
-                        <h2 className="font-semibold">
-                            {title.title}（{title.genre}）
-                        </h2>
-                        <p className="text-sm text-gray-600">{title.author}</p>
-                    </div>
-                ))
+                titles.map(title => <TitleItem key={title.id} title={title} />)
             )}
+
+            <div className="mt-6">
+                <Link
+                    href="/titles/new"
+                    className="bg-blue-600 text-white px-4 py-2 rounded">
+                    新しい記録を追加
+                </Link>
+            </div>
         </main>
     )
 }
