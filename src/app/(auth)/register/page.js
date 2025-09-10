@@ -14,7 +14,7 @@ const Page = () => {
         redirectIfAuthenticated: '/dashboard',
     })
 
-    const [name, setName] = useState('')
+    // const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
@@ -24,7 +24,7 @@ const Page = () => {
         event.preventDefault()
 
         register({
-            name,
+            // name,
             email,
             password,
             password_confirmation: passwordConfirmation,
@@ -35,21 +35,7 @@ const Page = () => {
     return (
         <form onSubmit={submitForm}>
             {/* Name */}
-            <div>
-                <Label htmlFor="name">Name</Label>
-
-                <Input
-                    id="name"
-                    type="text"
-                    value={name}
-                    className="block mt-1 w-full"
-                    onChange={event => setName(event.target.value)}
-                    required
-                    autoFocus
-                />
-
-                <InputError messages={errors.name} className="mt-2" />
-            </div>
+            
 
             {/* Email Address */}
             <div className="mt-4">
