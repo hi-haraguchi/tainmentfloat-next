@@ -4,9 +4,11 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
+import { useRouter } from "next/navigation"; 
 
 export default function NewTitlePage() {
     const { user } = useAuth({ middleware: 'auth' })
+    const router = useRouter()
 
     if (!user) return null
 
@@ -39,7 +41,7 @@ export default function NewTitlePage() {
             const res = await axios.post('/api/titles', form)
             setStatus('success')
             alert('記録を追加しました！')
-            window.location.href = '/' // 一覧へ戻る
+            router.push('/')// 一覧へ戻る
         } catch (err) {
             if (err.response?.status === 422) {
                 // バリデーションエラー
