@@ -84,8 +84,17 @@ export default function TimelinePage() {
                                     )}
 
                                     <ul className="ml-4 space-y-2">
-                                        {timeline[year][month].map(
-                                            (item, idx) => (
+                                        {timeline[year][month]
+                                            .slice() // 元データを壊さないためコピー
+                                            .sort((a, b) => {
+                                                const dayA = a.day ?? 0
+                                                const dayB = b.day ?? 0
+
+                                                if (dayA === 0) return -1 // day未入力を先頭へ
+                                                if (dayB === 0) return 1
+                                                return dayB - dayA // 数値の降順（新しい日が上）
+                                            })
+                                            .map((item, idx) => (
                                                 <li
                                                     key={idx}
                                                     className="border p-3 rounded bg-white">
@@ -117,8 +126,7 @@ export default function TimelinePage() {
                                                         </p>
                                                     )}
                                                 </li>
-                                            ),
-                                        )}
+                                            ))}
                                     </ul>
                                 </div>
                             ))}
