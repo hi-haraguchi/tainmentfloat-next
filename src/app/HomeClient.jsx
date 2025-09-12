@@ -59,6 +59,13 @@ export default function HomeClient() {
                     className="bg-blue-600 text-white px-4 py-2 rounded">
                     新しい記録を追加
                 </Link>
+
+                <Link
+                    href="/tags"
+                    className="bg-green-600 text-white px-4 py-2 rounded"
+                >
+                    タグ一覧を見る
+                </Link>
             </div>
         </main>
     )
