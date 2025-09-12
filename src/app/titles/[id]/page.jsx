@@ -22,7 +22,8 @@ export default function TitleDetailPage() {
 
     // Title + Thoughts 取得
     useEffect(() => {
-        axios.get(`/api/titles/${id}`)
+        axios
+            .get(`/api/titles/${id}`)
             .then(res => {
                 setTitle(res.data)
                 setThoughts(res.data.thoughts)
@@ -30,11 +31,11 @@ export default function TitleDetailPage() {
             .catch(err => console.error(err))
     }, [id])
 
-    const handleChange = (e) => {
+    const handleChange = e => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
         e.preventDefault()
         setErrors({})
 
@@ -42,7 +43,15 @@ export default function TitleDetailPage() {
             const res = await axios.post(`/api/titles/${id}/thoughts`, form)
             // 追加した thought を一覧に反映
             setThoughts([...thoughts, res.data.data])
-            setForm({ year: '', month: '', day: '', part: '', thought: '', tag: '', link: '' })
+            setForm({
+                year: '',
+                month: '',
+                day: '',
+                part: '',
+                thought: '',
+                tag: '',
+                link: '',
+            })
         } catch (err) {
             if (err.response?.status === 422) {
                 setErrors(err.response.data.errors)
@@ -60,10 +69,19 @@ export default function TitleDetailPage() {
         <main className="p-6 max-w-3xl mx-auto">
             {/* Title情報 */}
             <h1 className="text-2xl font-bold mb-2">{title.title}</h1>
-            <p className="text-gray-600 mb-4">作者: {title.author} / ジャンル: {title.genre}</p>
+            <p className="text-gray-600 mb-4">
+                作者: {title.author} / ジャンル: {title.genre}
+            </p>
+            <Link
+                href={`/titles/${title.id}/edit`}
+                className="text-blue-600 underline text-sm">
+                タイトルを編集
+            </Link>
 
             {/* Thought追加フォーム */}
-            <form onSubmit={handleSubmit} className="space-y-3 mb-6 border p-4 rounded">
+            <form
+                onSubmit={handleSubmit}
+                className="space-y-3 mb-6 border p-4 rounded">
                 <h2 className="text-xl font-semibold mb-2">感想を追加</h2>
                 <div>
                     <label className="block mb-1">年 *</label>
@@ -75,7 +93,9 @@ export default function TitleDetailPage() {
                         required
                         className="border p-2 w-full"
                     />
-                    {errors.year && <p className="text-red-600">{errors.year}</p>}
+                    {errors.year && (
+                        <p className="text-red-600">{errors.year}</p>
+                    )}
                 </div>
                 <div className="flex gap-2">
                     <div>
@@ -140,8 +160,7 @@ export default function TitleDetailPage() {
                 </div>
                 <button
                     type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded"
-                >
+                    className="bg-blue-600 text-white px-4 py-2 rounded">
                     感想を追加
                 </button>
             </form>
@@ -161,18 +180,25 @@ export default function TitleDetailPage() {
                                     {t.thought}
                                 </p>
                                 {t.tag && (
-                                    <p className="text-blue-600 text-sm">#{t.tag.tag}</p>
+                                    <p className="text-blue-600 text-sm">
+                                        #{t.tag.tag}
+                                    </p>
                                 )}
                                 {t.link && (
                                     <a
                                         href={t.link}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="text-blue-500 underline text-sm"
-                                    >
+                                        className="text-blue-500 underline text-sm">
                                         参考リンク
                                     </a>
                                 )}
+
+                                <Link
+                                    href={`/thoughts/${t.id}/edit`}
+                                    className="text-blue-600 underline text-sm ml-2">
+                                    編集
+                                </Link>
                             </li>
                         ))}
                     </ul>
