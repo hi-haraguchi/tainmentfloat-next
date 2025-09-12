@@ -5,26 +5,51 @@ import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import Button from '@/components/Button'
 import Link from 'next/link'
+import LoginLinks from '@/app/LoginLinks'
 
 export default function TimelinePage() {
     const [timeline, setTimeline] = useState({})
     const [loading, setLoading] = useState(true)
-    const { user, logout } = useAuth({ middleware: 'auth' }) // 認証必須
+    const { user, logout } = useAuth({ middleware: 'guest' })
 
     useEffect(() => {
-        axios
-            .get('/api/timeline')
-            .then(res => {
-                setTimeline(res.data)
-                setLoading(false)
-            })
-            .catch(err => {
-                console.error(err)
-                setLoading(false)
-            })
-    }, [])
+        if (user) {
+            // ログイン時だけタイムライン取得
+            axios
+                .get('/api/timeline')
+                .then(res => {
+                    setTimeline(res.data)
+                    setLoading(false)
+                })
+                .catch(err => {
+                    console.error(err)
+                    setLoading(false)
+                })
+        } else {
+            setLoading(false) // 未ログインならすぐ解除
+        }
+    }, [user])
 
     if (loading) return <p className="p-6">読み込み中...</p>
+
+    if (!user) {
+        return (
+            <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+                <LoginLinks />
+                <div className="text-center">
+                    <h1 className="text-3xl font-bold mb-4">
+                        エンタメフロート
+                    </h1>
+                    <p className="text-lg">
+                        社会とちょうどいい距離を保ち、必要な情報を必要なときに。
+                    </p>
+                    <p className="mt-2">
+                        エンタメに特化したSNSで、自分の記録を残しましょう。
+                    </p>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <main className="p-6 max-w-4xl mx-auto">
@@ -47,7 +72,13 @@ export default function TimelinePage() {
                     <Link
                         href="/tags"
                         className="bg-green-600 text-white px-3 py-1 rounded">
-                        みつける（タグで検索）
+                        みつける
+                    </Link>
+
+                    <Link
+                        href="/bookmarks"
+                        className="bg-green-600 text-white px-3 py-1 rounded">
+                        あとで見る
                     </Link>
 
                     <Button type="button" onClick={logout}>

@@ -109,7 +109,7 @@ export default function HomeClient() {
                     href="/tags"
                     className="bg-green-600 text-white px-4 py-2 rounded"
                 >
-                    タグ一覧を見る
+                    みつける（タグで共有ページ）を見る
                 </Link>
             </div>
         </main>
