@@ -201,7 +201,7 @@ export default function NewTitlePage() {
                 </button>
 
                 <Link href="/" className="ml-4 text-blue-600 underline">
-                    一覧に戻る
+                    タイムラインに戻る
                 </Link>
 
                 {status === 'success' && (
