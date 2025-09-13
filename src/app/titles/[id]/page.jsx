@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import axios from '@/lib/axios'
+import StarBorderIcon from '@mui/icons-material/StarBorder'
+import StarIcon from '@mui/icons-material/Star'
 
 export default function TitleDetailPage() {
     const { id } = useParams()
@@ -41,7 +43,6 @@ export default function TitleDetailPage() {
 
         try {
             const res = await axios.post(`/api/titles/${id}/thoughts`, form)
-            // 追加した thought を一覧に反映
             setThoughts([...thoughts, res.data.data])
             setForm({
                 year: '',
@@ -61,6 +62,21 @@ export default function TitleDetailPage() {
         }
     }
 
+    // ⭐ like のトグル
+    const toggleLike = async () => {
+        if (!title) return
+        try {
+            const res = await axios.put(`/api/titles/${id}`, {
+                ...title,
+                like: !title.like, // 反転させる
+            })
+            setTitle(res.data.data)
+        } catch (err) {
+            console.error(err)
+            alert('お気に入りの更新に失敗しました')
+        }
+    }
+
     if (!title) {
         return <p className="p-6">読み込み中...</p>
     }
@@ -68,7 +84,17 @@ export default function TitleDetailPage() {
     return (
         <main className="p-6 max-w-3xl mx-auto">
             {/* Title情報 */}
-            <h1 className="text-2xl font-bold mb-2">{title.title}</h1>
+            <div className="flex items-center gap-2 mb-2">
+                <h1 className="text-2xl font-bold">{title.title}</h1>
+                <button onClick={toggleLike}>
+                    {title.like ? (
+                        <StarIcon className="text-yellow-500" />
+                    ) : (
+                        <StarBorderIcon className="text-gray-400" />
+                    )}
+                </button>
+            </div>
+
             <p className="text-gray-600 mb-4">
                 作者: {title.author} / ジャンル: {title.genre}
             </p>
@@ -210,7 +236,7 @@ export default function TitleDetailPage() {
             {/* 一覧に戻る */}
             <div className="mt-6">
                 <Link href="/" className="text-blue-600 underline">
-                    一覧に戻る
+                    タイムラインに戻る
                 </Link>
             </div>
         </main>
