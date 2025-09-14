@@ -15,7 +15,7 @@ export default function EditTitlePage() {
         author: '',
         like: false,
     })
-    const [errors, setErrors] = useState({})
+    const [, setErrors] = useState({})
 
     useEffect(() => {
         axios

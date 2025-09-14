@@ -4,7 +4,7 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation"
 
 export default function NewTitlePage() {
     const { user } = useAuth({ middleware: 'auth' })
@@ -38,7 +38,7 @@ export default function NewTitlePage() {
         setStatus(null)
 
         try {
-            const res = await axios.post('/api/titles', form)
+            // const res = await axios.post('/api/titles', form)
             setStatus('success')
             alert('記録を追加しました！')
             router.push('/')// 一覧へ戻る
