@@ -25,7 +25,7 @@ export default function NewTitlePage() {
         link: '',
     })
 
-    const [errors, setErrors] = useState({})
+    // const [errors, setErrors] = useState({})
     const [status, setStatus] = useState(null)
 
     const handleChange = e => {

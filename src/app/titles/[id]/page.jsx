@@ -20,7 +20,7 @@ export default function TitleDetailPage() {
         tag: '',
         link: '',
     })
-    const [errors, setErrors] = useState({})
+    // const [errors, setErrors] = useState({})
 
     // Title + Thoughts 取得
     useEffect(() => {
