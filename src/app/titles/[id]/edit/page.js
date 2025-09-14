@@ -18,7 +18,8 @@ export default function EditTitlePage() {
     const [errors, setErrors] = useState({})
 
     useEffect(() => {
-        axios.get(`/api/titles/${id}/edit-data`)
+        axios
+            .get(`/api/titles/${id}/edit-data`)
             .then(res => setForm(prev => ({ ...prev, ...res.data })))
             .catch(err => console.error(err))
     }, [id])
@@ -46,7 +47,8 @@ export default function EditTitlePage() {
 
     // 👇 削除処理
     const handleDelete = async () => {
-        if (!confirm('このタイトルと感想をすべて削除します。よろしいですか？')) return
+        if (!confirm('このタイトルと感想をすべて削除します。よろしいですか？'))
+            return
         try {
             await axios.delete(`/api/titles/${id}`)
             alert('タイトルを削除しました')
@@ -63,14 +65,22 @@ export default function EditTitlePage() {
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label>ジャンル *</label>
-                    <input
-                        type="text"
+                    <select
                         name="genre"
                         value={form.genre}
                         onChange={handleChange}
                         required
-                        className="border p-2 w-full"
-                    />
+                        className="border p-2 w-full">
+                        <option value="本">本</option>
+                        <option value="マンガ">マンガ</option>
+                        <option value="映画">映画</option>
+                        <option value="音楽">音楽</option>
+                        <option value="ポッドキャスト">ポッドキャスト</option>
+                        <option value="TV・動画配信サービス">
+                            TV・動画配信サービス
+                        </option>
+                        <option value="その他">その他</option>
+                    </select>
                 </div>
                 <div>
                     <label>タイトル *</label>
@@ -106,17 +116,20 @@ export default function EditTitlePage() {
                 </div>
 
                 <div className="flex gap-4">
-                    <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+                    <button
+                        type="submit"
+                        className="bg-blue-600 text-white px-4 py-2 rounded">
                         更新する
                     </button>
                     <button
                         type="button"
                         onClick={handleDelete}
-                        className="bg-red-600 text-white px-4 py-2 rounded"
-                    >
+                        className="bg-red-600 text-white px-4 py-2 rounded">
                         削除する
                     </button>
-                    <Link href={`/titles/${id}`} className="text-blue-600 underline">
+                    <Link
+                        href={`/titles/${id}`}
+                        className="text-blue-600 underline">
                         詳細に戻る
                     </Link>
                 </div>
