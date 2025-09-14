@@ -6,8 +6,16 @@ const axios = Axios.create({
     withCredentials: true,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'X-XSRF-TOKEN': Cookies.get('XSRF-TOKEN'), // ✅ Cookie から直接読み込む
     },
+})
+
+// リクエストごとに XSRF-TOKEN を動的にセット
+axios.interceptors.request.use(config => {
+    const token = Cookies.get('XSRF-TOKEN')
+    if (token) {
+        config.headers['X-XSRF-TOKEN'] = token
+    }
+    return config
 })
 
 export default axios
