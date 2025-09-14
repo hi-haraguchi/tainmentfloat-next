@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import axios from '@/lib/axios'
+// import axios from '@/lib/axios'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from "next/navigation"
