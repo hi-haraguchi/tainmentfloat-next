@@ -19,7 +19,7 @@ export default function EditThoughtPage() {
         link: '',
         title_id: '', // 戻る用
     })
-    // const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState({})
 
     useEffect(() => {
         axios
