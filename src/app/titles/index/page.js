@@ -6,6 +6,8 @@ import { useAuth } from '@/hooks/auth'
 import Button from '@/components/Button'
 import Link from 'next/link'
 import TitleItem from '@/components/TitleItem'
+import BottomNavigation0915 from '@/components/BottomNavigation0915'
+import ViewModeSelect from '@/components/ViewModeSelect'
 
 export default function HomeClient() {
     const [titles, setTitles] = useState([])
@@ -54,86 +56,96 @@ export default function HomeClient() {
     const otherTitles = titles.filter(t => !t.like)
 
     return (
-        <main className="p-6 max-w-4xl mx-auto">
-            {/* ヘッダー */}
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">
-                    {user ? `${user.email} さんの記録` : '読み込み中...'}
-                </h1>
-                <Button type="button" onClick={logout}>
-                    ログアウト
-                </Button>
-            </div>
+        <>
+            <main className="p-6 max-w-4xl mx-auto">
+                {/* ヘッダー */}
+                <div className="flex justify-between items-center mb-6">
+                    
 
-            {/* 検索フォーム */}
-            <form onSubmit={handleSearch} className="mb-6 flex gap-2">
-                <input
-                    type="text"
-                    placeholder="タイトル・作者・感想・タグを検索..."
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    className="border p-2 flex-1"
-                />
-                <button
-                    type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded">
-                    検索
-                </button>
-            </form>
+                    <h1 className="text-2xl font-bold">
+                        {user ? `${user.email} さんの記録` : '読み込み中...'}
+                    </h1>
 
-            {/* 一覧 */}
-            {titles.length === 0 ? (
-                <p>まだ記録はありません。</p>
-            ) : (
-                <>
-                    {likedTitles.length > 0 && (
-                        <>
-                            <h2 className="text-xl font-semibold mb-2">
-                                ⭐ （各詳細画面でつけたものを表示しています）
-                            </h2>
-                            {likedTitles.map(title => (
-                                <TitleItem
-                                    key={title.id}
-                                    title={title}
-                                    defaultOpen={search !== ''}
-                                    searchTerm={search}
-                                />
-                            ))}
-                            <hr className="my-6 border-gray-400" />
-                        </>
-                    )}
+                    <ViewModeSelect />
 
-                    {otherTitles.map(title => (
-                        <TitleItem
-                            key={title.id}
-                            title={title}
-                            defaultOpen={search !== ''}
-                            searchTerm={search}
-                        />
-                    ))}
-                </>
-            )}
+                    <Button type="button" onClick={logout}>
+                        ログアウト
+                    </Button>
+                </div>
 
-            {/* 下部リンク */}
-            <div className="mt-6 flex gap-4">
-                <Link
-                    href="/titles/new"
-                    className="bg-blue-600 text-white px-4 py-2 rounded">
-                    新しい記録を追加
-                </Link>
+                {/* 検索フォーム */}
+                <form onSubmit={handleSearch} className="mb-6 flex gap-2">
+                    <input
+                        type="text"
+                        placeholder="タイトル・作者・感想・タグを検索..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        className="border p-2 flex-1"
+                    />
+                    <button
+                        type="submit"
+                        className="bg-blue-600 text-white px-4 py-2 rounded">
+                        検索
+                    </button>
+                </form>
 
-                <Link
-                    href="/"
-                    className="bg-blue-600 text-white px-4 py-2 rounded">
-                    タイムライン表示へ
-                </Link>
+                {/* 一覧 */}
+                {titles.length === 0 ? (
+                    <p>まだ記録はありません。</p>
+                ) : (
+                    <>
+                        {likedTitles.length > 0 && (
+                            <>
+                                <h2 className="text-xl font-semibold mb-2">
+                                    ⭐
+                                    （各詳細画面でつけたものを表示しています）
+                                </h2>
+                                {likedTitles.map(title => (
+                                    <TitleItem
+                                        key={title.id}
+                                        title={title}
+                                        defaultOpen={search !== ''}
+                                        searchTerm={search}
+                                    />
+                                ))}
+                                <hr className="my-6 border-gray-400" />
+                            </>
+                        )}
 
-                <Link
-                    href="/tags"
-                    className="bg-green-600 text-white px-4 py-2 rounded">
-                    みつける（タグで共有ページ）
-                </Link>
-            </div>
-        </main>
+                        {otherTitles.map(title => (
+                            <TitleItem
+                                key={title.id}
+                                title={title}
+                                defaultOpen={search !== ''}
+                                searchTerm={search}
+                            />
+                        ))}
+                    </>
+                )}
+
+                {/* 下部リンク */}
+                <div className="mt-6 flex gap-4">
+                    <Link
+                        href="/titles/new"
+                        className="bg-blue-600 text-white px-4 py-2 rounded">
+                        新しい記録を追加
+                    </Link>
+
+                    <Link
+                        href="/"
+                        className="bg-blue-600 text-white px-4 py-2 rounded">
+                        タイムライン表示へ
+                    </Link>
+
+                    <Link
+                        href="/tags"
+                        className="bg-green-600 text-white px-4 py-2 rounded">
+                        みつける（タグで共有ページ）
+                    </Link>
+                </div>
+            </main>
+
+            <BottomNavigation0915 />
+        </>
     )
 }

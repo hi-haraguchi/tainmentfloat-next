@@ -22,7 +22,7 @@ const BottomNavigation0915 = () => {
     // 現在のパスに応じて value を決定
     const getValueFromPath = path => {
         if (path.startsWith('/titles/new')) return 0
-        if (path === '/') return 1
+        if (path === '/' || path.startsWith('/titles/index')) return 1
         if (path.startsWith('/tags')) return 2
         return -1 // 該当しないときは未選択
     }
