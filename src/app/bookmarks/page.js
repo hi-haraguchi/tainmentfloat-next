@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 import Link from 'next/link'
+import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function BookmarkPage() {
     const [bookmarks, setBookmarks] = useState([])
@@ -23,7 +24,9 @@ export default function BookmarkPage() {
     if (loading) return <p className="p-6">読み込み中...</p>
 
     return (
-        <main className="p-6 max-w-4xl mx-auto">
+        <>
+        <AppBarWithDrawer />
+        <main className="p-6 max-w-4xl mx-auto mt-16">
             <h1 className="text-2xl font-bold mb-6">あとで見る（タグページでブックマークしたリスト）</h1>
 
             {bookmarks.length > 0 ? (
@@ -54,5 +57,7 @@ export default function BookmarkPage() {
                 <Link href="/" className="text-blue-600 underline">タイムラインに戻る</Link>
             </div>
         </main>
+
+        </>
     )
 }

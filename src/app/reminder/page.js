@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import api from '@/lib/axios' // axios インスタンスを利用
+import Link from 'next/link'
+import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function ReminderPage() {
     const [loading, setLoading] = useState(true)
@@ -68,7 +70,10 @@ export default function ReminderPage() {
     if (loading) return <p>Loading...</p>
 
     return (
-        <div style={{ padding: '1rem' }}>
+        <>
+
+        <AppBarWithDrawer />
+        <div style={{ padding: '1rem' }} className="p-6 max-w-4xl mx-auto mt-16">
             <h1>リマインド設定</h1>
 
             <div>
@@ -146,6 +151,14 @@ export default function ReminderPage() {
             <button onClick={handleSubmit} style={{ marginTop: '1rem' }}>
                 更新
             </button>
+
+            <div className="mt-6">
+                <Link href="/" className="text-blue-600 underline">
+                    タイムラインに戻る
+                </Link>
+            </div>
         </div>
+
+        </>
     )
 }

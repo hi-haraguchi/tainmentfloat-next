@@ -8,6 +8,7 @@ import Link from 'next/link'
 import TitleItem from '@/components/TitleItem'
 import BottomNavigation0915 from '@/components/BottomNavigation0915'
 import ViewModeSelect from '@/components/ViewModeSelect'
+import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function HomeClient() {
     const [titles, setTitles] = useState([])
@@ -57,20 +58,12 @@ export default function HomeClient() {
 
     return (
         <>
-            <main className="p-6 max-w-4xl mx-auto">
+            <AppBarWithDrawer />
+
+            <main className="p-6 max-w-4xl mx-auto mt-16">
                 {/* ヘッダー */}
-                <div className="flex justify-between items-center mb-6">
-                    
-
-                    <h1 className="text-2xl font-bold">
-                        {user ? `${user.email} さんの記録` : '読み込み中...'}
-                    </h1>
-
+                <div className="flex justify-end items-center mb-6 gap-4">
                     <ViewModeSelect />
-
-                    <Button type="button" onClick={logout}>
-                        ログアウト
-                    </Button>
                 </div>
 
                 {/* 検索フォーム */}

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/navigation'
 import BottomNavigation0915 from '@/components/BottomNavigation0915'
+import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function NewTitlePage() {
     const { user } = useAuth({ middleware: 'auth' })
@@ -55,9 +56,12 @@ export default function NewTitlePage() {
 
     return (
         <>
-            <main className="p-6 max-w-2xl mx-auto">
+
+            <AppBarWithDrawer />
+
+            <main className="p-6 max-w-2xl mx-auto mt-16">
                 <h1 className="text-2xl font-bold mb-6">
-                    {user?.email} さんの新しい記録
+                    新しく触れたエンタメの記録
                 </h1>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -204,9 +208,9 @@ export default function NewTitlePage() {
                         記録する
                     </button>
 
-                    <Link href="/" className="ml-4 text-blue-600 underline">
+                    {/* <Link href="/" className="ml-4 text-blue-600 underline">
                         タイムラインに戻る
-                    </Link>
+                    </Link> */}
 
                     {status === 'success' && (
                         <p className="text-green-600 mt-2">保存しました！</p>
