@@ -5,6 +5,7 @@ import axios from '@/lib/axios'
 import Link from 'next/link'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
+import BottomNavigation0915 from '@/components/BottomNavigation0915'
 
 // ブックマークボタン
 function BookmarkButton({ thoughtId, defaultBookmarked = false }) {
@@ -79,6 +80,7 @@ export default function TagsPage() {
     }
 
     return (
+        <>
         <main className="p-6 max-w-4xl mx-auto">
             <h1 className="text-2xl font-bold mb-6">
                 みつける（タグで共有するページです）
@@ -146,5 +148,8 @@ export default function TagsPage() {
                 </Link>
             </div>
         </main>
+
+        <BottomNavigation0915 />
+        </>
     )
 }
