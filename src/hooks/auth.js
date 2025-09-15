@@ -28,19 +28,39 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
 
     const register = async ({ setErrors, ...props }) => {
         await csrf()
-
-        console.log('document.cookie after csrf:', document.cookie)
-
         setErrors([])
 
-        axios
-            .post('/register', props)
-            .then(() => mutate())
-            .catch(error => {
-                if (error.response.status !== 422) throw error
+        try {
+            const res = await axios.post('/api/register', props)
 
-                setErrors(error.response.data.errors)
-            })
+            const token = res.data.token
+            // localStorage に保存
+            localStorage.setItem('auth_token', token)
+
+            // axios のデフォルトヘッダーに設定
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+            // mutate で /api/user を更新
+            await mutate()
+
+            // ✅ 登録後にトップやユーザーページへ遷移
+            router.push('/')
+        } catch (err) {
+            if (err.response?.status === 422) {
+                setErrors(err.response.data.errors)
+            } else {
+                console.error(err)
+            }
+        }
+
+        // axios
+        //     .post('/register', props)
+        //     .then(() => mutate())
+        //     .catch(error => {
+        //         if (error.response.status !== 422) throw error
+
+        //         setErrors(error.response.data.errors)
+        //     })
     }
 
     const login = async ({ setErrors, setStatus, ...props }) => {
@@ -49,14 +69,31 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setErrors([])
         setStatus(null)
 
-        axios
-            .post('/login', props)
-            .then(() => mutate())
-            .catch(error => {
-                if (error.response.status !== 422) throw error
+        try {
+            const res = await axios.post('/api/login', props)
 
-                setErrors(error.response.data.errors)
-            })
+            const token = res.data.token
+            localStorage.setItem('auth_token', token)
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+            await mutate()
+            router.push('/')
+        } catch (err) {
+            if (err.response?.status === 422) {
+                setErrors(err.response.data.errors)
+            } else {
+                console.error(err)
+            }
+        }
+
+        // axios
+        //     .post('/login', props)
+        //     .then(() => mutate())
+        //     .catch(error => {
+        //         if (error.response.status !== 422) throw error
+
+        //         setErrors(error.response.data.errors)
+        //     })
     }
 
     const forgotPassword = async ({ setErrors, setStatus, email }) => {
@@ -66,7 +103,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null)
 
         axios
-            .post('/forgot-password', { email })
+            .post('/api/forgot-password', { email })
             .then(response => setStatus(response.data.status))
             .catch(error => {
                 if (error.response.status !== 422) throw error
@@ -82,7 +119,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         setStatus(null)
 
         axios
-            .post('/reset-password', { token: params.token, ...props })
+            .post('/api/reset-password', { token: params.token, ...props })
             .then(response =>
                 router.push('/login?reset=' + btoa(response.data.status)),
             )
@@ -100,11 +137,31 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     }
 
     const logout = async () => {
-        if (!error) {
-            await axios.post('/logout').then(() => mutate())
+        try {
+            const token = localStorage.getItem('auth_token')
+            if (token) {
+                await axios.post(
+                    '/api/logout',
+                    {},
+                    {
+                        headers: { Authorization: `Bearer ${token}` },
+                    },
+                )
+            }
+        } catch (err) {
+            console.error('Logout API error:', err)
+        } finally {
+            // フロント側の状態をクリア
+            localStorage.removeItem('auth_token')
+            delete axios.defaults.headers.common['Authorization']
+            mutate(null, false) // SWRキャッシュ削除
+            router.push('/login')
         }
+        // if (!error) {
+        //     await axios.post('/logout').then(() => mutate())
+        // }
 
-        window.location.pathname = '/login'
+        // window.location.pathname = '/login'
     }
 
     useEffect(() => {
