@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/auth'
 import Button from '@/components/Button'
 import Link from 'next/link'
 import LoginLinks from '@/app/LoginLinks'
+import BottomNavigation0915 from '@/components/BottomNavigation0915'
 
 export default function TimelinePage() {
     const [timeline, setTimeline] = useState({})
@@ -52,6 +53,8 @@ export default function TimelinePage() {
     }
 
     return (
+
+        <>
         <main className="p-6 max-w-4xl mx-auto">
             {/* ヘッダー */}
             <div className="flex justify-between items-center mb-6">
@@ -164,5 +167,9 @@ export default function TimelinePage() {
                     </div>
                 ))}
         </main>
+    
+        <BottomNavigation0915 />
+        </>
     )
+
 }

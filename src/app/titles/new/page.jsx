@@ -5,6 +5,7 @@ import axios from '@/lib/axios'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/navigation'
+import BottomNavigation0915 from '@/components/BottomNavigation0915'
 
 export default function NewTitlePage() {
     const { user } = useAuth({ middleware: 'auth' })
@@ -53,6 +54,7 @@ export default function NewTitlePage() {
     }
 
     return (
+        <>
         <main className="p-6 max-w-2xl mx-auto">
             <h1 className="text-2xl font-bold mb-6">
                 {user?.email} さんの新しい記録
@@ -209,5 +211,8 @@ export default function NewTitlePage() {
                 )}
             </form>
         </main>
+        
+        <BottomNavigation0915 />
+        </>
     )
 }
