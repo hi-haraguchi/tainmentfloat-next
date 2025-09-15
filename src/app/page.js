@@ -3,16 +3,16 @@
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
-import Button from '@/components/Button'
 import Link from 'next/link'
 import LoginLinks from '@/app/LoginLinks'
 import BottomNavigation0915 from '@/components/BottomNavigation0915'
 import ViewModeSelect from '@/components/ViewModeSelect'
+import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function TimelinePage() {
     const [timeline, setTimeline] = useState({})
     const [loading, setLoading] = useState(true)
-    const { user, logout } = useAuth({ middleware: 'guest' })
+    const { user, } = useAuth({ middleware: 'guest' })
 
     useEffect(() => {
         if (user) {
@@ -55,42 +55,12 @@ export default function TimelinePage() {
 
     return (
         <>
-            <main className="p-6 max-w-4xl mx-auto">
+            <AppBarWithDrawer />
+
+            <main className="p-6 max-w-4xl mx-auto mt-16">
                 {/* ヘッダー */}
-                <div className="flex justify-between items-center mb-6">
-                    
-                    <div className="flex items-center gap-4">
-                        <span className="text-gray-700">{user?.email}</span>
-                        <Link
-                            href="/titles/new"
-                            className="bg-blue-600 text-white px-3 py-1 rounded">
-                            記録する
-                        </Link>
-
-                        <Link
-                            href="/titles/index"
-                            className="bg-green-600 text-white px-3 py-1 rounded">
-                            一覧表示（検索も）
-                        </Link>
-
-                        <Link
-                            href="/tags"
-                            className="bg-green-600 text-white px-3 py-1 rounded">
-                            みつける
-                        </Link>
-
-                        <Link
-                            href="/bookmarks"
-                            className="bg-green-600 text-white px-3 py-1 rounded">
-                            あとで見る
-                        </Link>
-
-                        <ViewModeSelect />
-
-                        <Button type="button" onClick={logout}>
-                            ログアウト
-                        </Button>
-                    </div>
+                <div className="flex justify-end items-center mb-6 gap-4">
+                    <ViewModeSelect />
                 </div>
 
                 {/* タイムライン本体 */}

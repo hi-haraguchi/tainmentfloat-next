@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
 import Link from 'next/link'
+import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function EditTitlePage() {
     const { id } = useParams()
@@ -60,7 +61,12 @@ export default function EditTitlePage() {
     }
 
     return (
-        <main className="p-6 max-w-2xl mx-auto">
+
+        <>
+
+        <AppBarWithDrawer />
+
+        <main className="p-6 max-w-2xl mx-auto mt-16">
             <h1 className="text-2xl font-bold mb-6">タイトル編集</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -135,5 +141,7 @@ export default function EditTitlePage() {
                 </div>
             </form>
         </main>
+
+        </>
     )
 }

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import axios from '@/lib/axios'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import StarIcon from '@mui/icons-material/Star'
+import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function TitleDetailPage() {
     const { id } = useParams()
@@ -82,7 +83,9 @@ export default function TitleDetailPage() {
     }
 
     return (
-        <main className="p-6 max-w-3xl mx-auto">
+        <>
+        <AppBarWithDrawer />
+        <main className="p-6 max-w-3xl mx-auto mt-16">
             {/* Title情報 */}
             <div className="flex items-center gap-2 mb-2">
                 <h1 className="text-2xl font-bold">{title.title}</h1>
@@ -240,5 +243,7 @@ export default function TitleDetailPage() {
                 </Link>
             </div>
         </main>
+
+        </>
     )
 }
