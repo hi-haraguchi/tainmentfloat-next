@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import axios from '@/lib/axios'
-import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/navigation'
 import BottomNavigation0915 from '@/components/BottomNavigation0915'
@@ -56,7 +55,6 @@ export default function NewTitlePage() {
 
     return (
         <>
-
             <AppBarWithDrawer />
 
             <main className="p-6 max-w-2xl mx-auto mt-16">

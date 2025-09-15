@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
-import Button from '@/components/Button'
 import Link from 'next/link'
 import TitleItem from '@/components/TitleItem'
 import BottomNavigation0915 from '@/components/BottomNavigation0915'
@@ -13,7 +12,7 @@ import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 export default function HomeClient() {
     const [titles, setTitles] = useState([])
     const [search, setSearch] = useState('')
-    const { user, logout } = useAuth({ middleware: 'auth' })
+    const { user,  } = useAuth({ middleware: 'auth' })
 
     // 初期ロード
     useEffect(() => {

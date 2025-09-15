@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
-import Button from '@/components/Button'
 import Link from 'next/link'
 import LoginLinks from '@/app/LoginLinks'
 import BottomNavigation0915 from '@/components/BottomNavigation0915'
@@ -13,7 +12,7 @@ import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 export default function TimelinePage() {
     const [timeline, setTimeline] = useState({})
     const [loading, setLoading] = useState(true)
-    const { user, logout } = useAuth({ middleware: 'guest' })
+    const { user, } = useAuth({ middleware: 'guest' })
 
     useEffect(() => {
         if (user) {
