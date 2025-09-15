@@ -29,6 +29,8 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
     const register = async ({ setErrors, ...props }) => {
         await csrf()
 
+        console.log('document.cookie after csrf:', document.cookie)
+
         setErrors([])
 
         axios
