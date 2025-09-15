@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import Button from '@/components/Button'
