@@ -4,8 +4,24 @@ import { useState } from 'react'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/navigation'
-import BottomNavigation0915 from '@/components/BottomNavigation0915'
-import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+// import BottomNavigation0915 from '@/components/BottomNavigation0915'
+// import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+import {
+    Box,
+    TextField,
+    Button,
+    MenuItem,
+    InputLabel,
+    FormControl,
+    Select,
+    Fade,
+    IconButton,
+} from '@mui/material'
+
+import LocationPinIcon from '@mui/icons-material/LocationPin'
+import ChatIcon from '@mui/icons-material/Chat'
+import LocalOfferIcon from '@mui/icons-material/LocalOffer'
+import LinkIcon from '@mui/icons-material/Link'
 
 export default function NewTitlePage() {
     const { user } = useAuth({ middleware: 'auth' })
@@ -26,6 +42,12 @@ export default function NewTitlePage() {
 
     const [errors, setErrors] = useState({})
     const [status, setStatus] = useState(null)
+
+    // それぞれのフォーム表示状態
+    const [showPart, setShowPart] = useState(false)
+    const [showThought, setShowThought] = useState(false)
+    const [showTag, setShowTag] = useState(false)
+    const [showLink, setShowLink] = useState(false)
 
     const handleChange = e => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -53,170 +75,231 @@ export default function NewTitlePage() {
 
     if (!user) return null
 
+    const currentYear = new Date().getFullYear()
+
     return (
         <>
-            <AppBarWithDrawer />
+            {/* <AppBarWithDrawer /> */}
 
             <main className="p-6 max-w-2xl mx-auto mt-16">
                 <h1 className="text-2xl font-bold mb-6">
                     新しく触れたエンタメの記録
                 </h1>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block mb-1">ジャンル *</label>
-                        <select
+                {/* <form onSubmit={handleSubmit} className="space-y-4"> */}
+                <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    sx={{ '& > :not(style)': { m: 1, width: '100%' } }}
+                    noValidate
+                    autoComplete="off">
+                    {/* ジャンル */}
+                    <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="genre-label">ジャンル *</InputLabel>
+                        <Select
+                            labelId="genre-label"
+                            id="standard-basic"
                             name="genre"
                             value={form.genre}
                             onChange={handleChange}
                             required
-                            className="border p-2 w-full">
-                            <option value="">選択してください</option>
-                            <option value="本">本</option>
-                            <option value="マンガ">マンガ</option>
-                            <option value="映画">映画</option>
-                            <option value="音楽">音楽</option>
-                            <option value="ポッドキャスト">
+                            error={Boolean(errors.genre)}>
+                            <MenuItem value="">
+                                <em>選択してください</em>
+                            </MenuItem>
+                            <MenuItem value="本">本</MenuItem>
+                            <MenuItem value="マンガ">マンガ</MenuItem>
+                            <MenuItem value="映画">映画</MenuItem>
+                            <MenuItem value="音楽">音楽</MenuItem>
+                            <MenuItem value="ポッドキャスト">
                                 ポッドキャスト
-                            </option>
-                            <option value="TV・動画配信サービス">
+                            </MenuItem>
+                            <MenuItem value="TV・動画配信サービス">
                                 TV・動画配信サービス
-                            </option>
-                            <option value="その他">その他</option>
-                        </select>
-                        {errors.genre && (
-                            <p className="text-red-600">{errors.genre}</p>
-                        )}
-                    </div>
+                            </MenuItem>
+                            <MenuItem value="その他">その他</MenuItem>
+                        </Select>
+                    </FormControl>
+                    {errors.genre && (
+                        <p className="text-red-600">{errors.genre}</p>
+                    )}
 
-                    <div>
-                        <label className="block mb-1">タイトル *</label>
-                        <input
-                            type="text"
-                            name="title"
-                            value={form.title}
-                            onChange={handleChange}
-                            required
-                            className="border p-2 w-full"
-                        />
-                        {errors.title && (
-                            <p className="text-red-600">{errors.title}</p>
-                        )}
-                    </div>
+                    {/* タイトル */}
+                    <TextField
+                        id="standard-basic"
+                        label="タイトル *"
+                        variant="standard"
+                        name="title"
+                        value={form.title}
+                        onChange={handleChange}
+                        required
+                        error={Boolean(errors.title)}
+                        helperText={errors.title}
+                    />
 
-                    <div>
-                        <label className="block mb-1">作者 *</label>
-                        <input
-                            type="text"
-                            name="author"
-                            value={form.author}
-                            onChange={handleChange}
-                            required
-                            className="border p-2 w-full"
-                        />
-                        {errors.author && (
-                            <p className="text-red-600">{errors.author}</p>
-                        )}
-                    </div>
+                    {/* 作者 */}
+                    <TextField
+                        id="standard-basic"
+                        label="作者 *"
+                        variant="standard"
+                        name="author"
+                        value={form.author}
+                        onChange={handleChange}
+                        required
+                        error={Boolean(errors.author)}
+                        helperText={errors.author}
+                    />
+                </Box>
 
-                    <div>
-                        <label className="block mb-1">年 *</label>
-                        <input
-                            type="number"
+                {/* 年・月・日 横並び */}
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                    {/* 年 */}
+                    <FormControl variant="standard" sx={{ minWidth: 120 }}>
+                        <InputLabel id="year-label">年 *</InputLabel>
+                        <Select
+                            labelId="year-label"
+                            id="standard-basic"
                             name="year"
                             value={form.year}
                             onChange={handleChange}
-                            required
-                            className="border p-2 w-full"
-                        />
-                        {errors.year && (
-                            <p className="text-red-600">{errors.year}</p>
-                        )}
-                    </div>
+                            required>
+                            <MenuItem value="">
+                                <em>選択してください</em>
+                            </MenuItem>
+                            {Array.from({ length: 100 }, (_, i) => (
+                                <MenuItem key={i} value={currentYear - i}>
+                                    {currentYear - i}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-                    <div className="flex gap-2">
-                        <div>
-                            <label className="block mb-1">月</label>
-                            <input
-                                type="number"
-                                name="month"
-                                value={form.month}
-                                onChange={handleChange}
-                                className="border p-2 w-full"
-                            />
-                        </div>
-                        <div>
-                            <label className="block mb-1">日</label>
-                            <input
-                                type="number"
-                                name="day"
-                                value={form.day}
-                                onChange={handleChange}
-                                className="border p-2 w-full"
-                            />
-                        </div>
-                    </div>
+                    {/* 月 */}
+                    <FormControl variant="standard" sx={{ minWidth: 120 }}>
+                        <InputLabel id="month-label">月</InputLabel>
+                        <Select
+                            labelId="month-label"
+                            id="standard-basic"
+                            name="month"
+                            value={form.month}
+                            onChange={handleChange}>
+                            <MenuItem value="">
+                                <em>選択してください</em>
+                            </MenuItem>
+                            {Array.from({ length: 12 }, (_, i) => (
+                                <MenuItem key={i + 1} value={i + 1}>
+                                    {i + 1}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-                    <div>
-                        <label className="block mb-1">部分（巻・章など）</label>
-                        <input
-                            type="text"
-                            name="part"
-                            value={form.part}
-                            onChange={handleChange}
-                            className="border p-2 w-full"
-                        />
-                    </div>
+                    {/* 日 */}
+                    <FormControl variant="standard" sx={{ minWidth: 120 }}>
+                        <InputLabel id="day-label">日</InputLabel>
+                        <Select
+                            labelId="day-label"
+                            id="standard-basic"
+                            name="day"
+                            value={form.day}
+                            onChange={handleChange}>
+                            <MenuItem value="">
+                                <em>選択してください</em>
+                            </MenuItem>
+                            {Array.from({ length: 31 }, (_, i) => (
+                                <MenuItem key={i + 1} value={i + 1}>
+                                    {i + 1}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Box>
 
-                    <div>
-                        <label className="block mb-1">感想</label>
-                        <textarea
-                            name="thought"
-                            value={form.thought}
-                            onChange={handleChange}
-                            className="border p-2 w-full"
-                        />
-                    </div>
+                {/* アイコンでフォーム切り替え */}
+                <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+                    <IconButton onClick={() => setShowPart(!showPart)}>
+                        <LocationPinIcon />
+                    </IconButton>
+                    <IconButton onClick={() => setShowThought(!showThought)}>
+                        <ChatIcon />
+                    </IconButton>
+                    <IconButton onClick={() => setShowTag(!showTag)}>
+                        <LocalOfferIcon />
+                    </IconButton>
+                    <IconButton onClick={() => setShowLink(!showLink)}>
+                        <LinkIcon />
+                    </IconButton>
+                </Box>
 
-                    <div>
-                        <label className="block mb-1">タグ</label>
-                        <input
-                            type="text"
-                            name="tag"
-                            value={form.tag}
-                            onChange={handleChange}
-                            className="border p-2 w-full"
-                        />
-                    </div>
+                {/* Fadeで表示されるフォーム */}
+                <Fade in={showPart}>
+                    <TextField
+                        id="standard-basic"
+                        label="どの部分"
+                        variant="standard"
+                        name="part"
+                        value={form.part}
+                        onChange={handleChange}
+                        sx={{ mt: 2 }}
+                    />
+                </Fade>
 
-                    <div>
-                        <label className="block mb-1">リンク</label>
-                        <input
-                            type="url"
-                            name="link"
-                            value={form.link}
-                            onChange={handleChange}
-                            className="border p-2 w-full"
-                        />
-                    </div>
+                <Fade in={showThought}>
+                    <TextField
+                        id="standard-basic"
+                        label="感想"
+                        variant="standard"
+                        name="thought"
+                        value={form.thought}
+                        onChange={handleChange}
+                        multiline
+                        sx={{ mt: 2 }}
+                    />
+                </Fade>
 
-                    <button
-                        type="submit"
-                        className="bg-blue-600 text-white px-4 py-2 rounded">
-                        記録する
-                    </button>
+                <Fade in={showTag}>
+                    <TextField
+                        id="standard-basic"
+                        label="タグ"
+                        variant="standard"
+                        name="tag"
+                        value={form.tag}
+                        onChange={handleChange}
+                        sx={{ mt: 2 }}
+                    />
+                </Fade>
 
-                    {/* <Link href="/" className="ml-4 text-blue-600 underline">
+                <Fade in={showLink}>
+                    <TextField
+                        id="standard-basic"
+                        label="リンク"
+                        variant="standard"
+                        name="link"
+                        value={form.link}
+                        onChange={handleChange}
+                        sx={{ mt: 2 }}
+                    />
+                </Fade>
+
+                <button
+                    type="submit"
+                    className="bg-blue-600 text-white px-4 py-2 rounded">
+                    記録する
+                </button>
+
+                {/* <Link href="/" className="ml-4 text-blue-600 underline">
                         タイムラインに戻る
                     </Link> */}
 
-                    {status === 'success' && (
-                        <p className="text-green-600 mt-2">保存しました！</p>
-                    )}
-                </form>
+                {status === 'success' && (
+                    <p className="text-green-600 mt-2">保存しました！</p>
+                )}
+                {/* </form> */}
             </main>
 
-            <BottomNavigation0915 />
+            {/* <BottomNavigation0915 /> */}
         </>
     )
 }
