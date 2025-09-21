@@ -23,6 +23,8 @@ import ChatIcon from '@mui/icons-material/Chat'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer'
 import LinkIcon from '@mui/icons-material/Link'
 
+import CircularProgress from '@mui/material/CircularProgress'
+
 export default function NewTitlePage() {
     const { user } = useAuth({ middleware: 'auth' })
     const router = useRouter()
@@ -49,6 +51,8 @@ export default function NewTitlePage() {
     const [showTag, setShowTag] = useState(false)
     const [showLink, setShowLink] = useState(false)
 
+    const [loading, setLoading] = useState(false)
+
     const handleChange = e => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
@@ -57,6 +61,7 @@ export default function NewTitlePage() {
         e.preventDefault()
         setErrors({})
         setStatus(null)
+        setLoading(true)
 
         try {
             await axios.post('/api/titles', form)
@@ -70,6 +75,8 @@ export default function NewTitlePage() {
             } else {
                 alert('エラーが発生しました')
             }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -151,7 +158,7 @@ export default function NewTitlePage() {
                         error={Boolean(errors.author)}
                         helperText={errors.author}
                     />
-                </Box>
+                
 
                 {/* 年・月・日 横並び */}
                 <Box sx={{ display: 'flex', gap: 2 }}>
@@ -234,69 +241,136 @@ export default function NewTitlePage() {
                 </Box>
 
                 {/* Fadeで表示されるフォーム */}
-                <Fade in={showPart}>
-                    <TextField
-                        id="standard-basic"
-                        label="どの部分"
-                        variant="standard"
-                        name="part"
-                        value={form.part}
-                        onChange={handleChange}
-                        sx={{ mt: 2 }}
-                    />
-                </Fade>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1,
+                        mt: 2,
+                    }}>
+                    <Fade in={showPart}>
+                        <TextField
+                            id="standard-basic"
+                            label="どの部分"
+                            variant="standard"
+                            name="part"
+                            value={form.part}
+                            onChange={handleChange}
+                            sx={{
+                                mt: 1,
+                                '& .MuiInputBase-input': {
+                                    outline: 'none', // ← デフォルトの青枠を削除
+                                },
+                                '& .Mui-focused .MuiInputBase-input': {
+                                    outline: 'none !important', // ← フォーカス時も強制的に消す
+                                },
+                                '& .MuiInput-underline:before': {
+                                    borderBottom: '1px solid #ccc',
+                                },
+                                '& .MuiInput-underline:hover:before': {
+                                    borderBottom: '1px solid #888',
+                                },
+                                '& .MuiInput-underline:after': {
+                                    borderBottom: 'none',
+                                },
+                            }}
+                        />
+                    </Fade>
 
-                <Fade in={showThought}>
-                    <TextField
-                        id="standard-basic"
-                        label="感想"
-                        variant="standard"
-                        name="thought"
-                        value={form.thought}
-                        onChange={handleChange}
-                        multiline
-                        sx={{ mt: 2 }}
-                    />
-                </Fade>
+                    <Fade in={showThought}>
+                        <TextField
+                            id="standard-basic"
+                            label="感想"
+                            variant="standard"
+                            name="thought"
+                            value={form.thought}
+                            onChange={handleChange}
+                            multiline
+                            sx={{
+                                mt: 1,
+                                '& .MuiInputBase-input': {
+                                    outline: 'none', // ← デフォルトの青枠を削除
+                                },
+                                '& .MuiInput-underline:before': {
+                                    borderBottom: '1px solid #ccc',
+                                },
+                                '& .MuiInput-underline:hover:before': {
+                                    borderBottom: '1px solid #888',
+                                },
+                                '& .MuiInput-underline:after': {
+                                    borderBottom: 'none',
+                                },
+                            }}
+                        />
+                    </Fade>
 
-                <Fade in={showTag}>
-                    <TextField
-                        id="standard-basic"
-                        label="タグ"
-                        variant="standard"
-                        name="tag"
-                        value={form.tag}
-                        onChange={handleChange}
-                        sx={{ mt: 2 }}
-                    />
-                </Fade>
+                    <Fade in={showTag}>
+                        <TextField
+                            id="standard-basic"
+                            label="タグ"
+                            variant="standard"
+                            name="tag"
+                            value={form.tag}
+                            onChange={handleChange}
+                            sx={{
+                                mt: 1,
+                                '& .MuiInputBase-input': {
+                                    outline: 'none', // ← デフォルトの青枠を削除
+                                },
+                                '& .MuiInput-underline:before': {
+                                    borderBottom: '1px solid #ccc',
+                                },
+                                '& .MuiInput-underline:hover:before': {
+                                    borderBottom: '1px solid #888',
+                                },
+                                '& .MuiInput-underline:after': {
+                                    borderBottom: 'none',
+                                },
+                            }}
+                        />
+                    </Fade>
 
-                <Fade in={showLink}>
-                    <TextField
-                        id="standard-basic"
-                        label="リンク"
-                        variant="standard"
-                        name="link"
-                        value={form.link}
-                        onChange={handleChange}
-                        sx={{ mt: 2 }}
-                    />
-                </Fade>
+                    <Fade in={showLink}>
+                        <TextField
+                            id="standard-basic"
+                            label="リンク"
+                            variant="standard"
+                            name="link"
+                            value={form.link}
+                            onChange={handleChange}
+                            sx={{
+                                mt: 1,
+                                '& .MuiInputBase-input': {
+                                    outline: 'none', // ← デフォルトの青枠を削除
+                                },
+                                '& .MuiInput-underline:before': {
+                                    borderBottom: '1px solid #ccc',
+                                },
+                                '& .MuiInput-underline:hover:before': {
+                                    borderBottom: '1px solid #888',
+                                },
+                                '& .MuiInput-underline:after': {
+                                    borderBottom: 'none',
+                                },
+                            }}
+                        />
+                    </Fade>
+                </Box>
 
-                <button
+                <Button
                     type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded">
-                    記録する
-                </button>
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 3 }}
+                    disabled={loading}>
+                    {loading ? (
+                        <CircularProgress size={24} color="inherit" />
+                    ) : (
+                        '記録する'
+                    )}
+                </Button>
 
-                {/* <Link href="/" className="ml-4 text-blue-600 underline">
-                        タイムラインに戻る
-                    </Link> */}
-
-                {status === 'success' && (
-                    <p className="text-green-600 mt-2">保存しました！</p>
-                )}
-                {/* </form> */}
+                </Box>
             </main>
 
             {/* <BottomNavigation0915 /> */}
