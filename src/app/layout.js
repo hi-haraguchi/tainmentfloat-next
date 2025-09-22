@@ -16,6 +16,7 @@ const RootLayout = ({ children }) => {
 
 export const metadata = {
     title: 'エンタメフロート',
+    manifest: '/manifest.json',
     openGraph: {
         title: 'エンタメフロート',
         description: '社会とちょうどいい距離を保つエンタメSNS',
