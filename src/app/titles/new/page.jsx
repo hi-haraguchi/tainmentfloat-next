@@ -43,7 +43,7 @@ export default function NewTitlePage() {
     })
 
     const [errors, setErrors] = useState({})
-    const [status, setStatus] = useState(null)
+    const [, setStatus] = useState(null)
 
     // それぞれのフォーム表示状態
     const [showPart, setShowPart] = useState(false)
