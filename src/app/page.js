@@ -10,6 +10,7 @@ import ViewModeSelect from '@/components/ViewModeSelect'
 import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 import IntroHeader from '@/components/IntroHeader'
 import HomeIntro from '@/components/HomeIntro'
+import LoadingWater from '@/components/LoadingWater'
 
 export default function TimelinePage() {
     const [timeline, setTimeline] = useState({})
@@ -18,23 +19,25 @@ export default function TimelinePage() {
 
     useEffect(() => {
         if (user) {
-            // ログイン時だけタイムライン取得
-            axios
-                .get('/api/timeline')
-                .then(res => {
-                    setTimeline(res.data)
-                    setLoading(false)
-                })
-                .catch(err => {
-                    console.error(err)
-                    setLoading(false)
-                })
+            // 疑似的に 遅延を入れる
+            setTimeout(() => {
+                axios
+                    .get('/api/timeline')
+                    .then(res => {
+                        setTimeline(res.data)
+                        setLoading(false)
+                    })
+                    .catch(err => {
+                        console.error(err)
+                        setLoading(false)
+                    })
+            }, 3800) // ← ここで3秒待つ
         } else {
             setLoading(false) // 未ログインならすぐ解除
         }
     }, [user])
 
-    if (loading) return <p className="p-6">読み込み中...</p>
+    if (loading) return <LoadingWater />
 
     if (!user) {
         return (

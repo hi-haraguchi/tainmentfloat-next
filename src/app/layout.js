@@ -20,7 +20,7 @@ export const metadata = {
     manifest: '/manifest.json',
     openGraph: {
         title: 'エンタメフロート',
-        description: '社会とちょうどいい距離を保つエンタメSNS',
+        description: 'エンタメをほどよく楽しみ、社会とちょうどいい距離を保つ、エンタメ特化の記録共有アプリ',
         images: ['/tf-rogo-p22.png'],
     },
     icons: {
@@ -29,7 +29,7 @@ export const metadata = {
             { url: '/tf-favicon.svg', type: 'image/svg+xml' },
             { url: '/tf-favicon.png', type: 'image/png' },
         ],
-        apple: '/apple-touch-icon.png',
+        apple: '/tf-rogo180.png',
     },
 }
 
