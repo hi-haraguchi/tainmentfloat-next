@@ -25,7 +25,7 @@ export default function HomeIntro() {
                 />
             </div>
 
-            <p className="text-lg mb-12">～エンタメ特化のメモ共有アプリ～</p>
+            <p className="text-lg mb-12">～エンタメ特化の記録・共有アプリ～</p>
 
             {/* キャッチコピー */}
             <p className="mt-2 text-base">
@@ -36,16 +36,16 @@ export default function HomeIntro() {
             <p className="mt-12 text-base">
                 触れた瞬間の楽しさも素敵だけど、
                 <br />
-                その楽しさを、いつでも思い出せるように。
+                感じたことをいつでも思い出せるように。
             </p>
             <p className="mt-12 text-base">
                 自分は何が好きか、覚えておけるように。
             </p>
             <p className="mt-12 text-base">
-                そしてそれを適度な距離感でつないでいく。
+                そして適度な距離感で、つないでいく。
             </p>
             <p className="mt-12 mb-12 text-base">
-                そんなアプリをつくりました。
+                そんな記録・共有アプリです。
             </p>
 
             {/* 図①プレースホルダー */}
@@ -65,9 +65,11 @@ export default function HomeIntro() {
             <h3 className="text-xl font-medium mb-2">１. メモとして</h3>
 
             <p className="mt-8 text-base">
-                ふれたエンタメを記録して、そのエンタメに
+                ふれたエンタメを記録して
                 <br />
-                何度も、そしていろんな箇所に感想を追加できます。
+                何度も、そして
+                <br />
+                いろんな箇所に感想を追加できます。
             </p>
 
             <p className="mt-12 mb-8 text-base">
@@ -81,9 +83,11 @@ export default function HomeIntro() {
             <p className="text-base mt-12 mb-16">
                 せわしない現代社会の中、
                 <br />
-                「雨宿りに丁度いい場所」ぐらいの気分で
+                「雨宿りに丁度いい」ぐらいの気分で
                 <br />
-                気軽にエンタメに触れて記録してください！
+                気軽にエンタメに触れて
+                <br />
+                記録してください！
             </p>
 
             <div className="flex items-center justify-center gap-3 mb-12">
@@ -97,25 +101,27 @@ export default function HomeIntro() {
             {/* ２タグで共有 */}
             <h3 className="text-xl font-medium mb-8">２. タグで共有</h3>
             <p className="text-base">
-                振り返りのタグをつけたエンタメは共有されます。
+                振り返りのタグをつけたエンタメは
+                <br />
+                他のユーザに共有されます。
             </p>
 
             <p className="mt-8 text-base">
-                他のユーザはタグを検索して、
+                タグで検索することで
                 <br />
                 自分の気分にぴったりな
                 <br />
                 エンタメを探すことができます。
             </p>
 
-            <p className="mt-12 text-base">
+            <p className="mt-10 text-base">
                 ただし
                 <br />
-                だれが投稿したか表示されません。
+                だれが投稿したか、表示されません。
                 <br />
                 いいね、もありません。
                 <br />
-                そもそもフォローもありません。
+                そもそも、フォローもありません。
             </p>
             <p className="mt-12 text-base mb-4">
                 承認欲求を気にせず、
@@ -126,7 +132,7 @@ export default function HomeIntro() {
                 <span className="text-gray-600">（実際のスクショ）</span>
             </div>
             <p className="text-base mt-12 mb-8">
-                素敵なエンタメに出会ったら、
+                素敵なエンタメに出会ったラッキーは
                 <br />
                 ぜひ他のユーザにシェアを！！
             </p>

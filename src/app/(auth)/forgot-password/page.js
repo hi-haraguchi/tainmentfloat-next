@@ -36,12 +36,10 @@ const ForgotPassword = () => {
             <AuthSessionStatus className="mb-4" status={status} />
 
             {/* 説明 */}
-            <div className="mb-4 text-sm text-gray-600">
-                パスワードをお忘れですか？
-                <br />
-                登録しているメールアドレスを入力してください。
-                <br />
-                パスワード再設定用のリンクをお送りします。
+            <div className="mb-4 text-xs sm:text-sm text-gray-600 space-y-1 leading-relaxed">
+                <p>パスワードをお忘れですか？</p>
+                <p>登録しているメールアドレスを入力してください。</p>
+                <p>パスワード再設定用のリンクをお送りします。</p>
             </div>
 
             {/* フォーム */}
