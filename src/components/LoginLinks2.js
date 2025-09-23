@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useAuth } from '@/hooks/auth'
 
-const LoginLinks = () => {
+const LoginLinks2 = () => {
     const { user } = useAuth({ middleware: 'guest' })
 
     return (
@@ -33,4 +33,4 @@ const LoginLinks = () => {
     )
 }
 
-export default LoginLinks
+export default LoginLinks2
