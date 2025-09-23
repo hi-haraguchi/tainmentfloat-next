@@ -72,7 +72,7 @@ const Login = () => {
                 </div>
 
                 {/* Password */}
-                <div className="mt-4">
+                <div className="mt-4 mb-6">
                     <Label htmlFor="password">
                         パスワード（８文字以上です）
                     </Label>
@@ -89,7 +89,7 @@ const Login = () => {
                 </div>
 
                 {/* Remember Me */}
-                <div className="block mt-4">
+                {/* <div className="block mt-4">
                     <label
                         htmlFor="remember_me"
                         className="inline-flex items-center">
@@ -106,7 +106,7 @@ const Login = () => {
                             ログインを保持
                         </span>
                     </label>
-                </div>
+                </div> */}
 
                 {/* Buttons */}
                 <div className="mt-4 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between">
