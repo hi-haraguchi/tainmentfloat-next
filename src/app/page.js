@@ -4,15 +4,17 @@ import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import Link from 'next/link'
-import LoginLinks from '@/app/LoginLinks'
+// import LoginLinks from '@/app/LoginLinks'
 import BottomNavigation0915 from '@/components/BottomNavigation0915'
 import ViewModeSelect from '@/components/ViewModeSelect'
 import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+import IntroHeader from '@/components/IntroHeader'
+import HomeIntro from '@/components/HomeIntro'
 
 export default function TimelinePage() {
     const [timeline, setTimeline] = useState({})
     const [loading, setLoading] = useState(true)
-    const { user, } = useAuth({ middleware: 'guest' })
+    const { user } = useAuth({ middleware: 'guest' })
 
     useEffect(() => {
         if (user) {
@@ -36,19 +38,13 @@ export default function TimelinePage() {
 
     if (!user) {
         return (
-            <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-                <LoginLinks />
-                <div className="text-center">
-                    <h1 className="text-3xl font-bold mb-4">
-                        エンタメフロート
-                    </h1>
-                    <p className="text-lg">
-                        社会とちょうどいい距離を保ち、必要な情報を必要なときに。
-                    </p>
-                    <p className="mt-2">
-                        エンタメに特化したSNSで、自分の記録を残しましょう。
-                    </p>
-                </div>
+            <div className="min-h-screen bg-white">
+                {/* bg-gray-50 */}
+                <IntroHeader />
+
+                <main className="pt-20 flex flex-col items-center text-center px-4">
+                    <HomeIntro />
+                </main>
             </div>
         )
     }

@@ -1,14 +1,15 @@
-import { Nunito } from 'next/font/google'
 import '@/app/global.css'
+import { M_PLUS_1p } from 'next/font/google'
 
-const nunitoFont = Nunito({
+const mplusFont = M_PLUS_1p({
     subsets: ['latin'],
+    weight: ['400', '500', '700'], // 必要に応じて太さを追加
     display: 'swap',
 })
 
 const RootLayout = ({ children }) => {
     return (
-        <html lang="en" className={nunitoFont.className}>
+        <html lang="ja" className={mplusFont.className}>
             <body className="antialiased">{children}</body>
         </html>
     )
