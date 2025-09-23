@@ -22,7 +22,7 @@ const Login = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [shouldRemember, setShouldRemember] = useState(false)
+    const [shouldRemember,] = useState(false)
     const [errors, setErrors] = useState([])
     const [status, setStatus] = useState(null)
 

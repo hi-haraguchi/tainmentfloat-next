@@ -42,7 +42,7 @@ export default function LoadingWater() {
                 </div>
             </div>
 
-            <style jsx>{`
+            <style>{`
                 @keyframes wave {
                     0% {
                         transform: translateX(0);
