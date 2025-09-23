@@ -9,13 +9,14 @@ import { useAuth } from '@/hooks/auth'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AuthSessionStatus from '@/app/(auth)/AuthSessionStatus'
+import AuthCard from '@/app/(auth)/AuthCard'
+import ApplicationLogo from '@/components/ApplicationLogo'
 
 const Login = () => {
     const router = useRouter()
 
     const { login } = useAuth({
         middleware: 'guest',
-        // redirectIfAuthenticated: '/dashboard',
         redirectIfAuthenticated: '/',
     })
 
@@ -46,13 +47,18 @@ const Login = () => {
     }
 
     return (
-        <>
+        <AuthCard
+            logo={
+                <Link href="/">
+                    <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                </Link>
+            }>
             <AuthSessionStatus className="mb-4" status={status} />
-            <form onSubmit={submitForm}>
+
+            <form onSubmit={submitForm} className="bg-white">
                 {/* Email Address */}
                 <div>
-                    <Label htmlFor="email">Email</Label>
-
+                    <Label htmlFor="email">メールアドレス</Label>
                     <Input
                         id="email"
                         type="email"
@@ -62,14 +68,14 @@ const Login = () => {
                         required
                         autoFocus
                     />
-
                     <InputError messages={errors.email} className="mt-2" />
                 </div>
 
                 {/* Password */}
                 <div className="mt-4">
-                    <Label htmlFor="password">Password</Label>
-
+                    <Label htmlFor="password">
+                        パスワード（８文字以上でお願いします）
+                    </Label>
                     <Input
                         id="password"
                         type="password"
@@ -79,11 +85,7 @@ const Login = () => {
                         required
                         autoComplete="current-password"
                     />
-
-                    <InputError
-                        messages={errors.password}
-                        className="mt-2"
-                    />
+                    <InputError messages={errors.password} className="mt-2" />
                 </div>
 
                 {/* Remember Me */}
@@ -95,29 +97,28 @@ const Login = () => {
                             id="remember_me"
                             type="checkbox"
                             name="remember"
-                            className="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="rounded border-gray-300 text-indigo-600 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             onChange={event =>
                                 setShouldRemember(event.target.checked)
                             }
                         />
-
                         <span className="ml-2 text-sm text-gray-600">
-                            Remember me
+                            ログインを保持
                         </span>
                     </label>
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
+                {/* Buttons */}
+                <div className="flex items-center justify-between mt-4">
                     <Link
                         href="/forgot-password"
                         className="underline text-sm text-gray-600 hover:text-gray-900">
-                        Forgot your password?
+                        パスワードを忘れた時はこちら
                     </Link>
-
-                    <Button className="ml-3">Login</Button>
+                    <Button className="ml-3">ログイン</Button>
                 </div>
             </form>
-        </>
+        </AuthCard>
     )
 }
 
