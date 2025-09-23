@@ -30,7 +30,7 @@ export default function TimelinePage() {
                         console.error(err)
                         setLoading(false)
                     })
-            }, 3800) // ← ここで3秒待つ
+            }, 3800)
         } else {
             setLoading(false) // 未ログインならすぐ解除
         }
