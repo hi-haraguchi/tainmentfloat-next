@@ -74,7 +74,7 @@ const Login = () => {
                 {/* Password */}
                 <div className="mt-4">
                     <Label htmlFor="password">
-                        パスワード（８文字以上でお願いします）
+                        パスワード（８文字以上です）
                     </Label>
                     <Input
                         id="password"
@@ -109,13 +109,20 @@ const Login = () => {
                 </div>
 
                 {/* Buttons */}
-                <div className="flex items-center justify-between mt-4">
-                    <Link
-                        href="/forgot-password"
-                        className="underline text-sm text-gray-600 hover:text-gray-900">
-                        パスワードを忘れた時はこちら
-                    </Link>
-                    <Button className="ml-3">ログイン</Button>
+                <div className="mt-4 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between">
+                    {/* リンク（スマホでは下、PCでは左端） */}
+                    <div className="mt-4 sm:mt-0">
+                        <Link
+                            href="/forgot-password"
+                            className="underline text-sm text-gray-600 hover:text-gray-900">
+                            パスワードを忘れた時はこちら
+                        </Link>
+                    </div>
+
+                    {/* ボタン（スマホでは上、PCでは右端） */}
+                    <div className="flex justify-end sm:justify-end">
+                        <Button>ログイン</Button>
+                    </div>
                 </div>
             </form>
         </AuthCard>

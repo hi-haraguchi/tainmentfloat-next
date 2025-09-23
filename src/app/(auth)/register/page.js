@@ -91,13 +91,20 @@ const Page = () => {
                 </div>
 
                 {/* Buttons */}
-                <div className="flex items-center justify-between mt-4">
-                    <Link
-                        href="/login"
-                        className="underline text-sm text-gray-600 hover:text-gray-900">
-                        すでに登録していたらログイン画面へ
-                    </Link>
-                    <Button className="ml-4">登録</Button>
+                <div className="mt-4 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between">
+                    {/* リンク（スマホ＝下、PC＝左端） */}
+                    <div className="mt-4 sm:mt-0">
+                        <Link
+                            href="/login"
+                            className="underline text-sm text-gray-600 hover:text-gray-900">
+                            すでに登録していたらログイン画面へ
+                        </Link>
+                    </div>
+
+                    {/* ボタン（スマホ＝上、PC＝右端） */}
+                    <div className="flex justify-end sm:justify-end">
+                        <Button className="ml-0 sm:ml-4">登録</Button>
+                    </div>
                 </div>
             </form>
         </AuthCard>
