@@ -5,9 +5,9 @@ import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import Link from 'next/link'
 import TitleItem from '@/components/TitleItem'
-import BottomNavigation0915 from '@/components/BottomNavigation0915'
+// import BottomNavigation0915 from '@/components/BottomNavigation0915'
 import ViewModeSelect from '@/components/ViewModeSelect'
-import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+// import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function HomeClient() {
     const [titles, setTitles] = useState([])
@@ -57,7 +57,7 @@ export default function HomeClient() {
 
     return (
         <>
-            <AppBarWithDrawer />
+            {/* <AppBarWithDrawer /> */}
 
             <main className="p-6 max-w-4xl mx-auto mt-16">
                 {/* ヘッダー */}
@@ -137,7 +137,7 @@ export default function HomeClient() {
                 </div>
             </main>
 
-            <BottomNavigation0915 />
+            {/* <BottomNavigation0915 /> */}
         </>
     )
 }
