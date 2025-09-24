@@ -22,19 +22,29 @@ import TimelineIcon from '@mui/icons-material/Timeline'
 import TagIcon from '@mui/icons-material/Tag'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useAuth } from '@/hooks/auth'
 
 export default function ClientLayout({ children }) {
     const pathname = usePathname()
-    const isMobile = useMediaQuery('(max-width:768px)')
+    const isMobile = useMediaQuery('(max-width:980px)')
+    const [drawerOpen, setDrawerOpen] = useState(false)
 
+    const { user, logout } = useAuth()
+
+    // ナビやヘッダーを出さないページ
+    const noLayoutPages = ['/', '/login', '/register', '/forgot-password']
+
+    if (!user && noLayoutPages.includes(pathname)) {
+        return <>{children}</>
+    }
     const hideBottomNav =
-    pathname.startsWith('/titles/new') ||
-    /^\/titles\/\d+$/.test(pathname) ||
-    /^\/titles\/\d+\/edit$/.test(pathname) ||
-    /^\/thoughts\/\d+\/edit$/.test(pathname)
+        pathname.startsWith('/titles/new') ||
+        /^\/titles\/\d+$/.test(pathname) ||
+        /^\/titles\/\d+\/edit$/.test(pathname) ||
+        /^\/thoughts\/\d+\/edit$/.test(pathname)
 
     // ドロワー開閉
-    const [drawerOpen, setDrawerOpen] = useState(false)
+
     const toggleDrawer = open => () => setDrawerOpen(open)
 
     // BottomNavigation を表示するページ（スマホのみ）
@@ -70,6 +80,7 @@ export default function ClientLayout({ children }) {
     return (
         <>
             {/* ---------------- PC ---------------- */}
+            {/* ---------------- PC ---------------- */}
             {!isMobile && (
                 <AppBar
                     position="static"
@@ -80,76 +91,161 @@ export default function ClientLayout({ children }) {
                         boxShadow: 'none',
                     }}>
                     <Toolbar sx={{ justifyContent: 'space-between' }}>
-                        {/* 左：ロゴ */}
+                        {/* 左：ロゴ（高さいっぱい） */}
                         <div
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: 8,
+                                height: '64px',
                             }}>
                             <img
                                 src="/tf-favicon.png"
-                                alt="favicon"
-                                style={{ height: 24, width: 24 }}
+                                alt="ロゴ"
+                                style={{ height: '75%', objectFit: 'contain' }}
                             />
                             <img
                                 src="/images/lp/tf-font12.png"
                                 alt="ロゴ"
-                                style={{ height: 20 }}
+                                style={{ height: '100%', objectFit: 'contain' }}
                             />
                         </div>
 
-                        {/* 右：ナビ + その他 */}
+                        {/* 右：メニュー */}
                         <div
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
-                                gap: 24,
+                                gap: 40,
                             }}>
                             <Link href="/titles/new">
-                                <Typography sx={{ color: 'black' }}>
-                                    新しく記録する
+                                <Typography
+                                    variant="body1"
+                                    // align="center"
+                                    sx={{
+                                        color: 'black',
+                                        whiteSpace: 'pre-line',
+                                        fontSize: 14,
+                                    }}>
+                                    新しいエンタメを{'\n'}記録する
                                 </Typography>
                             </Link>
                             <Link href="/titles/index">
-                                <Typography sx={{ color: 'black' }}>
-                                    以前の記録へ追加と検索
+                                <Typography
+                                    variant="body1"
+                                    // align="center"
+                                    sx={{
+                                        color: 'black',
+                                        whiteSpace: 'pre-line',
+                                        fontSize: 14,
+                                    }}>
+                                    <span style={{ fontSize: '12px' }}>
+                                        記録リスト
+                                    </span>
+                                    {'\n'} ー 追記と検索
                                 </Typography>
                             </Link>
                             <Link href="/">
-                                <Typography sx={{ color: 'black' }}>
-                                    タイムライン
+                                <Typography
+                                    variant="body1"
+                                    // align="center"
+                                    sx={{
+                                        color: 'black',
+                                        whiteSpace: 'pre-line',
+                                        fontSize: 14,
+                                    }}>
+                                    <span style={{ fontSize: '12px' }}>
+                                        記録リスト
+                                    </span>
+                                    {'\n'} ー タイムライン
                                 </Typography>
                             </Link>
                             <Link href="/tags">
-                                <Typography sx={{ color: 'black' }}>
-                                    タグで見つける
+                                <Typography
+                                    variant="body1"
+                                    // align="center"
+                                    sx={{
+                                        color: 'black',
+                                        whiteSpace: 'pre-line',
+                                        fontSize: 14,
+                                    }}>
+                                    タグで{'\n'}見つける
                                 </Typography>
                             </Link>
 
-                            {/* その他（右からドロワー） */}
-                            <IconButton
-                                color="inherit"
+                            {/* その他のメニュー（文字クリックでドロワー） */}
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    cursor: 'pointer',
+                                    color: 'black',
+                                    whiteSpace: 'pre-line',
+                                    fontSize: 14,
+                                }}
                                 onClick={toggleDrawer(true)}>
-                                <MenuIcon />
-                            </IconButton>
+                                その他の{'\n'}メニュー
+                            </Typography>
+
+                            {/* ドロワー */}
                             <Drawer
                                 anchor="right"
                                 open={drawerOpen}
                                 onClose={toggleDrawer(false)}>
-                                <List sx={{ width: 250 }}>
-                                    {otherMenuItems.map((item, index) => (
-                                        <Link
-                                            key={index}
-                                            href={item.href}
-                                            onClick={toggleDrawer(false)}>
-                                            <ListItem button>
-                                                <ListItemText
-                                                    primary={item.text}
-                                                />
-                                            </ListItem>
-                                        </Link>
-                                    ))}
+                                <List sx={{ width: 280 }}>
+                                    {/* ログインユーザーのメールアドレス */}
+                                    <ListItem>
+                                        <ListItemText
+                                            primary={user?.email || 'ゲスト'}
+                                            slotProps={{
+                                                primary: {
+                                                    sx: { fontWeight: 'bold' }, // ここに Typography の props を指定
+                                                },
+                                            }}
+                                        />
+                                    </ListItem>
+
+                                    {/* メイン項目 */}
+                                    <Link
+                                        href="/reminder"
+                                        onClick={toggleDrawer(false)}>
+                                        <ListItem button>
+                                            <ListItemText primary="リマインド設定" />
+                                        </ListItem>
+                                    </Link>
+                                    <Link
+                                        href="/bookmarks"
+                                        onClick={toggleDrawer(false)}>
+                                        <ListItem button>
+                                            <ListItemText primary="あとで見るリスト" />
+                                        </ListItem>
+                                    </Link>
+                                    <ListItem
+                                        button
+                                        onClick={() => {
+                                            toggleDrawer(false)()
+                                            logout()
+                                            window.location.href = '/login' // ← ログアウト後の遷移先
+                                        }}
+                                        sx={{
+                                            cursor: 'pointer',
+                                            '&:hover': {
+                                                backgroundColor: '#f5f5f5',
+                                            },
+                                        }}>
+                                        <ListItemText primary="ログアウト" />
+                                    </ListItem>
+
+                                    <hr style={{ margin: '12px 0' }} />
+
+                                    {/* 後日作成ページ */}
+                                    <ListItem>
+                                        <ListItemText primary="コンセプト（準備中）" />
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText primary="使い方（準備中）" />
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemText primary="お問合せやご意見（準備中）" />
+                                    </ListItem>
                                 </List>
                             </Drawer>
                         </div>

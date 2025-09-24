@@ -5,9 +5,7 @@ import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import Link from 'next/link'
 import TitleItem from '@/components/TitleItem'
-// import BottomNavigation0915 from '@/components/BottomNavigation0915'
-import ViewModeSelect from '@/components/ViewModeSelect'
-// import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+
 
 export default function HomeClient() {
     const [titles, setTitles] = useState([])
@@ -61,9 +59,6 @@ export default function HomeClient() {
 
             <main className="p-6 max-w-4xl mx-auto mt-16">
                 {/* ヘッダー */}
-                <div className="flex justify-end items-center mb-6 gap-4">
-                    <ViewModeSelect />
-                </div>
 
                 {/* 検索フォーム */}
                 <form onSubmit={handleSearch} className="mb-6 flex gap-2">
