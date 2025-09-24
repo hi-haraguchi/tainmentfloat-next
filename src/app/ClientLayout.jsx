@@ -83,7 +83,7 @@ export default function ClientLayout({ children }) {
             {/* ---------------- PC ---------------- */}
             {!isMobile && (
                 <AppBar
-                    position="static"
+                    position="fixed"
                     sx={{
                         backgroundColor: 'white',
                         color: 'black',
