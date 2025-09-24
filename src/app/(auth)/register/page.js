@@ -56,7 +56,7 @@ const Page = () => {
 
                 {/* Password */}
                 <div className="mt-4">
-                    <Label htmlFor="password">パスワード</Label>
+                    <Label htmlFor="password">パスワード（８文字以上で設定）</Label>
                     <Input
                         id="password"
                         type="password"
