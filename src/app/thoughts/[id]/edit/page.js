@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
 import Link from 'next/link'
-import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function EditThoughtPage() {
     const { id } = useParams()
@@ -65,7 +64,7 @@ export default function EditThoughtPage() {
     return (
 
         <>
-        <AppBarWithDrawer />
+        {/* <AppBarWithDrawer /> */}
         <main className="p-6 max-w-2xl mx-auto mt-16">
             <h1 className="text-2xl font-bold mb-6">感想の編集</h1>
             <form onSubmit={handleSubmit} className="space-y-4">

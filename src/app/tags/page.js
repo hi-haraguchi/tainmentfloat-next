@@ -5,8 +5,8 @@ import axios from '@/lib/axios'
 import Link from 'next/link'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
-import BottomNavigation0915 from '@/components/BottomNavigation0915'
-import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+// import BottomNavigation0915 from '@/components/BottomNavigation0915'
+// import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 // ブックマークボタン
 function BookmarkButton({ thoughtId, defaultBookmarked = false }) {
@@ -83,7 +83,7 @@ export default function TagsPage() {
     return (
         <>
 
-        <AppBarWithDrawer />
+        {/* <AppBarWithDrawer /> */}
 
         <main className="p-6 max-w-4xl mx-auto mt-16">
             <h1 className="text-2xl font-bold mb-6">
@@ -153,7 +153,7 @@ export default function TagsPage() {
             </div>
         </main>
 
-        <BottomNavigation0915 />
+        {/* <BottomNavigation0915 /> */}
         </>
     )
 }
