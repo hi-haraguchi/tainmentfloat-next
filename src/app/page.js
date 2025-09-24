@@ -4,9 +4,6 @@ import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import Link from 'next/link'
-// import BottomNavigation0915 from '@/components/BottomNavigation0915'
-import ViewModeSelect from '@/components/ViewModeSelect'
-// import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 import IntroHeader from '@/components/IntroHeader'
 import HomeIntro from '@/components/HomeIntro'
 import LoadingWater from '@/components/LoadingWater'
@@ -53,14 +50,9 @@ export default function TimelinePage() {
 
     return (
         <>
-            {/* <AppBarWithDrawer /> */}
 
             <main className="p-6 max-w-4xl mx-auto mt-16">
-                {/* ヘッダー */}
-                <div className="flex justify-end items-center mb-6 gap-4">
-                    <ViewModeSelect />
-                </div>
-
+            
                 {/* タイムライン本体 */}
                 {Object.keys(timeline)
                     .sort((a, b) => Number(b) - Number(a)) // 年を降順（新しい年が上）
@@ -139,7 +131,6 @@ export default function TimelinePage() {
                     ))}
             </main>
 
-            {/* <BottomNavigation0915 /> */}
         </>
     )
 }
