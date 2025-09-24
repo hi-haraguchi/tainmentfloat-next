@@ -23,7 +23,10 @@ export const metadata = {
             { url: '/tf-favicon.svg', type: 'image/svg+xml' },
             { url: '/tf-favicon.png', type: 'image/png' },
         ],
-        apple: '/tf-rogo180.png',
+        apple: {
+            url: '/tf-rogo180.png',
+            sizes: '180x180',
+        },
     },
 }
 
