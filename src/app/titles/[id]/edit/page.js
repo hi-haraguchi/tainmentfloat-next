@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
 import Link from 'next/link'
-import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+// import AppBarWithDrawer from '@/components/AppBarWithDrawer'
 
 export default function EditTitlePage() {
     const { id } = useParams()
