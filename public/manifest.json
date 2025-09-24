@@ -7,6 +7,21 @@
     "theme_color": "#ffffff",
     "icons": [
         {
+            "src": "/tf-rogo72.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "/tf-rogo96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "/tf-rogo128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
             "src": "/tf-rogo152.png",
             "sizes": "152x152",
             "type": "image/png"
