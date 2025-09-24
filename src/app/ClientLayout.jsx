@@ -16,10 +16,10 @@ import {
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import HomeIcon from '@mui/icons-material/Home'
+import BorderColorIcon from '@mui/icons-material/BorderColor'
 import ListIcon from '@mui/icons-material/List'
 import TimelineIcon from '@mui/icons-material/Timeline'
-import TagIcon from '@mui/icons-material/Tag'
+import SearchIcon from '@mui/icons-material/Search'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useAuth } from '@/hooks/auth'
@@ -28,6 +28,13 @@ export default function ClientLayout({ children }) {
     const pathname = usePathname()
     const isMobile = useMediaQuery('(max-width:980px)')
     const [drawerOpen, setDrawerOpen] = useState(false)
+    const getValueFromPath = path => {
+        if (path.startsWith('/titles/new')) return 0
+        if (path.startsWith('/titles/index')) return 1
+        if (path === '/') return 2
+        if (path.startsWith('/tags')) return 3
+        return -1 // 該当なし
+    }
 
     const { user, logout } = useAuth()
 
@@ -56,34 +63,25 @@ export default function ClientLayout({ children }) {
 
     // ページ名マップ（スマホ用ヘッダー）
     const pageTitles = {
-        '/titles/new': '新しい記録',
-        '/bookmarks': 'あとで見る',
-        '/reminder': 'リマインド設定',
+        '/titles/new':'新しいエンタメの記録',
+        '/bookmarks': 'あとで見るリスト',
+        '/reminder': 'リマインドの設定',
     }
 
     // 動的ページ対応
-    if (/^\/titles\/\d+$/.test(pathname)) pageTitles[pathname] = '記録の詳細'
+    if (/^\/titles\/\d+$/.test(pathname))
+        pageTitles[pathname] = 'エンタメの詳細'
     if (/^\/titles\/\d+\/edit$/.test(pathname))
-        pageTitles[pathname] = 'タイトル編集'
+        pageTitles[pathname] = 'エンタメの編集'
     if (/^\/thoughts\/\d+\/edit$/.test(pathname))
-        pageTitles[pathname] = '感想編集'
-
-    // その他メニュー項目
-    const otherMenuItems = [
-        { text: '記録の詳細', href: '/titles/1' }, // サンプル、実際は動的ID
-        { text: 'タイトル編集', href: '/titles/1/edit' },
-        { text: '感想編集', href: '/thoughts/1/edit' },
-        { text: 'あとで見る', href: '/bookmarks' },
-        { text: 'リマインド設定', href: '/reminder' },
-    ]
+        pageTitles[pathname] = '感想の編集'
 
     return (
         <>
             {/* ---------------- PC ---------------- */}
-            {/* ---------------- PC ---------------- */}
             {!isMobile && (
                 <AppBar
-                    position="static"
+                    position="fixed"
                     sx={{
                         backgroundColor: 'white',
                         color: 'black',
@@ -190,7 +188,7 @@ export default function ClientLayout({ children }) {
                                 anchor="right"
                                 open={drawerOpen}
                                 onClose={toggleDrawer(false)}>
-                                <List sx={{ width: 280 }}>
+                                <List sx={{ width: 400 }}>
                                     {/* ログインユーザーのメールアドレス */}
                                     <ListItem>
                                         <ListItemText
@@ -271,59 +269,115 @@ export default function ClientLayout({ children }) {
                                     style={{
                                         display: 'flex',
                                         alignItems: 'center',
-                                        gap: 8,
                                     }}>
                                     <img
                                         src="/tf-favicon.png"
                                         alt="favicon"
-                                        style={{ height: 24, width: 24 }}
+                                        style={{ height: 32, width: 32 }}
                                     />
                                     <img
                                         src="/images/lp/tf-font12.png"
                                         alt="ロゴ"
-                                        style={{ height: 20 }}
+                                        style={{ height: 40 }}
                                     />
                                 </div>
                                 <IconButton
                                     color="inherit"
-                                    onClick={toggleDrawer(true)}>
+                                    onClick={toggleDrawer(true)}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                    }}>
                                     <MenuIcon />
+                                    <Typography
+                                        variant="caption"
+                                        sx={{ fontSize: 8, color: 'black' }}>
+                                        メニュー
+                                    </Typography>
                                 </IconButton>
                             </Toolbar>
                         </AppBar>
                     ) : pathname === '/titles/index' || pathname === '/tags' ? (
                         /* 一覧・タグ：ヘッダーなし、右上にハンバーガーだけ絶対配置 */
-                        <IconButton
-                            color="inherit"
-                            onClick={toggleDrawer(true)}
-                            sx={{
-                                position: 'absolute',
-                                top: 8,
-                                right: 8,
-                                zIndex: 1100,
-                            }}>
-                            <MenuIcon />
-                        </IconButton>
+                        <>
+                            {/* ハンバーガーメニューを右上に絶対配置 */}
+                            <IconButton
+                                color="inherit"
+                                onClick={toggleDrawer(true)}
+                                sx={{
+                                    position: 'fixed', // 画面右上に張り付け
+                                    top: 24,
+                                    right: 12,
+                                    zIndex: 1100, // 検索フォームより前面に
+                                    backgroundColor: 'white', // 背景を白く
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    p: 1, // ← padding 調整（お好みで）
+                                }}>
+                                <MenuIcon />
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        fontSize: 8,
+                                        color: 'black',
+                                        lineHeight: 1,
+                                        mt: 0.5,
+                                    }}>
+                                    メニュー
+                                </Typography>
+                            </IconButton>
+                        </>
                     ) : (
                         /* ④〜⑨：戻る＋ページ名 */
                         <AppBar
-                            position="static"
+                            position="fixed"
                             sx={{
                                 backgroundColor: 'white',
                                 color: 'black',
                                 borderBottom: '1px solid #ddd',
                                 boxShadow: 'none',
                             }}>
-                            <Toolbar sx={{ justifyContent: 'space-between' }}>
+                            <Toolbar
+                                sx={{
+                                    justifyContent: 'space-between',
+                                    position: 'relative',
+                                }}>
+                                {/* 戻るボタン */}
                                 <IconButton
                                     edge="start"
                                     color="inherit"
-                                    onClick={() => history.back()}>
+                                    onClick={() => history.back()}
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        p: 1,
+                                    }}>
                                     <ArrowBackIcon />
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            fontSize: 8,
+                                            color: 'black',
+                                            lineHeight: 1,
+                                            mt: 0.5,
+                                        }}>
+                                        戻る
+                                    </Typography>
                                 </IconButton>
+
+                                {/* タイトル（中央固定配置・細字） */}
                                 <Typography
-                                    variant="h6"
-                                    sx={{ textAlign: 'center', flexGrow: 1 }}>
+                                    sx={{
+                                        position: 'absolute',
+                                        left: '50%',
+                                        transform: 'translateX(-50%)',
+                                        fontSize: 16, // 小さめ
+                                        fontWeight: 400, // 細字
+                                        color: 'black',
+                                    }}>
                                     {pageTitles[pathname] || ''}
                                 </Typography>
                             </Toolbar>
@@ -336,36 +390,119 @@ export default function ClientLayout({ children }) {
                         pathname === '/tags') &&
                         !hideBottomNav && (
                             <BottomNavigation
+                                value={getValueFromPath(pathname)}
                                 showLabels
                                 sx={{
                                     position: 'fixed',
                                     bottom: 0,
                                     left: 0,
                                     right: 0,
+                                    height: 72,
+                                    '& .MuiBottomNavigationAction-root.Mui-selected':
+                                        {
+                                            color: '#006400',
+                                            // color: '#013220', 
+                                            // color: '#004d40',  
+                                            backgroundColor: '#eaf6ea',
+                                            borderRadius: '6px',
+                                        },
                                 }}>
                                 <BottomNavigationAction
-                                    label="記録"
-                                    icon={<HomeIcon />}
+                                    label={
+                                        <span
+                                            style={{
+                                                whiteSpace: 'pre-line',
+                                                fontSize: 10,
+                                                textAlign: 'center', // ← テキスト中央揃え
+                                                display: 'block',
+                                            }}>
+                                            新しい{'\n'}エンタメ記録
+                                        </span>
+                                    }
+                                    icon={<BorderColorIcon />}
                                     component={Link}
                                     href="/titles/new"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center', // アイコン＋文字を中央寄せ
+                                        justifyContent: 'flex-start', // アイコンを上部にそろえる
+                                        gap: '6px', // アイコンと文字のすき間
+                                        pt: 0.5, // 上の余白を少し追加（お好みで）
+                                    }}
                                 />
                                 <BottomNavigationAction
-                                    label="一覧"
+                                    label={
+                                        <span
+                                            style={{
+                                                whiteSpace: 'pre-line',
+                                                fontSize: 10,
+                                                textAlign: 'center', // ← テキスト中央揃え
+                                                display: 'block',
+                                            }}>
+                                            記録リスト{'\n'}（追記と検索）
+                                        </span>
+                                    }
                                     icon={<ListIcon />}
                                     component={Link}
                                     href="/titles/index"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center', // アイコン＋文字を中央寄せ
+                                        justifyContent: 'flex-start', // アイコンを上部にそろえる
+                                        gap: '6px', // アイコンと文字のすき間
+                                        pt: 0.5, // 上の余白を少し追加（お好みで）
+                                    }}
                                 />
                                 <BottomNavigationAction
-                                    label="タイムライン"
+                                    label={
+                                        <span
+                                            style={{
+                                                whiteSpace: 'pre-line',
+                                                fontSize: 10,
+                                                textAlign: 'center', // ← テキスト中央揃え
+                                                display: 'block',
+                                            }}>
+                                            タイムライン
+                                        </span>
+                                    }
                                     icon={<TimelineIcon />}
                                     component={Link}
                                     href="/"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center', // アイコン＋文字を中央寄せ
+                                        justifyContent: 'flex-start', // アイコンを上部にそろえる
+                                        gap: '6px', // アイコンと文字のすき間
+                                        pt: 0.5, // 上の余白を少し追加（お好みで）
+                                    }}
                                 />
+
                                 <BottomNavigationAction
-                                    label="タグ"
-                                    icon={<TagIcon />}
+                                    label={
+                                        <span
+                                            style={{
+                                                whiteSpace: 'pre-line',
+                                                fontSize: 10,
+                                                textAlign: 'center', // ← テキスト中央揃え
+                                                display: 'block',
+                                            }}>
+                                            タグで{'\n'}見つける
+                                        </span>
+                                    }
+                                    icon={<SearchIcon />}
                                     component={Link}
                                     href="/tags"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center', // アイコン＋文字を中央寄せ
+                                        justifyContent: 'flex-start', // アイコンを上部にそろえる
+                                        gap: '6px', // アイコンと文字のすき間
+                                        pt: 0.5, // 上の余白を少し追加（お好みで）
+                                    }}
                                 />
                             </BottomNavigation>
                         )}
@@ -375,17 +512,62 @@ export default function ClientLayout({ children }) {
                         anchor="right"
                         open={drawerOpen}
                         onClose={toggleDrawer(false)}>
-                        <List sx={{ width: 250 }}>
-                            {otherMenuItems.map((item, index) => (
-                                <Link
-                                    key={index}
-                                    href={item.href}
-                                    onClick={toggleDrawer(false)}>
-                                    <ListItem button>
-                                        <ListItemText primary={item.text} />
-                                    </ListItem>
-                                </Link>
-                            ))}
+                        <List sx={{ width: 280 }}>
+                            {/* ログインユーザーのメールアドレス */}
+                            <ListItem>
+                                <ListItemText
+                                    primary={user?.email || 'ゲスト'}
+                                    slotProps={{
+                                        primary: {
+                                            sx: { fontWeight: 'bold' }, // ここに Typography の props を指定
+                                        },
+                                    }}
+                                />
+                            </ListItem>
+
+                            {/* メイン項目 */}
+                            <Link
+                                href="/reminder"
+                                onClick={toggleDrawer(false)}>
+                                <ListItem button>
+                                    <ListItemText primary="リマインド設定" />
+                                </ListItem>
+                            </Link>
+                            <Link
+                                href="/bookmarks"
+                                onClick={toggleDrawer(false)}>
+                                <ListItem button>
+                                    <ListItemText primary="あとで見るリスト" />
+                                </ListItem>
+                            </Link>
+                            <ListItem
+                                button
+                                onClick={() => {
+                                    toggleDrawer(false)()
+                                    logout()
+                                    window.location.href = '/login' // ← ログアウト後の遷移先
+                                }}
+                                sx={{
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        backgroundColor: '#f5f5f5',
+                                    },
+                                }}>
+                                <ListItemText primary="ログアウト" />
+                            </ListItem>
+
+                            <hr style={{ margin: '12px 0' }} />
+
+                            {/* 後日作成ページ */}
+                            <ListItem>
+                                <ListItemText primary="コンセプト（準備中）" />
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="使い方（準備中）" />
+                            </ListItem>
+                            <ListItem>
+                                <ListItemText primary="お問合せやご意見（準備中）" />
+                            </ListItem>
                         </List>
                     </Drawer>
                 </>

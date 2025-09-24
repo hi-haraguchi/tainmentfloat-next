@@ -6,7 +6,7 @@ import Link from 'next/link'
 import axios from '@/lib/axios'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import StarIcon from '@mui/icons-material/Star'
-// import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+
 
 export default function TitleDetailPage() {
     const { id } = useParams()
@@ -236,12 +236,7 @@ export default function TitleDetailPage() {
                 )}
             </section>
 
-            {/* 一覧に戻る */}
-            <div className="mt-6">
-                <Link href="/" className="text-blue-600 underline">
-                    タイムラインに戻る
-                </Link>
-            </div>
+            
         </main>
 
         </>

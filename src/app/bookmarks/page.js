@@ -51,9 +51,7 @@ export default function BookmarkPage() {
                 <p className="text-gray-500">まだブックマークがありません</p>
             )}
 
-            <div className="mt-6">
-                <Link href="/" className="text-blue-600 underline">タイムラインに戻る</Link>
-            </div>
+            
         </main>
 
         </>
