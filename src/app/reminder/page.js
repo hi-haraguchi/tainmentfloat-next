@@ -150,11 +150,7 @@ export default function ReminderPage() {
                 更新
             </button>
 
-            <div className="mt-6">
-                <Link href="/" className="text-blue-600 underline">
-                    タイムラインに戻る
-                </Link>
-            </div>
+            
         </div>
 
         </>

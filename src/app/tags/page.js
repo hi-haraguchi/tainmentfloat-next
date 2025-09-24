@@ -2,10 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
-import Link from 'next/link'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
-
+import { Link, useMediaQuery } from '@mui/material'
 
 // ブックマークボタン
 function BookmarkButton({ thoughtId, defaultBookmarked = false }) {
@@ -51,6 +50,7 @@ export default function TagsPage() {
     const [tags, setTags] = useState([])
     const [search, setSearch] = useState('')
     const [loading, setLoading] = useState(true)
+    const isMobile = useMediaQuery('(max-width:980px)')
 
     const fetchTags = (q = '') => {
         setLoading(true)
@@ -81,75 +81,74 @@ export default function TagsPage() {
 
     return (
         <>
+            <main
+                className={`p-6 max-w-4xl mx-auto ${isMobile ? '' : 'mt-16'}`}>
+                {/* 検索窓 */}
+                <form onSubmit={handleSearch} className="mb-6 flex gap-2 w-4/5">
+                    <input
+                        type="text"
+                        placeholder="タグを検索..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        className="border p-2 flex-1"
+                    />
+                    <button
+                        type="submit"
+                        className="bg-blue-600 text-white px-4 py-2 rounded">
+                        検索
+                    </button>
+                </form>
 
-        {/* <AppBarWithDrawer /> */}
+                {/* あとで見るリストへ */}
+                <div className="mt-6 mb-6">
+                    <Link href="/bookmarks" className="text-blue-600 underline">
+                        あとで見るリストへ
+                    </Link>
+                </div>
 
-        <main className="p-6 max-w-4xl mx-auto mt-16">
+            
 
-            {/* 検索窓 */}
-            <form onSubmit={handleSearch} className="mb-6 flex gap-2">
-                <input
-                    type="text"
-                    placeholder="タグを検索..."
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    className="border p-2 flex-1"
-                />
-                <button
-                    type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded">
-                    検索
-                </button>
-            </form>
-
-            {tags.length > 0 ? (
-                <ul className="space-y-6">
-                    {tags.map(tag => (
-                        <li
-                            key={tag.id}
-                            className="border p-4 rounded bg-white">
-                            <h2 className="text-xl font-semibold mb-2">
-                                #{tag.tag}
-                            </h2>
-                            {tag.records.length > 0 ? (
-                                <ul className="pl-4 list-disc">
-                                    {tag.records.map((r, idx) => (
-                                        <li
-                                            key={idx}
-                                            className="flex items-center">
-                                            <span>
-                                                {r.genre} - {r.title} /{' '}
-                                                {r.author}{' '}
-                                                {r.part && `(${r.part})`}
-                                            </span>
-                                            <BookmarkButton
-                                                thoughtId={r.thought_id}
-                                                defaultBookmarked={r.bookmarked}
-                                            />
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p className="text-sm text-gray-500">
-                                    公開されている記録はありません
-                                </p>
-                            )}
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <p className="text-gray-500">タグが見つかりません</p>
-            )}
-
-            {/* ルートに戻る */}
-            <div className="mt-6">
-                <Link href="/" className="text-blue-600 underline">
-                    タイムラインに戻る
-                </Link>
-            </div>
-        </main>
-
-        {/* <BottomNavigation0915 /> */}
+                {tags.length > 0 ? (
+                    <ul className="space-y-6">
+                        {tags.map(tag => (
+                            <li
+                                key={tag.id}
+                                className="border p-4 rounded bg-white">
+                                <h2 className="text-xl font-semibold mb-2">
+                                    #{tag.tag}
+                                </h2>
+                                {tag.records.length > 0 ? (
+                                    <ul className="pl-4 list-disc">
+                                        {tag.records.map((r, idx) => (
+                                            <li
+                                                key={idx}
+                                                className="flex items-center">
+                                                <span>
+                                                    {r.genre} - {r.title} /{' '}
+                                                    {r.author}{' '}
+                                                    {r.part && `(${r.part})`}
+                                                </span>
+                                                <BookmarkButton
+                                                    thoughtId={r.thought_id}
+                                                    defaultBookmarked={
+                                                        r.bookmarked
+                                                    }
+                                                />
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p className="text-sm text-gray-500">
+                                        公開されている記録はありません
+                                    </p>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="text-gray-500">タグが見つかりません</p>
+                )}
+            </main>
         </>
     )
 }

@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
-import Link from 'next/link'
 import TitleItem from '@/components/TitleItem'
-
+import { useMediaQuery } from '@mui/material'
 
 export default function HomeClient() {
     const [titles, setTitles] = useState([])
     const [search, setSearch] = useState('')
-    const { user,  } = useAuth({ middleware: 'auth' })
+    const { user } = useAuth({ middleware: 'auth' })
+    const isMobile = useMediaQuery('(max-width:980px)')
 
     // 初期ロード
     useEffect(() => {
@@ -55,13 +55,12 @@ export default function HomeClient() {
 
     return (
         <>
-            {/* <AppBarWithDrawer /> */}
-
-            <main className="p-6 max-w-4xl mx-auto mt-16">
+            <main
+                className={`p-6 max-w-4xl mx-auto ${isMobile ? '' : 'mt-16'}`}>
                 {/* ヘッダー */}
 
                 {/* 検索フォーム */}
-                <form onSubmit={handleSearch} className="mb-6 flex gap-2">
+                <form onSubmit={handleSearch} className="mb-6 flex gap-2 w-4/5">
                     <input
                         type="text"
                         placeholder="タイトル・作者・感想・タグを検索..."
@@ -109,30 +108,7 @@ export default function HomeClient() {
                         ))}
                     </>
                 )}
-
-                {/* 下部リンク */}
-                <div className="mt-6 flex gap-4">
-                    <Link
-                        href="/titles/new"
-                        className="bg-blue-600 text-white px-4 py-2 rounded">
-                        新しい記録を追加
-                    </Link>
-
-                    <Link
-                        href="/"
-                        className="bg-blue-600 text-white px-4 py-2 rounded">
-                        タイムライン表示へ
-                    </Link>
-
-                    <Link
-                        href="/tags"
-                        className="bg-green-600 text-white px-4 py-2 rounded">
-                        みつける（タグで共有ページ）
-                    </Link>
-                </div>
             </main>
-
-            {/* <BottomNavigation0915 /> */}
         </>
     )
 }

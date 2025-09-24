@@ -3,8 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
-import Link from 'next/link'
-// import AppBarWithDrawer from '@/components/AppBarWithDrawer'
+
 
 export default function EditTitlePage() {
     const { id } = useParams()
@@ -133,11 +132,7 @@ export default function EditTitlePage() {
                         className="bg-red-600 text-white px-4 py-2 rounded">
                         削除する
                     </button>
-                    <Link
-                        href={`/titles/${id}`}
-                        className="text-blue-600 underline">
-                        詳細に戻る
-                    </Link>
+            
                 </div>
             </form>
         </main>
