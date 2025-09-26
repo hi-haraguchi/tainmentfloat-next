@@ -15,7 +15,7 @@ export const metadata = {
         title: 'エンタメフロート',
         description:
             'エンタメをほどよく楽しみ、社会とちょうどいい距離を保つ、エンタメ特化の記録共有アプリ',
-        images: ['/tf-rogo-p22.png'],
+        images: ['/ogp0926_06.png'],
     },
     icons: {
         icon: [
@@ -24,7 +24,7 @@ export const metadata = {
             { url: '/tf-favicon.png', type: 'image/png' },
         ],
         apple: {
-            url: '/tf-rogo180.png',
+            url: '/apple-touch-icon.png',
             sizes: '180x180',
         },
     },
