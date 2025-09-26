@@ -77,9 +77,15 @@ export default function HomeIntro() {
                 <br />
                 タグをつけることもできます。
             </p>
-            <div className="my-6 w-full h-48 bg-gray-200 flex items-center justify-center rounded">
-                <span className="text-gray-600">（実際の画面のスクショ）</span>
+
+            <div className="flex items-center justify-center gap-3 ml-6 mt-16 mb-16">
+                <img
+                    src="/images/lp/lpuse1.png"
+                    alt="使い方1"
+                    className="w-full max-w-md h-auto object-contain"
+                />
             </div>
+
             <p className="text-base mt-12 mb-16">
                 せわしない現代社会の中、
                 <br />
@@ -128,9 +134,15 @@ export default function HomeIntro() {
                 <br />
                 本当に好きなものを共有してください！
             </p>
-            <div className="my-6 w-full h-48 bg-gray-200 flex items-center justify-center rounded">
-                <span className="text-gray-600">（実際のスクショ）</span>
+
+            <div className="flex items-center justify-center gap-3 ml-6 mt-16 mb-16">
+                <img
+                    src="/images/lp/lpuse2.png"
+                    alt="使い方2"
+                    className="w-full max-w-md h-auto object-contain"
+                />
             </div>
+
             <p className="text-base mt-12 mb-8">
                 素敵なエンタメに出会ったラッキーは
                 <br />
