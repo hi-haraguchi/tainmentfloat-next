@@ -7,11 +7,204 @@ import axios from '@/lib/axios'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import StarIcon from '@mui/icons-material/Star'
 
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import TheatersIcon from '@mui/icons-material/Theaters'
+import MusicNoteIcon from '@mui/icons-material/MusicNote'
+import PodcastsIcon from '@mui/icons-material/Podcasts'
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
+import HideSourceIcon from '@mui/icons-material/HideSource'
+
+// ⭐ モーダルコンポーネント
+function ThoughtFormModal({ form, errors, handleChange, handleSubmit }) {
+    const [open, setOpen] = useState(false)
+
+    const currentYear = new Date().getFullYear()
+    // 100年前までの配列
+    const years = Array.from({ length: 101 }, (_, i) => currentYear - i)
+    const months = Array.from({ length: 12 }, (_, i) => i + 1)
+    const days = Array.from({ length: 31 }, (_, i) => i + 1)
+
+    const handleSave = async e => {
+        e.preventDefault()
+        try {
+            const result = await handleSubmit(e)
+            if (result !== false) {
+                setOpen(false) // 保存成功時に閉じる
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    return (
+        <div className="mb-6">
+            <button
+                onClick={() => setOpen(true)}
+                className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded hover:bg-gray-200">
+                感想追加はこちら
+            </button>
+
+            {open && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+                    onClick={() => setOpen(false)}>
+                    <div
+                        className="bg-white rounded-lg shadow-lg w-full max-w-md p-6"
+                        onClick={e => e.stopPropagation()}>
+                        <h2 className="text-lg font-medium text-gray-800 mb-4">
+                            感想を追加
+                        </h2>
+
+                        <form onSubmit={handleSave} className="space-y-4">
+                            {/* 年月日 */}
+                            <div className="flex gap-2">
+                                {/* 年 */}
+                                <div className="flex-1">
+                                    <label className="block text-xs text-gray-600 mb-1">
+                                        年 *
+                                    </label>
+                                    <select
+                                        name="year"
+                                        value={form.year}
+                                        onChange={handleChange}
+                                        required
+                                        className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-1 text-sm bg-transparent">
+                                        <option value="">-</option>
+                                        {years.map(y => (
+                                            <option key={y} value={y}>
+                                                {y}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.year && (
+                                        <p className="text-red-600 text-xs">
+                                            {errors.year}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {/* 月 */}
+                                <div className="flex-1">
+                                    <label className="block text-xs text-gray-600 mb-1">
+                                        月
+                                    </label>
+                                    <select
+                                        name="month"
+                                        value={form.month}
+                                        onChange={handleChange}
+                                        className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-1 text-sm bg-transparent">
+                                        <option value="">-</option>
+                                        {months.map(m => (
+                                            <option key={m} value={m}>
+                                                {m}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                {/* 日 */}
+                                <div className="flex-1">
+                                    <label className="block text-xs text-gray-600 mb-1">
+                                        日
+                                    </label>
+                                    <select
+                                        name="day"
+                                        value={form.day}
+                                        onChange={handleChange}
+                                        className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-1 text-sm bg-transparent">
+                                        <option value="">-</option>
+                                        {days.map(d => (
+                                            <option key={d} value={d}>
+                                                {d}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {/* 部分 */}
+                            <div>
+                                <label className="block text-xs text-gray-600 mb-1">
+                                    部分（巻・章など）
+                                </label>
+                                <input
+                                    type="text"
+                                    name="part"
+                                    value={form.part}
+                                    onChange={handleChange}
+                                    className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-1 text-sm"
+                                />
+                            </div>
+
+                            {/* 感想 */}
+                            <div>
+                                <label className="block text-xs text-gray-600 mb-1">
+                                    感想
+                                </label>
+                                <textarea
+                                    name="thought"
+                                    value={form.thought}
+                                    onChange={handleChange}
+                                    rows={3}
+                                    className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-1 text-sm"
+                                />
+                            </div>
+
+                            {/* タグ */}
+                            <div>
+                                <label className="block text-xs text-gray-600 mb-1">
+                                    タグ
+                                </label>
+                                <input
+                                    type="text"
+                                    name="tag"
+                                    value={form.tag}
+                                    onChange={handleChange}
+                                    className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-1 text-sm"
+                                />
+                            </div>
+
+                            {/* リンク */}
+                            <div>
+                                <label className="block text-xs text-gray-600 mb-1">
+                                    リンク
+                                </label>
+                                <input
+                                    type="url"
+                                    name="link"
+                                    value={form.link}
+                                    onChange={handleChange}
+                                    className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-1 text-sm"
+                                />
+                            </div>
+
+                            {/* ボタン */}
+                            <div className="flex justify-end gap-3 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setOpen(false)}
+                                    className="text-xs text-gray-500 hover:text-gray-700">
+                                    キャンセル
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-gray-700 text-white text-xs px-3 py-1 rounded hover:bg-gray-800">
+                                    保存
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+        </div>
+    )
+}
 
 export default function TitleDetailPage() {
     const { id } = useParams()
     const [title, setTitle] = useState(null)
-    const [thoughts, setThoughts] = useState([])
     const [form, setForm] = useState({
         year: '',
         month: '',
@@ -23,14 +216,21 @@ export default function TitleDetailPage() {
     })
     const [errors, setErrors] = useState({})
 
-    // Title + Thoughts 取得
+    const kindIconMap = {
+        0: MenuBookIcon,
+        1: DashboardIcon,
+        2: TheatersIcon,
+        3: MusicNoteIcon,
+        4: PodcastsIcon,
+        5: OndemandVideoIcon,
+        6: HideSourceIcon,
+    }
+
+    // データ取得
     useEffect(() => {
         axios
             .get(`/api/titles/${id}`)
-            .then(res => {
-                setTitle(res.data)
-                setThoughts(res.data.thoughts)
-            })
+            .then(res => setTitle(res.data))
             .catch(err => console.error(err))
     }, [id])
 
@@ -41,10 +241,12 @@ export default function TitleDetailPage() {
     const handleSubmit = async e => {
         e.preventDefault()
         setErrors({})
-
         try {
             const res = await axios.post(`/api/titles/${id}/thoughts`, form)
-            setThoughts([...thoughts, res.data.data])
+            setTitle({
+                ...title,
+                thoughts: [...title.thoughts, res.data.data],
+            })
             setForm({
                 year: '',
                 month: '',
@@ -54,191 +256,125 @@ export default function TitleDetailPage() {
                 tag: '',
                 link: '',
             })
+            return true // ✅ 成功を返す
         } catch (err) {
             if (err.response?.status === 422) {
                 setErrors(err.response.data.errors)
             } else {
                 alert('エラーが発生しました')
             }
+            return false
         }
     }
 
-    // ⭐ like のトグル
+    // like トグル
     const toggleLike = async () => {
         if (!title) return
         try {
             const res = await axios.put(`/api/titles/${id}`, {
                 ...title,
-                like: !title.like, // 反転させる
+                like: !title.like,
             })
-            setTitle(res.data.data)
+            setTitle({
+                ...res.data.data, // APIからの新しいtitle
+                thoughts: title.thoughts, // 今のstateのthoughtsを保持
+            })
         } catch (err) {
             console.error(err)
             alert('お気に入りの更新に失敗しました')
         }
     }
 
-    if (!title) {
-        return <p className="p-6">読み込み中...</p>
-    }
+    if (!title) return <p className="p-6">読み込み中...</p>
+
+    const KindIcon = kindIconMap[title.kind] || HideSourceIcon
 
     return (
-        <>
-        {/* <AppBarWithDrawer /> */}
         <main className="p-6 max-w-3xl mx-auto mt-16">
             {/* Title情報 */}
-            <div className="flex items-center gap-2 mb-2">
-                <h1 className="text-2xl font-bold">{title.title}</h1>
-                <button onClick={toggleLike}>
-                    {title.like ? (
-                        <StarIcon className="text-yellow-500" />
-                    ) : (
-                        <StarBorderIcon className="text-gray-400" />
-                    )}
-                </button>
+            <div className="mb-4">
+                <div className="flex items-center gap-2 mb-2">
+                    <KindIcon className="text-gray-500 w-5 h-5" />
+                    <h1 className="text-2xl font-bold text-gray-800">
+                        {title.title}
+                    </h1>
+                    <button onClick={toggleLike}>
+                        {title.like ? (
+                            <StarIcon className="text-yellow-500" />
+                        ) : (
+                            <StarBorderIcon className="text-gray-400" />
+                        )}
+                    </button>
+                </div>
+                <div className="flex items-center gap-1 text-gray-600">
+                    <SupervisorAccountIcon
+                        fontSize="small"
+                        className="text-gray-500"
+                    />
+                    <span className="text-sm">{title.author}</span>
+                </div>
             </div>
 
-            <p className="text-gray-600 mb-4">
-                作者: {title.author} / ジャンル: {title.genre}
-            </p>
             <Link
                 href={`/titles/${title.id}/edit`}
-                className="text-blue-600 underline text-sm">
-                タイトルを編集
+                className="text-xs text-gray-500 underline hover:text-gray-700 flex justify-end mb-6">
+                タイトル部分の編集
             </Link>
 
-            {/* Thought追加フォーム */}
-            <form
-                onSubmit={handleSubmit}
-                className="space-y-3 mb-6 border p-4 rounded">
-                <h2 className="text-xl font-semibold mb-2">感想を追加</h2>
-                <div>
-                    <label className="block mb-1">年 *</label>
-                    <input
-                        type="number"
-                        name="year"
-                        value={form.year}
-                        onChange={handleChange}
-                        required
-                        className="border p-2 w-full"
-                    />
-                    {errors.year && (
-                        <p className="text-red-600">{errors.year}</p>
-                    )}
-                </div>
-                <div className="flex gap-2">
-                    <div>
-                        <label className="block mb-1">月</label>
-                        <input
-                            type="number"
-                            name="month"
-                            value={form.month}
-                            onChange={handleChange}
-                            className="border p-2 w-full"
-                        />
-                    </div>
-                    <div>
-                        <label className="block mb-1">日</label>
-                        <input
-                            type="number"
-                            name="day"
-                            value={form.day}
-                            onChange={handleChange}
-                            className="border p-2 w-full"
-                        />
-                    </div>
-                </div>
-                <div>
-                    <label className="block mb-1">部分（巻・章など）</label>
-                    <input
-                        type="text"
-                        name="part"
-                        value={form.part}
-                        onChange={handleChange}
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1">感想</label>
-                    <textarea
-                        name="thought"
-                        value={form.thought}
-                        onChange={handleChange}
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1">タグ</label>
-                    <input
-                        type="text"
-                        name="tag"
-                        value={form.tag}
-                        onChange={handleChange}
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div>
-                    <label className="block mb-1">リンク</label>
-                    <input
-                        type="url"
-                        name="link"
-                        value={form.link}
-                        onChange={handleChange}
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded">
-                    感想を追加
-                </button>
-            </form>
+            {/* 感想追加（モーダル） */}
+            <ThoughtFormModal
+                form={form}
+                errors={errors}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+            />
 
-            {/* Thought一覧 */}
+            {/* 感想一覧 */}
             <section>
                 <h2 className="text-xl font-semibold mb-3">感想一覧</h2>
-                {thoughts.length > 0 ? (
-                    <ul className="space-y-2">
-                        {thoughts.map(t => (
-                            <li key={t.id} className="border p-3 rounded">
-                                <p>
+                {title.thoughts?.length > 0 ? (
+                    title.thoughts.map(t => (
+                        <div key={t.id} className="border-b pb-3">
+                            <div className="flex items-center gap-3 text-sm text-gray-600">
+                                <span>
                                     {t.year}
                                     {t.month && `/${t.month}`}
-                                    {t.day && `/${t.day}`} ：
-                                    {t.part && `[${t.part}] `}
-                                    {t.thought}
-                                </p>
-                                {t.tag && (
-                                    <p className="text-blue-600 text-sm">
-                                        #{t.tag.tag}
-                                    </p>
-                                )}
-                                {t.link && (
-                                    <a
-                                        href={t.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-blue-500 underline text-sm">
-                                        参考リンク
-                                    </a>
-                                )}
-
+                                    {t.day && `/${t.day}`}
+                                </span>
+                                {t.part && <span>{t.part}</span>}
                                 <Link
                                     href={`/thoughts/${t.id}/edit`}
-                                    className="text-blue-600 underline text-sm ml-2">
+                                    className="ml-auto text-xs text-gray-500 underline hover:text-gray-700">
                                     編集
                                 </Link>
-                            </li>
-                        ))}
-                    </ul>
+                            </div>
+                            {t.thought && (
+                                <p className="mt-2 text-sm text-gray-700 leading-relaxed">
+                                    {t.thought}
+                                </p>
+                            )}
+                            {t.tag && (
+                                <p className="mt-1 text-xs text-gray-500">
+                                    #{t.tag.tag}
+                                </p>
+                            )}
+                            {t.link && (
+                                <a
+                                    href={t.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="mt-1 text-xs text-gray-500 underline">
+                                    リンク
+                                </a>
+                            )}
+                        </div>
+                    ))
                 ) : (
-                    <p className="text-gray-500">まだ感想はありません</p>
+                    <p className="text-sm text-gray-500">
+                        感想はまだありません
+                    </p>
                 )}
             </section>
-
-            
         </main>
-
-        </>
     )
 }

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
 
-
 export default function EditTitlePage() {
     const { id } = useParams()
     const router = useRouter()
@@ -60,83 +59,83 @@ export default function EditTitlePage() {
     }
 
     return (
-
         <>
+            <main className="p-6 max-w-2xl mx-auto mt-16">
+                <h1 className="text-2xl font-bold mb-6">タイトル編集</h1>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* ジャンル */}
+                    <div>
+                        <label className="block text-xs text-gray-600 mb-1">
+                            ジャンル *
+                        </label>
+                        <select
+                            name="genre"
+                            value={form.genre}
+                            onChange={handleChange}
+                            required
+                            className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm bg-transparent">
+                            <option value="本">本</option>
+                            <option value="マンガ">マンガ</option>
+                            <option value="映画">映画</option>
+                            <option value="音楽">音楽</option>
+                            <option value="ポッドキャスト">
+                                ポッドキャスト
+                            </option>
+                            <option value="TV・動画配信サービス">
+                                TV・動画配信サービス
+                            </option>
+                            <option value="その他">その他</option>
+                        </select>
+                    </div>
 
-        {/* <AppBarWithDrawer /> */}
+                    {/* タイトル */}
+                    <div>
+                        <label className="block text-xs text-gray-600 mb-1">
+                            タイトル *
+                        </label>
+                        <input
+                            type="text"
+                            name="title"
+                            value={form.title}
+                            onChange={handleChange}
+                            required
+                            className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
+                        />
+                    </div>
 
-        <main className="p-6 max-w-2xl mx-auto mt-16">
-            <h1 className="text-2xl font-bold mb-6">タイトル編集</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label>ジャンル *</label>
-                    <select
-                        name="genre"
-                        value={form.genre}
-                        onChange={handleChange}
-                        required
-                        className="border p-2 w-full">
-                        <option value="本">本</option>
-                        <option value="マンガ">マンガ</option>
-                        <option value="映画">映画</option>
-                        <option value="音楽">音楽</option>
-                        <option value="ポッドキャスト">ポッドキャスト</option>
-                        <option value="TV・動画配信サービス">
-                            TV・動画配信サービス
-                        </option>
-                        <option value="その他">その他</option>
-                    </select>
-                </div>
-                <div>
-                    <label>タイトル *</label>
-                    <input
-                        type="text"
-                        name="title"
-                        value={form.title}
-                        onChange={handleChange}
-                        required
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div>
-                    <label>作者 *</label>
-                    <input
-                        type="text"
-                        name="author"
-                        value={form.author}
-                        onChange={handleChange}
-                        required
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        name="like"
-                        checked={form.like}
-                        onChange={handleChange}
-                        className="mr-2"
-                    />
-                    <label>お気に入り</label>
-                </div>
+                    {/* 作者 */}
+                    <div>
+                        <label className="block text-xs text-gray-600 mb-1">
+                            作者 *
+                        </label>
+                        <input
+                            type="text"
+                            name="author"
+                            value={form.author}
+                            onChange={handleChange}
+                            required
+                            className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
+                        />
+                    </div>
 
-                <div className="flex gap-4">
-                    <button
-                        type="submit"
-                        className="bg-blue-600 text-white px-4 py-2 rounded">
-                        更新する
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleDelete}
-                        className="bg-red-600 text-white px-4 py-2 rounded">
-                        削除する
-                    </button>
-            
-                </div>
-            </form>
-        </main>
+                    
 
+                    {/* ボタン */}
+                    <div className="flex gap-4">
+                        <button
+                            type="submit"
+                            className="bg-gray-700 text-white px-4 py-2 rounded text-sm hover:bg-gray-800">
+                            更新する
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleDelete}
+                            className="bg-rose-500 text-white px-4 py-2 rounded text-sm hover:bg-rose-600">
+                            削除する
+                        </button>
+                    </div>
+                </form>
+            </main>
         </>
     )
 }

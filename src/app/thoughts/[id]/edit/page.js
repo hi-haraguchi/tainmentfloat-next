@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import axios from '@/lib/axios'
 
-
 export default function EditThoughtPage() {
     const { id } = useParams()
     const router = useRouter()
@@ -62,102 +61,125 @@ export default function EditThoughtPage() {
     }
 
     return (
-
         <>
-        {/* <AppBarWithDrawer /> */}
-        <main className="p-6 max-w-2xl mx-auto mt-16">
-            <h1 className="text-2xl font-bold mb-6">感想の編集</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label>年 *</label>
-                    <input
-                        type="number"
-                        name="year"
-                        value={form.year}
-                        onChange={handleChange}
-                        required
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div className="flex gap-2">
+            <main className="p-6 max-w-2xl mx-auto mt-16">
+                <h1 className="text-2xl font-bold mb-6">感想の編集</h1>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* 年 */}
                     <div>
-                        <label>月</label>
+                        <label className="block text-xs text-gray-600 mb-1">
+                            年 *
+                        </label>
                         <input
                             type="number"
-                            name="month"
-                            value={form.month}
+                            name="year"
+                            value={form.year}
                             onChange={handleChange}
-                            className="border p-2 w-full"
+                            required
+                            className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
                         />
                     </div>
+
+                    {/* 月・日 */}
+                    <div className="flex gap-3">
+                        <div className="flex-1">
+                            <label className="block text-xs text-gray-600 mb-1">
+                                月
+                            </label>
+                            <input
+                                type="number"
+                                name="month"
+                                value={form.month}
+                                onChange={handleChange}
+                                className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label className="block text-xs text-gray-600 mb-1">
+                                日
+                            </label>
+                            <input
+                                type="number"
+                                name="day"
+                                value={form.day}
+                                onChange={handleChange}
+                                className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
+                            />
+                        </div>
+                    </div>
+
+                    {/* 部分 */}
                     <div>
-                        <label>日</label>
+                        <label className="block text-xs text-gray-600 mb-1">
+                            部分（巻・章など）
+                        </label>
                         <input
-                            type="number"
-                            name="day"
-                            value={form.day}
+                            type="text"
+                            name="part"
+                            value={form.part}
                             onChange={handleChange}
-                            className="border p-2 w-full"
+                            className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
                         />
                     </div>
-                </div>
-                <div>
-                    <label>部分</label>
-                    <input
-                        type="text"
-                        name="part"
-                        value={form.part}
-                        onChange={handleChange}
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div>
-                    <label>感想</label>
-                    <textarea
-                        name="thought"
-                        value={form.thought}
-                        onChange={handleChange}
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div>
-                    <label>タグ</label>
-                    <input
-                        type="text"
-                        name="tag"
-                        value={form.tag}
-                        onChange={handleChange}
-                        className="border p-2 w-full"
-                    />
-                </div>
-                <div>
-                    <label>リンク</label>
-                    <input
-                        type="url"
-                        name="link"
-                        value={form.link}
-                        onChange={handleChange}
-                        className="border p-2 w-full"
-                    />
-                </div>
 
-                <div className="flex gap-4">
-                    <button
-                        type="submit"
-                        className="bg-blue-600 text-white px-4 py-2 rounded">
-                        更新する
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleDelete}
-                        className="bg-red-600 text-white px-4 py-2 rounded">
-                        削除する
-                    </button>
-                   
-                </div>
-            </form>
-        </main>
+                    {/* 感想 */}
+                    <div>
+                        <label className="block text-xs text-gray-600 mb-1">
+                            感想
+                        </label>
+                        <textarea
+                            name="thought"
+                            value={form.thought}
+                            onChange={handleChange}
+                            rows={3}
+                            className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
+                        />
+                    </div>
 
+                    {/* タグ */}
+                    <div>
+                        <label className="block text-xs text-gray-600 mb-1">
+                            タグ
+                        </label>
+                        <input
+                            type="text"
+                            name="tag"
+                            value={form.tag}
+                            onChange={handleChange}
+                            className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
+                        />
+                    </div>
+
+                    {/* リンク */}
+                    <div>
+                        <label className="block text-xs text-gray-600 mb-1">
+                            リンク
+                        </label>
+                        <input
+                            type="url"
+                            name="link"
+                            value={form.link}
+                            onChange={handleChange}
+                            className="w-full border-b border-gray-300 focus:outline-none focus:border-gray-500 px-1 py-2 text-sm"
+                        />
+                    </div>
+
+                    {/* ボタン */}
+                    <div className="flex gap-4">
+                        <button
+                            type="submit"
+                            className="bg-gray-700 text-white px-4 py-2 rounded text-sm hover:bg-gray-800">
+                            更新する
+                        </button>
+                        <button
+                            type="button"
+                            onClick={handleDelete}
+                            className="bg-rose-500 text-white px-4 py-2 rounded text-sm hover:bg-rose-600">
+                            削除する
+                        </button>
+                    </div>
+                </form>
+            </main>
         </>
     )
 }

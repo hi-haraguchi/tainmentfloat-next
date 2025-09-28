@@ -2,14 +2,33 @@
 
 import { useEffect, useState } from 'react'
 import axios from '@/lib/axios'
-import Link from 'next/link'
+
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import TheatersIcon from '@mui/icons-material/Theaters'
+import MusicNoteIcon from '@mui/icons-material/MusicNote'
+import PodcastsIcon from '@mui/icons-material/Podcasts'
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
+import HideSourceIcon from '@mui/icons-material/HideSource'
+import LoadingWater from '@/components/LoadingWater'
 
 export default function BookmarkPage() {
     const [bookmarks, setBookmarks] = useState([])
     const [loading, setLoading] = useState(true)
 
+    const kindIconMap = {
+        0: MenuBookIcon,
+        1: DashboardIcon,
+        2: TheatersIcon,
+        3: MusicNoteIcon,
+        4: PodcastsIcon,
+        5: OndemandVideoIcon,
+        6: HideSourceIcon,
+    }
+
     useEffect(() => {
-        axios.get('/api/bookmarks/mine')
+        axios
+            .get('/api/bookmarks/mine')
             .then(res => {
                 setBookmarks(res.data)
                 setLoading(false)
@@ -20,40 +39,51 @@ export default function BookmarkPage() {
             })
     }, [])
 
-    if (loading) return <p className="p-6">読み込み中...</p>
+    if (loading) return <LoadingWater />
 
     return (
-        <>
         <main className="p-6 max-w-4xl mx-auto mt-16">
-            <h1 className="text-2xl font-bold mb-6">あとで見る（タグページでブックマークしたリスト）</h1>
+            <h1 className="text-xl font-medium text-gray-800 mb-6">
+                あとで見るリスト
+            </h1>
 
             {bookmarks.length > 0 ? (
-                <ul className="space-y-4">
-                    {bookmarks.map((b, idx) => (
-                        <li key={idx} className="border p-4 rounded bg-white">
-                            <p>
-                                <span className="font-semibold">{b.genre}</span> -{' '}
-                                <Link
-                                    href={`/titles/${b.thought_id}`}
-                                    className="text-blue-600 hover:underline"
-                                >
-                                    {b.title}
-                                </Link>{' '}
-                                / {b.author}
-                            </p>
-                            {b.part && <p>部分: {b.part}</p>}
-                            <p>{b.thought}</p>
-                            {b.tag && <p className="text-blue-600">#{b.tag}</p>}
-                        </li>
-                    ))}
+                <ul className="space-y-6">
+                    {bookmarks.map((b, idx) => {
+                        const KindIcon = kindIconMap[b.kind] || HideSourceIcon
+                        return (
+                            <li key={idx} className="border-b pb-4">
+                                {/* タグ（上部に表示） */}
+                                {b.tag && (
+                                    <p className="text-sm text-gray-600 mb-1">
+                                        #{b.tag}
+                                    </p>
+                                )}
+
+                                {/* 1行目：ジャンルアイコン + タイトル/作者 */}
+                                <div className="flex items-center gap-2 text-sm">
+                                    <KindIcon className="text-gray-500 w-4 h-4" />
+                                    <span className="text-base text-gray-800">
+                                        {b.title}
+                                    </span>
+                                    <span className="text-sm text-gray-600">
+                                        / {b.author}
+                                    </span>
+                                </div>
+
+                                {/* 2行目：part（小さめ、少しマージン） */}
+                                {b.part && (
+                                    <p className="ml-6 mt-2 text-xs text-gray-500">
+                                        ({b.part})
+                                    </p>
+                                )}
+                            </li>
+                        )
+                    })}
                 </ul>
             ) : (
                 <p className="text-gray-500">まだブックマークがありません</p>
             )}
-
-            
         </main>
-
-        </>
     )
 }
