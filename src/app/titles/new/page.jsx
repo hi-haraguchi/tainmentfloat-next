@@ -162,7 +162,9 @@ export default function NewTitlePage() {
                     {/* 年・月・日 横並び */}
                     <Box sx={{ display: 'flex', gap: 2 }}>
                         {/* 年 */}
-                        <FormControl variant="standard" sx={{ flex: 1, minWidth: 0 }}>
+                        <FormControl
+                            variant="standard"
+                            sx={{ flex: 1, minWidth: 0 }}>
                             <InputLabel id="year-label">年 *</InputLabel>
                             <Select
                                 labelId="year-label"
@@ -183,7 +185,9 @@ export default function NewTitlePage() {
                         </FormControl>
 
                         {/* 月 */}
-                        <FormControl variant="standard" sx={{ flex: 1, minWidth: 0 }}>
+                        <FormControl
+                            variant="standard"
+                            sx={{ flex: 1, minWidth: 0 }}>
                             <InputLabel id="month-label">月</InputLabel>
                             <Select
                                 labelId="month-label"
@@ -203,7 +207,9 @@ export default function NewTitlePage() {
                         </FormControl>
 
                         {/* 日 */}
-                        <FormControl variant="standard" sx={{ flex: 1, minWidth: 0 }}>
+                        <FormControl
+                            variant="standard"
+                            sx={{ flex: 1, minWidth: 0 }}>
                             <InputLabel id="day-label">日</InputLabel>
                             <Select
                                 labelId="day-label"
@@ -360,9 +366,15 @@ export default function NewTitlePage() {
                     <Button
                         type="submit"
                         variant="contained"
-                        color="primary"
-                        sx={{ mt: 3 }}
-                        disabled={loading}>
+                        disabled={loading}
+                        sx={{
+                            mt: 3,
+                            backgroundColor: '#64748b', // slate-500（グレーに青み）
+                            '&:hover': {
+                                backgroundColor: '#475569', // slate-600
+                            },
+                            color: '#fff',
+                        }}>
                         {loading ? (
                             <CircularProgress size={24} color="inherit" />
                         ) : (
