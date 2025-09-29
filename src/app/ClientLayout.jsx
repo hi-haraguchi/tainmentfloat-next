@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname, useRouter, useParams } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
     AppBar,
     Toolbar,
@@ -30,7 +30,6 @@ export default function ClientLayout({ children }) {
     const isMobile = useMediaQuery('(max-width:980px)')
     const [drawerOpen, setDrawerOpen] = useState(false)
     const router = useRouter()
-    const params = useParams() // ← /titles/[id]/edit の [id] が取れる
 
     const getValueFromPath = path => {
         if (path.startsWith('/titles/new')) return 0
