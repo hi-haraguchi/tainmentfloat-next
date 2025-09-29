@@ -157,8 +157,9 @@ export default function TagsPage() {
                                         {/* 👈 インデント追加 */}
                                         {tag.records.map((r, idx) => {
                                             const KindIcon =
-                                                kindIconMap[r.kind] ||
+                                                kindIconMap[Number(r.kind)] ||
                                                 HideSourceIcon
+
                                             return (
                                                 <li
                                                     key={idx}

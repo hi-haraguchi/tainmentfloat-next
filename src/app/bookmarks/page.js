@@ -50,7 +50,7 @@ export default function BookmarkPage() {
             {bookmarks.length > 0 ? (
                 <ul className="space-y-6">
                     {bookmarks.map((b, idx) => {
-                        const KindIcon = kindIconMap[b.kind] || HideSourceIcon
+                        const KindIcon = kindIconMap[Number(b.kind)] || HideSourceIcon
                         return (
                             <li key={idx} className="border-b pb-4">
                                 {/* タグ（上部に表示） */}

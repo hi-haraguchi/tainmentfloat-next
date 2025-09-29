@@ -110,7 +110,7 @@ export default function HomeClient() {
                                 ))}
 
                                 <p className="text-xs text-gray-500 mb-8 text-right">
-                                    ↑ 各詳細画面で☆つけたものを表示
+                                    ↑ 各詳細画面で☆つけたものを表示します
                                 </p>
                                 
                             </>
