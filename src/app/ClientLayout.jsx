@@ -31,7 +31,6 @@ export default function ClientLayout({ children }) {
     const [drawerOpen, setDrawerOpen] = useState(false)
     const router = useRouter()
     const params = useParams() // ← /titles/[id]/edit の [id] が取れる
-    const { id } = params
 
     const getValueFromPath = path => {
         if (path.startsWith('/titles/new')) return 0
