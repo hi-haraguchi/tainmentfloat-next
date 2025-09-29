@@ -1,6 +1,6 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import {
     AppBar,
     Toolbar,
@@ -13,6 +13,7 @@ import {
     BottomNavigation,
     BottomNavigationAction,
     useMediaQuery,
+    Divider,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -28,6 +29,8 @@ export default function ClientLayout({ children }) {
     const pathname = usePathname()
     const isMobile = useMediaQuery('(max-width:980px)')
     const [drawerOpen, setDrawerOpen] = useState(false)
+    const router = useRouter()
+
     const getValueFromPath = path => {
         if (path.startsWith('/titles/new')) return 0
         if (path.startsWith('/titles/index')) return 1
@@ -63,7 +66,7 @@ export default function ClientLayout({ children }) {
 
     // ページ名マップ（スマホ用ヘッダー）
     const pageTitles = {
-        '/titles/new':'新しいエンタメの記録',
+        '/titles/new': '新しいエンタメの記録',
         '/bookmarks': 'あとで見るリスト',
         '/reminder': 'リマインドの設定',
     }
@@ -75,6 +78,34 @@ export default function ClientLayout({ children }) {
         pageTitles[pathname] = 'エンタメの編集'
     if (/^\/thoughts\/\d+\/edit$/.test(pathname))
         pageTitles[pathname] = '感想の編集'
+
+    // 戻るボタンの挙動を分岐
+    const handleBack = () => {
+        // 編集ページなら → 履歴で戻る（詳細に戻す想定）
+        if (
+            /^\/titles\/\d+\/edit$/.test(pathname) ||
+            /^\/thoughts\/\d+\/edit$/.test(pathname)
+        ) {
+            history.back()
+            return
+        }
+
+        // 詳細ページなら → 一覧に戻る（sessionStorage 参照）
+        if (/^\/titles\/\d+$/.test(pathname)) {
+            const returnTo = sessionStorage.getItem('returnTo')
+
+            if (returnTo === '/' || returnTo === '/titles/index') {
+                router.push(returnTo)
+                sessionStorage.removeItem('returnTo') // 1回使ったら消す
+            } else {
+                router.push('/') // fallback（安全策）
+            }
+            return
+        }
+
+        // それ以外のページは通常の戻る
+        history.back()
+    }
 
     return (
         <>
@@ -187,7 +218,35 @@ export default function ClientLayout({ children }) {
                             <Drawer
                                 anchor="right"
                                 open={drawerOpen}
-                                onClose={toggleDrawer(false)}>
+                                onClose={toggleDrawer(false)}
+                                ModalProps={{ keepMounted: true }} // 体感速度UP
+                                slotProps={{
+                                    // 背景（Backdrop）を白ぼかしに
+                                    backdrop: {
+                                        sx: {
+                                            backgroundColor:
+                                                'rgba(255,255,255,0.6)',
+                                            backdropFilter: 'blur(6px)',
+                                            WebkitBackdropFilter: 'blur(6px)',
+                                        },
+                                    },
+                                    // ← これが PaperProps の後継
+                                    paper: {
+                                        sx: {
+                                            width: {
+                                                xs: 300,
+                                                sm: 360,
+                                                md: 400,
+                                            },
+                                            borderTopLeftRadius: 16,
+                                            borderBottomLeftRadius: 16,
+                                            background:
+                                                'linear-gradient(to bottom, #fff, #f9f9f9)',
+                                            boxShadow:
+                                                '0 10px 30px rgba(0,0,0,0.12)',
+                                        },
+                                    },
+                                }}>
                                 <List sx={{ width: 400 }}>
                                     {/* ログインユーザーのメールアドレス */}
                                     <ListItem>
@@ -232,7 +291,7 @@ export default function ClientLayout({ children }) {
                                         <ListItemText primary="ログアウト" />
                                     </ListItem>
 
-                                    <hr style={{ margin: '12px 0' }} />
+                                    <Divider sx={{ my: 2 }} />
 
                                     {/* 後日作成ページ */}
                                     <ListItem>
@@ -348,7 +407,7 @@ export default function ClientLayout({ children }) {
                                 <IconButton
                                     edge="start"
                                     color="inherit"
-                                    onClick={() => history.back()}
+                                    onClick={handleBack}
                                     sx={{
                                         display: 'flex',
                                         flexDirection: 'column',
@@ -401,8 +460,8 @@ export default function ClientLayout({ children }) {
                                     '& .MuiBottomNavigationAction-root.Mui-selected':
                                         {
                                             color: '#006400',
-                                            // color: '#013220', 
-                                            // color: '#004d40',  
+                                            // color: '#013220',
+                                            // color: '#004d40',
                                             backgroundColor: '#eaf6ea',
                                             borderRadius: '6px',
                                         },
@@ -511,7 +570,28 @@ export default function ClientLayout({ children }) {
                     <Drawer
                         anchor="right"
                         open={drawerOpen}
-                        onClose={toggleDrawer(false)}>
+                        onClose={toggleDrawer(false)}
+                        slotProps={{
+                            // 背景の白ぼかし
+                            backdrop: {
+                                sx: {
+                                    backgroundColor: 'rgba(255,255,255,0.6)',
+                                    backdropFilter: 'blur(6px)',
+                                    WebkitBackdropFilter: 'blur(6px)', // Safari対応
+                                },
+                            },
+                            // ドロワー本体
+                            paper: {
+                                sx: {
+                                    width: 280, // ← スマホ用に調整
+                                    borderTopLeftRadius: 16,
+                                    borderBottomLeftRadius: 16,
+                                    background:
+                                        'linear-gradient(to bottom, #ffffff, #f9f9f9)',
+                                    boxShadow: '0px 0px 20px rgba(0,0,0,0.1)',
+                                },
+                            },
+                        }}>
                         <List sx={{ width: 280 }}>
                             {/* ログインユーザーのメールアドレス */}
                             <ListItem>

@@ -52,7 +52,7 @@ export default function TitleItem({
     }, [defaultOpen])
 
     // kind に基づいてアイコン選択
-    const KindIcon = kindIconMap[title.kind] || HideSourceIcon
+    const KindIcon = kindIconMap[Number(title.kind)] || HideSourceIcon
 
     return (
         <div className="border-b pb-4 mb-4">
@@ -66,6 +66,7 @@ export default function TitleItem({
                         {/* タイトルリンク */}
                         <Link
                             href={`/titles/${title.id}`}
+                            onClick={() => sessionStorage.setItem('returnTo', location.pathname)}
                             className="text-gray-700 underline hover:text-gray-900">
                             {highlight(title.title, searchTerm)}
                         </Link>

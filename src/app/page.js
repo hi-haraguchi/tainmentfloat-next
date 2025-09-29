@@ -16,10 +16,13 @@ import PodcastsIcon from '@mui/icons-material/Podcasts'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
 import HideSourceIcon from '@mui/icons-material/HideSource'
 
+import { useMediaQuery } from '@mui/material'
+
 export default function TimelinePage() {
     const [timeline, setTimeline] = useState({})
     const [loading, setLoading] = useState(true)
     const { user } = useAuth({ middleware: 'guest' })
+    const isMobile = useMediaQuery('(max-width:980px)')
 
     const kindIconMap = {
         0: MenuBookIcon,
@@ -68,7 +71,8 @@ export default function TimelinePage() {
 
     return (
         <>
-            <main className="p-6 max-w-4xl mx-auto mt-16">
+            <main
+                className={`p-6 max-w-4xl mx-auto ${isMobile ? '' : 'mt-16'}`}>
                 {Object.keys(timeline)
                     .sort((a, b) => Number(b) - Number(a))
                     .map(year => (
@@ -110,8 +114,9 @@ export default function TimelinePage() {
                                                 .map((item, idx) => {
                                                     const KindIcon =
                                                         kindIconMap[
-                                                            item.kind
+                                                            Number(item.kind)
                                                         ] || HideSourceIcon
+
                                                     return (
                                                         <li
                                                             key={idx}
@@ -121,6 +126,7 @@ export default function TimelinePage() {
                                                                 <KindIcon className="text-gray-500 w-4 h-4" />
                                                                 <Link
                                                                     href={`/titles/${item.id}`}
+                                                                    onClick={() => sessionStorage.setItem('returnTo', location.pathname)}
                                                                     className="text-base text-gray-700 underline hover:text-gray-900">
                                                                     {item.title}
                                                                 </Link>
@@ -159,7 +165,6 @@ export default function TimelinePage() {
                                                                     #{item.tag}
                                                                 </p>
                                                             )}
-
                                                         </li>
                                                     )
                                                 })}

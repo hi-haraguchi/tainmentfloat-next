@@ -6,6 +6,7 @@ import Link from 'next/link'
 import axios from '@/lib/axios'
 import StarBorderIcon from '@mui/icons-material/StarBorder'
 import StarIcon from '@mui/icons-material/Star'
+import AddIcon from '@mui/icons-material/Add'
 
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
@@ -15,6 +16,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote'
 import PodcastsIcon from '@mui/icons-material/Podcasts'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
 import HideSourceIcon from '@mui/icons-material/HideSource'
+import { Button } from '@mui/material'
 
 // ⭐ モーダルコンポーネント
 function ThoughtFormModal({ form, errors, handleChange, handleSubmit }) {
@@ -39,12 +41,28 @@ function ThoughtFormModal({ form, errors, handleChange, handleSubmit }) {
     }
 
     return (
-        <div className="mb-6">
-            <button
+        <div className="mb-10">
+            <Button
                 onClick={() => setOpen(true)}
-                className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded hover:bg-gray-200">
+                variant="contained"
+                startIcon={<AddIcon />}
+                sx={{
+                    mt: 2,
+                    backgroundColor: '#94a3b8', // slate-400
+                    '&:hover': {
+                        backgroundColor: '#64748b', // slate-500 に濃くなる
+                    },
+                    color: '#fff',
+                    borderRadius: 2,
+                    px: 2, // 横幅を抑える
+                    py: 0.6, // 高さも少し控えめ
+                    fontSize: '0.85rem',
+                    textTransform: 'none',
+                    minWidth: 'auto', // 内容に合わせて幅が決まる
+                    boxShadow: 1, // 影も軽めに
+                }}>
                 感想追加はこちら
-            </button>
+            </Button>
 
             {open && (
                 <div
@@ -292,7 +310,7 @@ export default function TitleDetailPage() {
     return (
         <main className="p-6 max-w-3xl mx-auto mt-16">
             {/* Title情報 */}
-            <div className="mb-4">
+            <div className="mb-1">
                 <div className="flex items-center gap-2 mb-2">
                     <KindIcon className="text-gray-500 w-5 h-5" />
                     <h1 className="text-2xl font-bold text-gray-800">
