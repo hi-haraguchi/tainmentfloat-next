@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import { useRouter } from 'next/navigation'
@@ -8,6 +8,7 @@ import { useMediaQuery } from '@mui/material'
 
 import {
     Box,
+    Modal,
     TextField,
     Button,
     MenuItem,
@@ -15,19 +16,28 @@ import {
     FormControl,
     Select,
     Fade,
+    Typography,
     IconButton,
 } from '@mui/material'
+
+import CloseIcon from '@mui/icons-material/Close'
 
 import LocationPinIcon from '@mui/icons-material/LocationPin'
 import ChatIcon from '@mui/icons-material/Chat'
 import LocalOfferIcon from '@mui/icons-material/LocalOffer'
 import LinkIcon from '@mui/icons-material/Link'
 
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+
 import CircularProgress from '@mui/material/CircularProgress'
+import LoadingWater from '@/components/LoadingWater'
 
 export default function NewTitlePage() {
     const { user } = useAuth({ middleware: 'auth' })
     const router = useRouter()
+
+    const [initialLoading, setInitialLoading] = useState(true)
 
     const [form, setForm] = useState({
         genre: '',
@@ -45,6 +55,12 @@ export default function NewTitlePage() {
     const [errors, setErrors] = useState({})
     const [, setStatus] = useState(null)
     const isMobile = useMediaQuery('(max-width:980px)')
+
+    const [open, setOpen] = useState(false)
+    const handleOpen = () => setOpen(true)
+    const handleClose = () => setOpen(false)
+
+    const [showNotice, setShowNotice] = useState(false)
 
     // それぞれのフォーム表示状態
     const [showPart, setShowPart] = useState(false)
@@ -81,6 +97,17 @@ export default function NewTitlePage() {
         }
     }
 
+    useEffect(() => {
+        if (user !== undefined) {
+            const timer = setTimeout(() => {
+                setInitialLoading(false)
+            }, 600)
+            return () => clearTimeout(timer)
+        }
+    }, [user])
+
+    if (initialLoading) return <LoadingWater />
+
     if (!user) return null
 
     const currentYear = new Date().getFullYear()
@@ -89,7 +116,7 @@ export default function NewTitlePage() {
         <>
             <main className="px-4 w-full max-w-screen-sm mx-auto mt-16 overflow-x-hidden">
                 {!isMobile && (
-                    <h1 className="text-2xl font-bold mb-6">
+                    <h1 className="text-2xl font-bold mt-3 mb-6">
                         新しく触れたエンタメの記録
                     </h1>
                 )}
@@ -98,8 +125,17 @@ export default function NewTitlePage() {
                     component="form"
                     onSubmit={handleSubmit}
                     sx={{ '& > :not(style)': { my: 1, width: '100%' } }}
-                    noValidate
+                    // noValidate
                     autoComplete="off">
+                    <div className="flex justify-end">
+                        <button
+                            type="button"
+                            onClick={handleOpen}
+                            className="text-sm text-gray-600 underline hover:text-gray-900">
+                            ? 記入例など
+                        </button>
+                    </div>
+
                     {/* ジャンル */}
                     <FormControl
                         variant="standard"
@@ -126,7 +162,9 @@ export default function NewTitlePage() {
                             <MenuItem value="TV・動画配信サービス">
                                 TV・動画配信サービス
                             </MenuItem>
-                            <MenuItem value="その他">その他</MenuItem>
+                            <MenuItem value="その他">
+                                その他（共有しない場合はこれを選択）
+                            </MenuItem>
                         </Select>
                     </FormControl>
                     {errors.genre && (
@@ -136,7 +174,7 @@ export default function NewTitlePage() {
                     {/* タイトル */}
                     <TextField
                         id="standard-basic"
-                        label="タイトル *"
+                        label="タイトル"
                         variant="standard"
                         name="title"
                         value={form.title}
@@ -149,7 +187,7 @@ export default function NewTitlePage() {
                     {/* 作者 */}
                     <TextField
                         id="standard-basic"
-                        label="作者 *"
+                        label="作者、アーティスト、出演者など"
                         variant="standard"
                         name="author"
                         value={form.author}
@@ -158,6 +196,40 @@ export default function NewTitlePage() {
                         error={Boolean(errors.author)}
                         helperText={errors.author}
                     />
+
+                    <div className="pt-8 pb-2">
+                        {/* 1行目 + トグルボタンを横並び */}
+                        <div className="flex items-center">
+                            <p className="text-xs text-gray-500 leading-tight">
+                                ここからは、エンタメに触れた１回目の記録です。
+                            </p>
+                            <button
+                                type="button"
+                                onClick={() => setShowNotice(!showNotice)}
+                                className="text-gray-500 hover:text-gray-700">
+                                {showNotice ? (
+                                    <ExpandLessIcon fontSize="small" />
+                                ) : (
+                                    <ExpandMoreIcon fontSize="small" />
+                                )}
+                            </button>
+                        </div>
+
+                        {/* トグルで表示する部分 */}
+                        {showNotice && (
+                            <>
+                                <p className="text-xs text-gray-500 leading-tight">
+                                    まず、いつごろに触れたか入力してください。
+                                </p>
+                                <p className="text-xs text-gray-500 leading-tight">
+                                    （昔に触れたものは年だけや、年と月だけでＯＫ）
+                                </p>
+                                <p className="text-xs text-gray-500 leading-tight">
+                                    その他は、アイコンをタップして自由に入力してください。
+                                </p>
+                            </>
+                        )}
+                    </div>
 
                     {/* 年・月・日 横並び */}
                     <Box sx={{ display: 'flex', gap: 2 }}>
@@ -230,7 +302,7 @@ export default function NewTitlePage() {
                     </Box>
 
                     {/* アイコンでフォーム切り替え */}
-                    <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
+                    <Box sx={{ display: 'flex', gap: 4, pt: 2 }}>
                         <IconButton onClick={() => setShowPart(!showPart)}>
                             <LocationPinIcon />
                         </IconButton>
@@ -254,10 +326,10 @@ export default function NewTitlePage() {
                             gap: 1,
                             mt: 2,
                         }}>
-                        <Fade in={showPart}>
+                        <Fade in={showPart} mountOnEnter unmountOnExit>
                             <TextField
                                 id="standard-basic"
-                                label="どの部分"
+                                label="どの部分？（ページ数や巻数など）"
                                 variant="standard"
                                 name="part"
                                 value={form.part}
@@ -283,63 +355,78 @@ export default function NewTitlePage() {
                             />
                         </Fade>
 
-                        <Fade in={showThought}>
-                            <TextField
-                                id="standard-basic"
-                                label="感想"
-                                variant="standard"
-                                name="thought"
-                                value={form.thought}
-                                onChange={handleChange}
-                                multiline
-                                sx={{
-                                    mt: 1,
-                                    '& .MuiInputBase-input': {
-                                        outline: 'none', // ← デフォルトの青枠を削除
-                                    },
-                                    '& .MuiInput-underline:before': {
-                                        borderBottom: '1px solid #ccc',
-                                    },
-                                    '& .MuiInput-underline:hover:before': {
-                                        borderBottom: '1px solid #888',
-                                    },
-                                    '& .MuiInput-underline:after': {
-                                        borderBottom: 'none',
-                                    },
-                                }}
-                            />
+                        <Fade in={showThought} mountOnEnter unmountOnExit>
+                            <Box sx={{ width: '100%' }}>
+                                <TextField
+                                    id="standard-basic"
+                                    label="感想"
+                                    variant="standard"
+                                    name="thought"
+                                    value={form.thought}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    multiline
+                                    sx={{
+                                        mt: 1,
+                                        '& .MuiInputBase-input': {
+                                            outline: 'none', // ← デフォルトの青枠を削除
+                                        },
+                                        '& .MuiInput-underline:before': {
+                                            borderBottom: '1px solid #ccc',
+                                        },
+                                        '& .MuiInput-underline:hover:before': {
+                                            borderBottom: '1px solid #888',
+                                        },
+                                        '& .MuiInput-underline:after': {
+                                            borderBottom: 'none',
+                                        },
+                                    }}
+                                />
+                                <p className="pt-2 text-xs text-gray-500 leading-tight">
+                                    ※感想はタグをつけても公開されません。
+                                </p>
+                            </Box>
                         </Fade>
 
-                        <Fade in={showTag}>
-                            <TextField
-                                id="standard-basic"
-                                label="タグ"
-                                variant="standard"
-                                name="tag"
-                                value={form.tag}
-                                onChange={handleChange}
-                                sx={{
-                                    mt: 1,
-                                    '& .MuiInputBase-input': {
-                                        outline: 'none', // ← デフォルトの青枠を削除
-                                    },
-                                    '& .MuiInput-underline:before': {
-                                        borderBottom: '1px solid #ccc',
-                                    },
-                                    '& .MuiInput-underline:hover:before': {
-                                        borderBottom: '1px solid #888',
-                                    },
-                                    '& .MuiInput-underline:after': {
-                                        borderBottom: 'none',
-                                    },
-                                }}
-                            />
+                        <Fade in={showTag} mountOnEnter unmountOnExit>
+                            <Box sx={{ width: '100%' }}>
+                                <TextField
+                                    id="standard-basic"
+                                    label="タグ（どんなときに振り返りたい？）"
+                                    variant="standard"
+                                    name="tag"
+                                    value={form.tag}
+                                    onChange={handleChange}
+                                    fullWidth
+                                    sx={{
+                                        mt: 1,
+                                        '& .MuiInputBase-input': {
+                                            outline: 'none', // ← デフォルトの青枠を削除
+                                        },
+                                        '& .MuiInput-underline:before': {
+                                            borderBottom: '1px solid #ccc',
+                                        },
+                                        '& .MuiInput-underline:hover:before': {
+                                            borderBottom: '1px solid #888',
+                                        },
+                                        '& .MuiInput-underline:after': {
+                                            borderBottom: 'none',
+                                        },
+                                    }}
+                                />
+                                <p className="pt-2 text-xs text-gray-500 leading-tight">
+                                    ※タグをつけると、他のユーザにタイトル等が公開されます。
+                                </p>
+                                <p className="text-xs text-gray-500 leading-tight">
+                                      公開しない場合はジャンルを「その他」にしてください。
+                                </p>
+                            </Box>
                         </Fade>
 
-                        <Fade in={showLink}>
+                        <Fade in={showLink} mountOnEnter unmountOnExit>
                             <TextField
                                 id="standard-basic"
-                                label="リンク"
+                                label="リンク（URLを入力）"
                                 variant="standard"
                                 name="link"
                                 value={form.link}
@@ -382,6 +469,72 @@ export default function NewTitlePage() {
                         )}
                     </Button>
                 </Box>
+
+                {/* モーダル */}
+                <Modal open={open} onClose={handleClose}>
+                    <Box
+                        sx={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            bgcolor: 'background.paper',
+                            boxShadow: 24,
+                            p: 4,
+                            borderRadius: 2,
+                            width: '90%',
+                            maxWidth: 400,
+                        }}>
+                        {/* 閉じるボタン */}
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{ position: 'absolute', right: 8, top: 8 }}>
+                            <CloseIcon />
+                        </IconButton>
+
+                        <Typography variant="h6" component="h2" gutterBottom>
+                            記入例
+                        </Typography>
+                        <p className="text-sm text-gray-900 leading-tight">
+                            このような入力の仕方を想定してます。
+                        </p>
+
+                        <p className="mt-4 text-sm text-gray-900 leading-tight">
+                            箇所について
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            本だとページ数とか、マンガの場合は話数や巻数や○編とか、映画などは”この場面”など
+                        </p>
+
+                        <p className="mt-4 text-sm text-gray-900 leading-tight">
+                            タグについて
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            ・気分（元気なとき、悲しい時…）
+                        </p>
+                        <p className="text-xs text-gray-600 leading-tight">
+                            ・状況（もうひと頑張りしたいとき、緊張しているとき…）
+                        </p>
+                        <p className="text-xs text-gray-600 leading-tight">
+                            ・ライフステージ（学生のときよく聴いた、社会人１年目のとき読みたかった…）
+                        </p>
+
+                        <p className="mt-6 text-xs text-gray-600 leading-tight">
+                            使用テストして、わかりづらい部分を追記予定
+                        </p>
+                        {/* <Typography
+                            variant="body2"
+                            sx={{ whiteSpace: 'pre-line' }}>
+                            🎬 映画の場合: タイトル → 「インセプション」
+                            作者/出演者 → 「クリストファー・ノーラン /
+                            レオナルド・ディカプリオ」 感想 →
+                            「夢と現実の境界に引き込まれた」 📚 本の場合:
+                            タイトル → 「ノルウェイの森」 作者 → 「村上春樹」
+                            感想 → 「大学生活の孤独感に共感した」
+                        </Typography> */}
+                    </Box>
+                </Modal>
             </main>
         </>
     )

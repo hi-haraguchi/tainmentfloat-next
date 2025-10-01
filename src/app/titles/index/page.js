@@ -5,12 +5,14 @@ import axios from '@/lib/axios'
 import { useAuth } from '@/hooks/auth'
 import TitleItem from '@/components/TitleItem'
 import { useMediaQuery } from '@mui/material'
+import LoadingWater from '@/components/LoadingWater'
 
 export default function HomeClient() {
     const [titles, setTitles] = useState([])
     const [search, setSearch] = useState('')
     const { user } = useAuth({ middleware: 'auth' })
     const isMobile = useMediaQuery('(max-width:980px)')
+    const [initialLoading, setInitialLoading] = useState(true)
 
     // 初期ロード
     useEffect(() => {
@@ -53,6 +55,19 @@ export default function HomeClient() {
     const likedTitles = titles.filter(t => t.like)
     const otherTitles = titles.filter(t => !t.like)
 
+    useEffect(() => {
+        if (user !== undefined) {
+            const timer = setTimeout(() => {
+                setInitialLoading(false)
+            }, 600)
+            return () => clearTimeout(timer)
+        }
+    }, [user])
+
+    if (initialLoading) return <LoadingWater />
+
+    if (!user) return null
+
     return (
         <>
             <main
@@ -94,12 +109,15 @@ export default function HomeClient() {
 
                 {/* 一覧 */}
                 {titles.length === 0 ? (
-                    <p>まだ記録はありません。</p>
+                    <p>
+                        まだ記録がありません。
+                        <br />
+                        「新しいエンタメ記録」から入力ができます。
+                    </p>
                 ) : (
                     <>
                         {likedTitles.length > 0 && (
                             <>
-                                
                                 {likedTitles.map(title => (
                                     <TitleItem
                                         key={title.id}
@@ -112,7 +130,6 @@ export default function HomeClient() {
                                 <p className="text-xs text-gray-500 mb-8 text-right">
                                     ↑ 各詳細画面で☆つけたものを表示します
                                 </p>
-                                
                             </>
                         )}
 
