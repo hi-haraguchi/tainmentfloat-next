@@ -17,6 +17,7 @@ import PodcastsIcon from '@mui/icons-material/Podcasts'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
 import HideSourceIcon from '@mui/icons-material/HideSource'
 import { Button } from '@mui/material'
+import LoadingWater from '@/components/LoadingWater'
 
 // ⭐ モーダルコンポーネント
 function ThoughtFormModal({ form, errors, handleChange, handleSubmit }) {
@@ -234,6 +235,8 @@ export default function TitleDetailPage() {
     })
     const [errors, setErrors] = useState({})
 
+    const [initialLoading, setInitialLoading] = useState(true)
+
     const kindIconMap = {
         0: MenuBookIcon,
         1: DashboardIcon,
@@ -246,10 +249,18 @@ export default function TitleDetailPage() {
 
     // データ取得
     useEffect(() => {
+        // データ取得
         axios
             .get(`/api/titles/${id}`)
             .then(res => setTitle(res.data))
             .catch(err => console.error(err))
+
+        // 疑似的に600ms待つ
+        const timer = setTimeout(() => {
+            setInitialLoading(false)
+        }, 400)
+
+        return () => clearTimeout(timer)
     }, [id])
 
     const handleChange = e => {
@@ -303,7 +314,7 @@ export default function TitleDetailPage() {
         }
     }
 
-    if (!title) return <p className="p-6">読み込み中...</p>
+    if (!title || initialLoading) return <LoadingWater />
 
     const KindIcon = kindIconMap[title.kind] || HideSourceIcon
 
