@@ -72,107 +72,131 @@ export default function TimelinePage() {
     return (
         <>
             <main
-                className={`p-6 max-w-4xl mx-auto ${isMobile ? '' : 'mt-16'}`}>
-                {Object.keys(timeline)
-                    .sort((a, b) => Number(b) - Number(a))
-                    .map(year => (
-                        <div key={year} className="mb-8">
-                            {/* 年見出し */}
-                            <h2 className="text-xl font-medium text-gray-800 mb-4">
-                                {year}年
-                            </h2>
+                className={`p-6 max-w-4xl mx-auto ${isMobile ? '-mt-5' : 'mt-16'}`}>
+                {Object.keys(timeline).length === 0 ? (
+                    <div className="text-center text-gray-600 mt-20">
+                        まだ記録がありません。
+                        <br />
+                        「新しいエンタメ記録」から入力ができます。
+                    </div>
+                ) : (
+                    Object.keys(timeline)
+                        .sort((a, b) => Number(b) - Number(a))
+                        .map(year => (
+                            <div key={year} className="mb-8">
+                                {/* 年見出し */}
+                                <h2 className="text-xl font-medium text-gray-800 mb-4">
+                                    {year}年
+                                </h2>
 
-                            {Object.keys(timeline[year])
-                                .sort((a, b) => {
-                                    if (a === '00') return -1
-                                    if (b === '00') return 1
-                                    return Number(b) - Number(a)
-                                })
-                                .map(month => (
-                                    <div key={month} className="ml-4 mb-4">
-                                        {/* 月見出し */}
-                                        {month === '00' ? (
-                                            <h3 className="text-lg font-medium text-gray-700 mb-2">
-                                                -
-                                            </h3>
-                                        ) : (
-                                            <h3 className="text-lg font-medium text-gray-700 mb-2">
-                                                {month}月
-                                            </h3>
-                                        )}
+                                {Object.keys(timeline[year])
+                                    .sort((a, b) => {
+                                        if (a === '00') return -1
+                                        if (b === '00') return 1
+                                        return Number(b) - Number(a)
+                                    })
+                                    .map(month => (
+                                        <div key={month} className="ml-4 mb-4">
+                                            {/* 月見出し */}
+                                            {month === '00' ? (
+                                                <h3 className="text-lg font-medium text-gray-700 mb-2">
+                                                    -
+                                                </h3>
+                                            ) : (
+                                                <h3 className="text-lg font-medium text-gray-700 mb-2">
+                                                    {month}月
+                                                </h3>
+                                            )}
 
-                                        <ul className="ml-4 space-y-4">
-                                            {timeline[year][month]
-                                                .slice()
-                                                .sort((a, b) => {
-                                                    const dayA = a.day ?? 0
-                                                    const dayB = b.day ?? 0
-                                                    if (dayA === 0) return -1
-                                                    if (dayB === 0) return 1
-                                                    return dayB - dayA
-                                                })
-                                                .map((item, idx) => {
-                                                    const KindIcon =
-                                                        kindIconMap[
-                                                            Number(item.kind)
-                                                        ] || HideSourceIcon
+                                            <ul className="ml-4 space-y-4">
+                                                {timeline[year][month]
+                                                    .slice()
+                                                    .sort((a, b) => {
+                                                        const dayA = a.day ?? 0
+                                                        const dayB = b.day ?? 0
+                                                        if (dayA === 0)
+                                                            return -1
+                                                        if (dayB === 0) return 1
+                                                        return dayB - dayA
+                                                    })
+                                                    .map((item, idx) => {
+                                                        const KindIcon =
+                                                            kindIconMap[
+                                                                Number(
+                                                                    item.kind,
+                                                                )
+                                                            ] || HideSourceIcon
 
-                                                    return (
-                                                        <li
-                                                            key={idx}
-                                                            className="border-b pb-3">
-                                                            {/* 1行目：ジャンルアイコン + タイトルリンク + 作者 */}
-                                                            <div className="flex items-center gap-2 text-sm">
-                                                                <KindIcon className="text-gray-500 w-4 h-4" />
-                                                                <Link
-                                                                    href={`/titles/${item.id}`}
-                                                                    onClick={() => sessionStorage.setItem('returnTo', location.pathname)}
-                                                                    className="text-base text-gray-700 underline hover:text-gray-900">
-                                                                    {item.title}
-                                                                </Link>
-                                                                <span className="text-xs text-gray-600">
-                                                                    /{' '}
-                                                                    {
-                                                                        item.author
-                                                                    }
-                                                                </span>
-                                                            </div>
+                                                        return (
+                                                            <li
+                                                                key={idx}
+                                                                className="border-b pb-3">
+                                                                {/* 1行目：ジャンルアイコン + タイトルリンク + 作者 */}
+                                                                <div className="flex items-center gap-2 text-sm">
+                                                                    <KindIcon className="text-gray-500 w-4 h-4" />
+                                                                    <Link
+                                                                        href={`/titles/${item.id}`}
+                                                                        onClick={() =>
+                                                                            sessionStorage.setItem(
+                                                                                'returnTo',
+                                                                                location.pathname,
+                                                                            )
+                                                                        }
+                                                                        className="text-base text-gray-700 underline hover:text-gray-900">
+                                                                        {
+                                                                            item.title
+                                                                        }
+                                                                    </Link>
+                                                                    <span className="text-xs text-gray-600">
+                                                                        /{' '}
+                                                                        {
+                                                                            item.author
+                                                                        }
+                                                                    </span>
+                                                                </div>
 
-                                                            {/* 2行目：日付 */}
-                                                            {item.day && (
-                                                                <p className="mt-1 text-xs text-gray-500">
-                                                                    {year}/
-                                                                    {month !==
-                                                                    '00'
-                                                                        ? month
-                                                                        : ''}
-                                                                    /{item.day}
-                                                                </p>
-                                                            )}
+                                                                {/* 2行目：日付 */}
+                                                                {item.day && (
+                                                                    <p className="mt-1 text-xs text-gray-500">
+                                                                        {year}/
+                                                                        {month !==
+                                                                        '00'
+                                                                            ? month
+                                                                            : ''}
+                                                                        /
+                                                                        {
+                                                                            item.day
+                                                                        }
+                                                                    </p>
+                                                                )}
 
-                                                            {/* 3行目：感想 */}
-                                                            {item.thought && (
-                                                                <p className="mt-2 text-sm text-gray-700 leading-relaxed">
-                                                                    {
-                                                                        item.thought
-                                                                    }
-                                                                </p>
-                                                            )}
+                                                                {/* 3行目：感想 */}
+                                                                {item.thought && (
+                                                                    <p className="mt-2 text-sm text-gray-700 leading-relaxed">
+                                                                        {
+                                                                            item.thought
+                                                                        }
+                                                                    </p>
+                                                                )}
 
-                                                            {/* 4行目：タグ */}
-                                                            {item.tag && (
-                                                                <p className="mt-1 text-xs text-gray-600">
-                                                                    #{item.tag}
-                                                                </p>
-                                                            )}
-                                                        </li>
-                                                    )
-                                                })}
-                                        </ul>
-                                    </div>
-                                ))}
-                        </div>
-                    ))}
+                                                                {/* 4行目：タグ */}
+                                                                {item.tag && (
+                                                                    <p className="mt-1 text-xs text-gray-600">
+                                                                        #
+                                                                        {
+                                                                            item.tag
+                                                                        }
+                                                                    </p>
+                                                                )}
+                                                            </li>
+                                                        )
+                                                    })}
+                                            </ul>
+                                        </div>
+                                    ))}
+                            </div>
+                        ))
+                )}
             </main>
         </>
     )

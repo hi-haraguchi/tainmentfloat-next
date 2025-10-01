@@ -13,6 +13,7 @@ import MusicNoteIcon from '@mui/icons-material/MusicNote'
 import PodcastsIcon from '@mui/icons-material/Podcasts'
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
 import HideSourceIcon from '@mui/icons-material/HideSource'
+import LoadingWater from '@/components/LoadingWater'
 
 // ブックマークボタン
 function BookmarkButton({ thoughtId, defaultBookmarked = false }) {
@@ -70,13 +71,31 @@ export default function TagsPage() {
         6: HideSourceIcon, // その他
     }
 
+    const [minDelayDone, setMinDelayDone] = useState(false)
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setMinDelayDone(true)
+        }, 400)
+        return () => clearTimeout(timer)
+    }, [])
+
     const fetchTags = (q = '') => {
-        setLoading(true)
         axios
             .get('/api/tags', { params: { q } })
             .then(res => {
                 setTags(res.data)
-                setLoading(false)
+                // API完了時に、minDelayDoneもtrueならローディング解除
+                if (minDelayDone) setLoading(false)
+                else {
+                    // まだ800ms経ってなければ、minDelayDoneがtrueになった時に解除される
+                    const checkInterval = setInterval(() => {
+                        if (minDelayDone) {
+                            setLoading(false)
+                            clearInterval(checkInterval)
+                        }
+                    }, 50)
+                }
             })
             .catch(err => {
                 console.error(err)
@@ -86,16 +105,14 @@ export default function TagsPage() {
 
     useEffect(() => {
         fetchTags()
-    }, [])
+    }, [minDelayDone]) // ← minDelayDoneも依存に追加
 
     const handleSearch = e => {
         e.preventDefault()
         fetchTags(search)
     }
 
-    if (loading) {
-        return <p className="p-6">読み込み中...</p>
-    }
+    if (loading) return <LoadingWater />
 
     return (
         <>
