@@ -151,9 +151,25 @@ export default function ClientLayout({ children }) {
                                     variant="body1"
                                     // align="center"
                                     sx={{
+                                        display: 'inline-block', 
+                                        position: 'relative',
                                         color: 'black',
                                         whiteSpace: 'pre-line',
                                         fontSize: 14,
+                                        cursor: 'pointer',
+                                        '&::after': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            left: 0,
+                                            bottom: -2,
+                                            width: pathname === '/titles/new' ? '100%' : '0%',
+                                            height: '1.5px',
+                                            backgroundColor: '#A9CF8A',
+                                            transition: 'width 0.3s ease',
+                                        },
+                                        '&:hover::after': {
+                                            width: '100%',
+                                        },
                                     }}>
                                     新しいエンタメを{'\n'}記録する
                                 </Typography>
@@ -163,9 +179,25 @@ export default function ClientLayout({ children }) {
                                     variant="body1"
                                     // align="center"
                                     sx={{
+                                        display: 'inline-block', 
+                                        position: 'relative',
                                         color: 'black',
                                         whiteSpace: 'pre-line',
                                         fontSize: 14,
+                                        cursor: 'pointer',
+                                        '&::after': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            left: 0,
+                                            bottom: -2,
+                                            width: pathname === '/titles/index' ? '100%' : '0%',
+                                            height: '1.5px',
+                                            backgroundColor: '#A9CF8A',
+                                            transition: 'width 0.3s ease',
+                                        },
+                                        '&:hover::after': {
+                                            width: '100%',
+                                        },
                                     }}>
                                     <span style={{ fontSize: '12px' }}>
                                         記録リスト
@@ -178,9 +210,25 @@ export default function ClientLayout({ children }) {
                                     variant="body1"
                                     // align="center"
                                     sx={{
+                                        display: 'inline-block', 
+                                        position: 'relative',
                                         color: 'black',
                                         whiteSpace: 'pre-line',
                                         fontSize: 14,
+                                        cursor: 'pointer',
+                                        '&::after': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            left: 0,
+                                            bottom: -2,
+                                            width: pathname === '/' ? '100%' : '0%',
+                                            height: '1.5px',
+                                            backgroundColor: '#A9CF8A',
+                                            transition: 'width 0.3s ease',
+                                        },
+                                        '&:hover::after': {
+                                            width: '100%',
+                                        },
                                     }}>
                                     <span style={{ fontSize: '12px' }}>
                                         記録リスト
@@ -193,9 +241,25 @@ export default function ClientLayout({ children }) {
                                     variant="body1"
                                     // align="center"
                                     sx={{
+                                        display: 'inline-block', 
+                                        position: 'relative',
                                         color: 'black',
                                         whiteSpace: 'pre-line',
                                         fontSize: 14,
+                                        cursor: 'pointer',
+                                        '&::after': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            left: 0,
+                                            bottom: -2,
+                                            width: pathname === '/tags' ? '100%' : '0%',
+                                            height: '1.5px',
+                                            backgroundColor: '#A9CF8A',
+                                            transition: 'width 0.3s ease',
+                                        },
+                                        '&:hover::after': {
+                                            width: '100%',
+                                        },
                                     }}>
                                     タグで{'\n'}見つける
                                 </Typography>
@@ -205,11 +269,26 @@ export default function ClientLayout({ children }) {
                             <Typography
                                 variant="body1"
                                 sx={{
-                                    cursor: 'pointer',
-                                    color: 'black',
-                                    whiteSpace: 'pre-line',
-                                    fontSize: 14,
-                                }}
+                                        display: 'inline-block', 
+                                        position: 'relative',
+                                        color: 'black',
+                                        whiteSpace: 'pre-line',
+                                        fontSize: 14,
+                                        cursor: 'pointer',
+                                        '&::after': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            left: 0,
+                                            bottom: -2,
+                                            width: '0%',
+                                            height: '1.5px',
+                                            backgroundColor: '#A9CF8A',
+                                            transition: 'width 0.3s ease',
+                                        },
+                                        '&:hover::after': {
+                                            width: '100%',
+                                        },
+                                    }}
                                 onClick={toggleDrawer(true)}>
                                 その他の{'\n'}メニュー
                             </Typography>
