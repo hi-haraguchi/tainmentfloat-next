@@ -72,9 +72,13 @@ function ThoughtFormModal({ form, errors, handleChange, handleSubmit }) {
                     <div
                         className="bg-white rounded-lg shadow-lg w-full max-w-md p-6"
                         onClick={e => e.stopPropagation()}>
-                        <h2 className="text-lg font-medium text-gray-800 mb-4">
+                        <h2 className="text-lg font-medium text-gray-800 mb-1">
                             感想を追加
                         </h2>
+
+                        <p className="pl-3 pb-4 text-xs text-gray-500 leading-tight">
+                            触れた年だけ必須です。他は空欄でもOKです。
+                        </p>
 
                         <form onSubmit={handleSave} className="space-y-4">
                             {/* 年月日 */}
