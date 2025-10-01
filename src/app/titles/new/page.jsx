@@ -418,7 +418,7 @@ export default function NewTitlePage() {
                                     ※タグをつけると、他のユーザにタイトル等が公開されます。
                                 </p>
                                 <p className="text-xs text-gray-500 leading-tight">
-                                    　公開しない場合はジャンルを「その他」にしてください。
+                                      公開しない場合はジャンルを「その他」にしてください。
                                 </p>
                             </Box>
                         </Fade>
@@ -511,10 +511,10 @@ export default function NewTitlePage() {
                             タグについて
                         </p>
                         <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            ・気分（元気なとき、悲しい時　…）
+                            ・気分（元気なとき、悲しい時…）
                         </p>
                         <p className="text-xs text-gray-600 leading-tight">
-                            ・状況（もうひと頑張りしたいとき、緊張しているとき　…）
+                            ・状況（もうひと頑張りしたいとき、緊張しているとき…）
                         </p>
                         <p className="text-xs text-gray-600 leading-tight">
                             ・ライフステージ（学生のときよく聴いた、社会人１年目のとき読みたかった…）
