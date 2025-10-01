@@ -84,7 +84,7 @@ export default function EditTitlePage() {
                             <option value="TV・動画配信サービス">
                                 TV・動画配信サービス
                             </option>
-                            <option value="その他">その他</option>
+                            <option value="その他">その他（シェアしない場合はこれを選択）</option>
                         </select>
                     </div>
 

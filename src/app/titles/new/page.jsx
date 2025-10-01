@@ -163,7 +163,7 @@ export default function NewTitlePage() {
                                 TV・動画配信サービス
                             </MenuItem>
                             <MenuItem value="その他">
-                                その他（共有しない場合はこれを選択）
+                                その他（シェアしない場合はこれを選択）
                             </MenuItem>
                         </Select>
                     </FormControl>
@@ -415,10 +415,10 @@ export default function NewTitlePage() {
                                     }}
                                 />
                                 <p className="pt-2 text-xs text-gray-500 leading-tight">
-                                    ※タグをつけると、他のユーザにタイトル等が公開されます。
+                                    ※タグをつけると、他のユーザにタイトル等がシェアされます。
                                 </p>
-                                <p className="text-xs text-gray-500 leading-tight">
-                                      公開しない場合はジャンルを「その他」にしてください。
+                                <p className="ml-3 text-xs text-gray-500 leading-tight">
+                                    シェアしない場合はジャンルを「その他」にしてください。
                                 </p>
                             </Box>
                         </Fade>
