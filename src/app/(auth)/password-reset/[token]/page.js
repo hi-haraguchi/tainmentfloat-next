@@ -41,10 +41,10 @@ const PasswordReset = () => {
             {/* Session Status */}
             <AuthSessionStatus className="mb-4" status={status} />
 
-            <form onSubmit={submitForm}>
+            <form onSubmit={submitForm} >
                 {/* Email Address */}
                 <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">メールアドレス</Label>
 
                     <Input
                         id="email"
@@ -61,13 +61,14 @@ const PasswordReset = () => {
 
                 {/* Password */}
                 <div className="mt-4">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">パスワード（８文字以上です）</Label>
                     <Input
                         id="password"
                         type="password"
                         value={password}
                         className="block mt-1 w-full"
                         onChange={event => setPassword(event.target.value)}
+                        minLength={8} 
                         required
                     />
 
@@ -80,7 +81,7 @@ const PasswordReset = () => {
                 {/* Confirm Password */}
                 <div className="mt-4">
                     <Label htmlFor="passwordConfirmation">
-                        Confirm Password
+                        パスワード（確認用）
                     </Label>
 
                     <Input
@@ -91,6 +92,7 @@ const PasswordReset = () => {
                         onChange={event =>
                             setPasswordConfirmation(event.target.value)
                         }
+                        minLength={8} 
                         required
                     />
 
@@ -101,7 +103,7 @@ const PasswordReset = () => {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    <Button>Reset Password</Button>
+                    <Button>パスワードを更新</Button>
                 </div>
             </form>
         </>

@@ -23,7 +23,7 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [shouldRemember,] = useState(false)
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState({})
     const [status, setStatus] = useState(null)
 
     useEffect(() => {
@@ -83,6 +83,7 @@ const Login = () => {
                         className="block mt-1 w-full"
                         onChange={event => setPassword(event.target.value)}
                         required
+                        minLength={8} 
                         autoComplete="current-password"
                     />
                     <InputError messages={errors.password} className="mt-2" />

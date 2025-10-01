@@ -19,7 +19,7 @@ const Page = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setPasswordConfirmation] = useState('')
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState({})
 
     const submitForm = event => {
         event.preventDefault()
@@ -64,6 +64,7 @@ const Page = () => {
                         className="block mt-1 w-full"
                         onChange={event => setPassword(event.target.value)}
                         required
+                        minLength={8}
                         autoComplete="new-password"
                     />
                     <InputError messages={errors.password} className="mt-2" />
