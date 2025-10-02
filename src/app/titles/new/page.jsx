@@ -139,7 +139,7 @@ export default function NewTitlePage() {
                     {/* ジャンル */}
                     <FormControl
                         variant="standard"
-                        sx={{ m: 1, minWidth: 120 }}>
+                        sx={{ m: 0, minWidth: 120 }}>
                         <InputLabel id="genre-label">ジャンル *</InputLabel>
                         <Select
                             labelId="genre-label"
@@ -174,7 +174,7 @@ export default function NewTitlePage() {
                     {/* タイトル */}
                     <TextField
                         id="standard-basic"
-                        label="タイトル"
+                        label="エンタメのタイトル"
                         variant="standard"
                         name="title"
                         value={form.title}
@@ -223,9 +223,6 @@ export default function NewTitlePage() {
                                 </p>
                                 <p className="text-xs text-gray-500 leading-tight">
                                     （昔に触れたものは年だけや、年と月だけでＯＫ）
-                                </p>
-                                <p className="text-xs text-gray-500 leading-tight">
-                                    その他は、アイコンをタップして自由に入力してください。
                                 </p>
                             </>
                         )}
@@ -300,6 +297,10 @@ export default function NewTitlePage() {
                             </Select>
                         </FormControl>
                     </Box>
+
+                    <p className="pt-8 text-xs text-gray-500 leading-tight">
+                        アイコンをタップすると入力欄が表示されます！
+                    </p>
 
                     {/* アイコンでフォーム切り替え */}
                     <Box sx={{ display: 'flex', gap: 4, pt: 2 }}>
@@ -415,11 +416,11 @@ export default function NewTitlePage() {
                                     }}
                                 />
                                 <p className="pt-2 text-xs text-gray-500 leading-tight">
-                                    ※タグをつけると、他のユーザにタイトル等がシェアされます。
+                                    ※右上の記入例も参考にどうぞ
                                 </p>
-                                <p className="ml-3 text-xs text-gray-500 leading-tight">
-                                    シェアしない場合はジャンルを「その他」にしてください。
-                                </p>
+                                {/* <p className="ml-3 text-xs text-gray-500 leading-tight">
+                                    右上の記入例もチェックしてください
+                                </p> */}
                             </Box>
                         </Fade>
 
@@ -496,32 +497,78 @@ export default function NewTitlePage() {
                         <Typography variant="h6" component="h2" gutterBottom>
                             記入例
                         </Typography>
-                        <p className="text-sm text-gray-900 leading-tight">
-                            このような入力の仕方を想定してます。
-                        </p>
+
+                        {/* <p className="text-sm text-gray-900 leading-tight">
+                            記録しやすいように入力してください！
+                        </p> */}
 
                         <p className="mt-4 text-sm text-gray-900 leading-tight">
-                            箇所について
+                            タイトルなどについて
+                        </p>
+                        <p className="mt-3 text-xs text-gray-600 leading-tight">
+                            マンガだと
                         </p>
                         <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            本だとページ数とか、マンガの場合は話数や巻数や○編とか、映画などは”この場面”など
+                            例えば『ONE PIECE』をタイトルで登録して
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            ・2025/7/14 112巻 〇〇だった
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            ・2025/9/29 1161話 △△だった
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            みたいに追加するのもOKですし
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            『ONE PIECE 112巻』とタイトルを登録して
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            もっと詳しく入力するのもアリです。
+                        </p>
+
+                        <p className="mt-3 text-xs text-gray-600 leading-tight">
+                            音楽についても
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            タイトルに１曲を登録しても、アルバムで登録するのもアリです。
                         </p>
 
                         <p className="mt-4 text-sm text-gray-900 leading-tight">
                             タグについて
                         </p>
                         <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            ・気分（元気なとき、悲しい時…）
+                            ■気分
                         </p>
-                        <p className="text-xs text-gray-600 leading-tight">
-                            ・状況（もうひと頑張りしたいとき、緊張しているとき…）
+                        <p className="ml-4 mt-1 text-xs text-gray-600 leading-tight">
+                            元気なとき、悲しいとき、…
                         </p>
-                        <p className="text-xs text-gray-600 leading-tight">
-                            ・ライフステージ（学生のときよく聴いた、社会人１年目のとき読みたかった…）
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            ■状況
+                        </p>
+                        <p className="ml-4 mt-1 text-xs text-gray-600 leading-tight">
+                            もうひと頑張りしたいとき、緊張した場面で、…
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            ■ライフステージ
+                        </p>
+                        <p className="ml-4 mt-1 text-xs text-gray-600 leading-tight">
+                            学生のときよく聴いた、社会人１年目のとき読みたかった、…
+                        </p>
+                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                            ■特定のエンタメ
+                        </p>
+                        <p className="ml-4 mt-1 text-xs text-gray-600 leading-tight">
+                            私の「ジョジョ」はここから、個人的SLAMDUNK名場面、…
                         </p>
 
+                        <p className="mt-5 text-xs text-gray-600 leading-tight">
+                            ※タグをつけると、他のユーザにタイトル等がシェアされます。シェアしない場合はジャンルを「その他」にしてください。
+                        </p>
+                        
+
                         <p className="mt-6 text-xs text-gray-600 leading-tight">
-                            使用テストして、わかりづらい部分を追記予定
+                            使用テストして、わかりづらい部分は追記予定
                         </p>
                         {/* <Typography
                             variant="body2"
