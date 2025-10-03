@@ -65,11 +65,25 @@ export default function HomeIntro() {
             <h3 className="text-xl font-medium mb-2">１. メモとして</h3>
 
             <p className="mt-8 text-base">
-                ふれたエンタメを記録して
+                いろんなジャンルのエンタメと
                 <br />
-                何度も、そして
+                触れた時期を入力して
                 <br />
-                いろんな箇所に感想を追加できます。
+                タイムラインで振り返ります。
+            </p>
+
+            <div className="flex items-center justify-center gap-3 mt-8">
+                <img
+                    src="/images/lp/lpuse0.png"
+                    alt="使い方"
+                    className="h-80 w-auto object-contain"
+                />
+            </div>
+
+            <p className="mt-8 text-base">
+                加えて、「何度も」「いろんな箇所に」
+                <br />
+                感想を追加する機能もあります。
             </p>
 
             <p className="mt-12 mb-8 text-base">
@@ -78,7 +92,7 @@ export default function HomeIntro() {
                 タグをつけることもできます。
             </p>
 
-            <div className="flex items-center justify-center gap-3 ml-6 mt-16 mb-16">
+            <div className="flex items-center justify-center gap-3 ml-3 mt-16 mb-16">
                 <img
                     src="/images/lp/lpuse1.png"
                     alt="使い方1"
@@ -135,11 +149,11 @@ export default function HomeIntro() {
                 本当に好きなものを共有してください！
             </p>
 
-            <div className="flex items-center justify-center gap-3 ml-6 mt-16 mb-16">
+            <div className="flex items-center justify-center gap-3 mt-16 mb-16">
                 <img
                     src="/images/lp/lpuse2.png"
                     alt="使い方2"
-                    className="w-full max-w-md h-auto object-contain"
+                    className="w-full h-auto object-contain"
                 />
             </div>
 

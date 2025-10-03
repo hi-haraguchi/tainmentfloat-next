@@ -114,7 +114,7 @@ export default function NewTitlePage() {
 
     return (
         <>
-            <main className="px-4 w-full max-w-screen-sm mx-auto mt-16 overflow-x-hidden">
+            <main className="px-4 w-full mt-16 overflow-x-hidden">
                 {!isMobile && (
                     <h1 className="text-2xl font-bold mt-3 mb-6">
                         新しく触れたエンタメの記録
@@ -124,7 +124,11 @@ export default function NewTitlePage() {
                 <Box
                     component="form"
                     onSubmit={handleSubmit}
-                    sx={{ '& > :not(style)': { my: 1, width: '100%' } }}
+                    sx={{
+                        '& > :not(style)': { my: 1, width: '100%' },
+                        transform: 'scale(0.9)',
+                        transformOrigin: 'top center',
+                    }}
                     // noValidate
                     autoComplete="off">
                     <div className="flex justify-end">
@@ -200,13 +204,22 @@ export default function NewTitlePage() {
                     <div className="pt-8 pb-2">
                         {/* 1行目 + トグルボタンを横並び */}
                         <div className="flex items-center">
-                            <p className="text-xs text-gray-500 leading-tight">
-                                ここからは、エンタメに触れた１回目の記録です。
-                            </p>
+                            {/* 左側：テキストを縦に積む */}
+                            <div className="flex flex-col">
+                                <p className="text-xs text-gray-500 leading-tight">
+                                    エンタメに触れた時期も入力をお願いしますm(_
+                                    _)m
+                                </p>
+                                <p className="text-xs text-gray-500 leading-tight">
+                                    「年だけ」「年と月だけ」の登録もできます！
+                                </p>
+                            </div>
+
+                            {/* 右側：ボタン */}
                             <button
                                 type="button"
                                 onClick={() => setShowNotice(!showNotice)}
-                                className="text-gray-500 hover:text-gray-700">
+                                className="ml-2 text-gray-500 hover:text-gray-700">
                                 {showNotice ? (
                                     <ExpandLessIcon fontSize="small" />
                                 ) : (
@@ -218,21 +231,28 @@ export default function NewTitlePage() {
                         {/* トグルで表示する部分 */}
                         {showNotice && (
                             <>
-                                <p className="text-xs text-gray-500 leading-tight">
-                                    まず、いつごろに触れたか入力してください。
+                                <p className="mt-2 text-xs text-gray-500 leading-tight">
+                                    これらはエンタメに触れた１回目の記録です。
                                 </p>
                                 <p className="text-xs text-gray-500 leading-tight">
-                                    （昔に触れたものは年だけや、年と月だけでＯＫ）
+                                    追記ページで、２回目に触れた記録を追加できます。
                                 </p>
                             </>
                         )}
                     </div>
 
                     {/* 年・月・日 横並び */}
-                    <Box sx={{ display: 'flex', gap: 2 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            gap: 2,
+                            transform: 'scale(0.85)',
+                            transformOrigin: 'top left',
+                        }}>
                         {/* 年 */}
                         <FormControl
                             variant="standard"
+                            size="small"
                             sx={{ flex: 1, minWidth: 0 }}>
                             <InputLabel id="year-label">年 *</InputLabel>
                             <Select
@@ -256,6 +276,7 @@ export default function NewTitlePage() {
                         {/* 月 */}
                         <FormControl
                             variant="standard"
+                            size="small"
                             sx={{ flex: 1, minWidth: 0 }}>
                             <InputLabel id="month-label">月</InputLabel>
                             <Select
@@ -278,6 +299,7 @@ export default function NewTitlePage() {
                         {/* 日 */}
                         <FormControl
                             variant="standard"
+                            size="small"
                             sx={{ flex: 1, minWidth: 0 }}>
                             <InputLabel id="day-label">日</InputLabel>
                             <Select
@@ -299,7 +321,7 @@ export default function NewTitlePage() {
                     </Box>
 
                     <p className="pt-8 text-xs text-gray-500 leading-tight">
-                        アイコンをタップすると入力欄が表示されます！
+                        詳細を入力する場合はアイコンをタップしてください！
                     </p>
 
                     {/* アイコンでフォーム切り替え */}
@@ -494,92 +516,101 @@ export default function NewTitlePage() {
                             <CloseIcon />
                         </IconButton>
 
-                        <Typography variant="h6" component="h2" gutterBottom>
+                        <Typography
+                            variant="h6"
+                            component="h3"
+                            gutterBottom
+                            align="center">
                             記入例
                         </Typography>
 
-                        {/* <p className="text-sm text-gray-900 leading-tight">
-                            記録しやすいように入力してください！
-                        </p> */}
+                        <p className="ml-10 mt-1 text-xs text-gray-600 leading-tight">
+                            下記のようなものを想定していますが
+                        </p>
+                        <p className="ml-10 text-xs text-gray-600 leading-tight">
+                            タイムラインで振り返りやすいように
+                        </p>
+                        <p className="ml-10 text-xs text-gray-600 leading-tight">
+                            自由に書いてください！
+                        </p>
 
-                        <p className="mt-4 text-sm text-gray-900 leading-tight">
-                            タイトルなどについて
+                        <p className="mt-4 text-sm text-gray-900 leading-tight underline">
+                            タイトルなど
                         </p>
                         <p className="mt-3 text-xs text-gray-600 leading-tight">
                             マンガだと
                         </p>
-                        <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            例えば『ONE PIECE』をタイトルで登録して
+                        <p className="text-xs text-gray-600 leading-tight">
+                            『ONE PIECE ◯巻』で登録しても
                         </p>
-                        <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            ・2025/7/14 112巻 〇〇だった
+                        <p className="text-xs text-gray-600 leading-tight">
+                            『ONE PIECE』で登録してもOK
                         </p>
-                        <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            ・2025/9/29 1161話 △△だった
+                        <p className="ml-4 mt-2 text-xs text-gray-600 leading-tight">
+                            ※タイトルに追記する機能があるので
                         </p>
-                        <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            みたいに追加するのもOKですし
+                        <p className="ml-7 text-xs text-gray-600 leading-tight">
+                            大きなくくりで入力して
                         </p>
-                        <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            『ONE PIECE 112巻』とタイトルを登録して
+                        <p className="ml-7 text-xs text-gray-600 leading-tight">
+                            追記で、「◯巻の～にグッときた」など
                         </p>
-                        <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            もっと詳しく入力するのもアリです。
+                        <p className="ml-7 text-xs text-gray-600 leading-tight">
+                            感想を追加することもできます。
                         </p>
 
                         <p className="mt-3 text-xs text-gray-600 leading-tight">
-                            音楽についても
+                            音楽だと
                         </p>
-                        <p className="mt-1 text-xs text-gray-600 leading-tight">
-                            タイトルに１曲を登録しても、アルバムで登録するのもアリです。
+                        <p className="text-xs text-gray-600 leading-tight">
+                            １曲でも、アルバムで登録してもOK
+                        </p>
+                        <p className="text-xs text-gray-600 leading-tight"></p>
+
+                        <p className="mt-4 text-sm text-gray-900 leading-tight underline">
+                            振り返り用のタグ
                         </p>
 
-                        <p className="mt-4 text-sm text-gray-900 leading-tight">
-                            タグについて
-                        </p>
-                        <p className="mt-1 text-xs text-gray-600 leading-tight">
+                        <p className="mt-3 text-xs text-gray-600 leading-tight">
                             ■気分
                         </p>
                         <p className="ml-4 mt-1 text-xs text-gray-600 leading-tight">
-                            元気なとき、悲しいとき、…
+                            嬉しいとき、疲れたとき、
+                        </p>
+                        <p className="ml-4 text-xs text-gray-600 leading-tight">
+                            緊張する場面で、…
                         </p>
                         <p className="mt-1 text-xs text-gray-600 leading-tight">
                             ■状況
                         </p>
                         <p className="ml-4 mt-1 text-xs text-gray-600 leading-tight">
-                            もうひと頑張りしたいとき、緊張した場面で、…
+                            もうひと頑張りしたいとき、
+                        </p>
+                        <p className="ml-4 text-xs text-gray-600 leading-tight">
+                            夜に聴きたい、勉強中、…
                         </p>
                         <p className="mt-1 text-xs text-gray-600 leading-tight">
                             ■ライフステージ
                         </p>
                         <p className="ml-4 mt-1 text-xs text-gray-600 leading-tight">
-                            学生のときよく聴いた、社会人１年目のとき読みたかった、…
+                            学生のときよく聴いた、
+                        </p>
+                        <p className="ml-4 text-xs text-gray-600 leading-tight">
+                            社会人１年目のとき読みたかった、…
                         </p>
                         <p className="mt-1 text-xs text-gray-600 leading-tight">
                             ■特定のエンタメ
                         </p>
                         <p className="ml-4 mt-1 text-xs text-gray-600 leading-tight">
-                            私の「ジョジョ」はここから、個人的SLAMDUNK名場面、…
+                            私の「ジョジョ」はここから、
+                        </p>
+                        <p className="ml-4 text-xs text-gray-600 leading-tight">
+                            個人的SLAMDUNK名場面、…
                         </p>
 
-                        <p className="mt-5 text-xs text-gray-600 leading-tight">
+                        <p className="mt-5 mi-4 text-xs text-gray-600 leading-tight">
                             ※タグをつけると、他のユーザにタイトル等がシェアされます。シェアしない場合はジャンルを「その他」にしてください。
                         </p>
-                        
-
-                        <p className="mt-6 text-xs text-gray-600 leading-tight">
-                            使用テストして、わかりづらい部分は追記予定
-                        </p>
-                        {/* <Typography
-                            variant="body2"
-                            sx={{ whiteSpace: 'pre-line' }}>
-                            🎬 映画の場合: タイトル → 「インセプション」
-                            作者/出演者 → 「クリストファー・ノーラン /
-                            レオナルド・ディカプリオ」 感想 →
-                            「夢と現実の境界に引き込まれた」 📚 本の場合:
-                            タイトル → 「ノルウェイの森」 作者 → 「村上春樹」
-                            感想 → 「大学生活の孤独感に共感した」
-                        </Typography> */}
                     </Box>
                 </Modal>
             </main>

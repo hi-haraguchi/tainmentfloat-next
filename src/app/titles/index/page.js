@@ -80,7 +80,7 @@ export default function HomeClient() {
                         {/* 検索窓 */}
                         <input
                             type="text"
-                            placeholder="記録した文字を検索"
+                            placeholder="記録した文字を検索..."
                             value={search}
                             onChange={e => setSearch(e.target.value)}
                             className="w-full rounded-full border border-gray-300 px-4 py-1 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-500"
