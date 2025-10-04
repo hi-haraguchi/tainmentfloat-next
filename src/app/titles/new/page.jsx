@@ -116,8 +116,8 @@ export default function NewTitlePage() {
         <>
             <main className="px-4 w-full mt-16 overflow-x-hidden">
                 {!isMobile && (
-                    <h1 className="text-2xl font-bold mt-3 mb-6">
-                        新しく触れたエンタメの記録
+                    <h1 className="text-2xl font-bold mt-3 mb-6 text-center">
+                        {/* 新しく触れたエンタメの記録 */}
                     </h1>
                 )}
 
@@ -128,6 +128,8 @@ export default function NewTitlePage() {
                         '& > :not(style)': { my: 1, width: '100%' },
                         transform: 'scale(0.9)',
                         transformOrigin: 'top center',
+                        maxWidth: 800, 
+                        mx: 'auto', 
                     }}
                     // noValidate
                     autoComplete="off">
