@@ -158,20 +158,24 @@ export default function TagsPage() {
                     </Link>
                 </div>
 
-                {tags.length > 0 ? (
+                {tags && tags.length > 0 ? (
                     <ul className="space-y-6">
-                        {tags.map(tag => (
-                            <li key={tag.id} className="border-b pb-4">
-                                {/* タグ名 */}
-                                <h2 className="text-lg font-medium text-gray-800 mb-2">
-                                    #{tag.tag}
-                                </h2>
+                        {/* 1️⃣ recordsが空でないタグだけを抽出 */}
+                        {tags
+                            .filter(
+                                tag => tag.records && tag.records.length > 0,
+                            )
+                            // 2️⃣ 名前順（A→Z）に並び替え。日本語の場合もUnicode順でOK
+                            .sort((a, b) => a.tag.localeCompare(b.tag, 'ja'))
+                            .map(tag => (
+                                <li key={tag.id} className="border-b pb-4">
+                                    {/* タグ名 */}
+                                    <h2 className="text-lg font-medium text-gray-800 mb-2">
+                                        #{tag.tag}
+                                    </h2>
 
-                                {/* 記録 */}
-                                {tag.records.length > 0 ? (
+                                    {/* 記録 */}
                                     <ul className="space-y-4 ml-4">
-                                        {' '}
-                                        {/* 👈 インデント追加 */}
                                         {tag.records.map((r, idx) => {
                                             const KindIcon =
                                                 kindIconMap[Number(r.kind)] ||
@@ -181,10 +185,8 @@ export default function TagsPage() {
                                                 <li
                                                     key={idx}
                                                     className="text-gray-700">
-                                                    {/* 1行目：ジャンルアイコン + タイトル/作者 */}
                                                     <div className="flex items-center gap-2 text-sm">
-                                                        <KindIcon className="text-gray-500 w-2 h-2" />{' '}
-                                                        {/* 👈 小さめアイコン */}
+                                                        <KindIcon className="text-gray-500 w-2 h-2" />
                                                         <span className="text-base text-gray-800">
                                                             {r.title} /{' '}
                                                             {r.author}
@@ -199,7 +201,6 @@ export default function TagsPage() {
                                                         />
                                                     </div>
 
-                                                    {/* 2行目：part（小さめ、マージン広め） */}
                                                     {r.part && (
                                                         <p className="ml-10 mt-2 text-xs text-gray-500">
                                                             ({r.part})
@@ -209,16 +210,11 @@ export default function TagsPage() {
                                             )
                                         })}
                                     </ul>
-                                ) : (
-                                    <p className="text-sm text-gray-500 ml-4">
-                                        公開されている記録はありません
-                                    </p>
-                                )}
-                            </li>
-                        ))}
+                                </li>
+                            ))}
                     </ul>
                 ) : (
-                    <p className="text-gray-500">タグが見つかりません</p>
+                    <p className="text-gray-500">条件にあうタグが見つかりません</p>
                 )}
             </main>
         </>
